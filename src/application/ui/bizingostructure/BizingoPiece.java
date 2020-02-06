@@ -5,23 +5,26 @@ import javafx.scene.paint.Color;
 
 public class BizingoPiece {
 	
-	public Double x1, y1;
+	public Boolean captain;
 	public Double radius;
+	public Double x1, y1;
 	public Color fillColor;
 	public Color strokeColor;
 	
-	public BizingoPiece(Double x1, Double y1, Double radius, Color fillColor, Color strokeColor) {
+	public BizingoPiece(Boolean captain, Double x1, Double y1, Color fillColor, Color strokeColor) {
+		this.captain = captain;
+		this.radius = 22.0;
 		this.x1 = x1;
 		this.y1 = y1;
-		this.radius = radius;
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}
 	
-	public BizingoPiece(Double[] center, Double radius, Color fillColor, Color strokeColor) {
+	public BizingoPiece(Boolean captain, Double[] center, Color fillColor, Color strokeColor) {
+		this.captain = captain;
+		this.radius = 22.0;
 		this.x1 = center[0];
 		this.y1 = center[1];
-		this.radius = radius;
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}
@@ -35,10 +38,8 @@ public class BizingoPiece {
 	
 	public Double[] getPosition() {
 		Double[] center = new Double[]{0.0,0.0};
-		
         center[0] = x1;
         center[1] = y1;
-		
 		return center;
 	}
 }

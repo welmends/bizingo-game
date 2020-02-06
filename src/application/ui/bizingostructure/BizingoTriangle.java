@@ -24,6 +24,18 @@ public class BizingoTriangle {
 		this.strokeColor = strokeColor;
 	}
 	
+	public BizingoTriangle(Double[] p1, Double[] p2, Double[] p3, Color fillColor, Color strokeColor) {
+		this.thickness = 3;
+		this.x1 = p1[0];
+		this.y1 = p1[1];
+		this.x2 = p2[0];
+		this.y2 = p2[1];
+		this.x3 = p3[0];
+		this.y3 = p3[1];
+		this.fillColor = fillColor;
+		this.strokeColor = strokeColor;
+	}
+	
 	public void draw(GraphicsContext gc) {
     	gc.setFill(fillColor);
         gc.setStroke(strokeColor);
@@ -33,10 +45,8 @@ public class BizingoTriangle {
 	
 	public Double[] getCenter() {
 		Double[] center = new Double[]{0.0,0.0};
-		
         center[0] = (x1+x2+x3)/3;
         center[1] = (y1+y2+y3)/3;
-		
 		return center;
 	}
 }

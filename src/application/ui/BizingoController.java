@@ -25,6 +25,9 @@ public class BizingoController implements Initializable {
 	// Variables
 	List<BizingoTriangle> trianglesType1;
 	List<BizingoTriangle> trianglesType2;
+	
+	List<BizingoPiece> piecesPlayer1;
+	List<BizingoPiece> piecesPlayer2;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -37,9 +40,8 @@ public class BizingoController implements Initializable {
 		BizingoBoardGenerator boardGenerator = new BizingoBoardGenerator(60.0);
 		trianglesType1 = boardGenerator.generateTrianglesType1(gc);
 		trianglesType2 = boardGenerator.generateTrianglesType2(gc);
-		
-		BizingoPiece bp = new BizingoPiece(trianglesType1.get(0).getCenter(), 20.0, Color.BLACK, Color.BLACK);
-		bp.draw(gc);
+		piecesPlayer1 = boardGenerator.generatePiecesPlayer1(gc, trianglesType1);
+		piecesPlayer2 = boardGenerator.generatePiecesPlayer2(gc, trianglesType2);
 		
 	}
 }

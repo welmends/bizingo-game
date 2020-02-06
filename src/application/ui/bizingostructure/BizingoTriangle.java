@@ -6,14 +6,18 @@ import javafx.scene.paint.Color;
 public class BizingoTriangle {
 	
 	public int thickness;
+	
+	public Boolean type; //Is Server? or Is Type 1?
 	public Double x1, y1;
 	public Double x2, y2;
 	public Double x3, y3;
 	public Color fillColor;
 	public Color strokeColor;
 	
-	public BizingoTriangle(Double x1, Double y1, Double x2, Double y2, Double x3, Double y3, Color fillColor, Color strokeColor) {
+	public BizingoTriangle(Boolean type, Double x1, Double y1, Double x2, Double y2, Double x3, Double y3, Color fillColor, Color strokeColor) {
 		this.thickness = 3;
+		
+		this.type = type;
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
@@ -24,8 +28,10 @@ public class BizingoTriangle {
 		this.strokeColor = strokeColor;
 	}
 	
-	public BizingoTriangle(Double[] p1, Double[] p2, Double[] p3, Color fillColor, Color strokeColor) {
+	public BizingoTriangle(Boolean type, Double[] p1, Double[] p2, Double[] p3, Color fillColor, Color strokeColor) {
 		this.thickness = 3;
+		
+		this.type = type;
 		this.x1 = p1[0];
 		this.y1 = p1[1];
 		this.x2 = p2[0];
@@ -36,8 +42,10 @@ public class BizingoTriangle {
 		this.strokeColor = strokeColor;
 	}
 	
-	public BizingoTriangle(Double[] points, Color fillColor, Color strokeColor) {
+	public BizingoTriangle(Boolean type, Double[] points, Color fillColor, Color strokeColor) {
 		this.thickness = 3;
+		
+		this.type = type;
 		this.x1 = points[0];
 		this.y1 = points[1];
 		this.x2 = points[2];

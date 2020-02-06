@@ -8,7 +8,8 @@ import javafx.scene.shape.Circle;
 
 public class BizingoPiece {
 	
-	public Boolean captain;
+	public Boolean type;   //Is Server? or Is Type 1?
+	public Boolean captain;//Is Captain?
 	public Double radius;
 	public Double x1, y1;
 	
@@ -18,7 +19,8 @@ public class BizingoPiece {
 	public Circle circle;
 	public StackPane stack;
 	
-	public BizingoPiece(Boolean captain, Double x1, Double y1, Color fillColor, Color strokeColor) {
+	public BizingoPiece(Boolean type, Boolean captain, Double x1, Double y1, Color fillColor, Color strokeColor) {
+		this.type = type;
 		this.captain = captain;
 		this.radius = 10.0;
 		this.x1 = x1;
@@ -29,7 +31,8 @@ public class BizingoPiece {
 		initGraphics();
 	}
 	
-	public BizingoPiece(Boolean captain, Double[] center, Color fillColor, Color strokeColor) {
+	public BizingoPiece(Boolean type, Boolean captain, Double[] center, Color fillColor, Color strokeColor) {
+		this.type = type;
 		this.captain = captain;
 		this.radius = 10.0;
 		this.x1 = center[0];

@@ -1,6 +1,5 @@
 package application.ui.bizingostructure;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -36,9 +35,32 @@ public class BizingoBoardGenerator {
 		this.color_player_stroke = Color.BLACK;
 	}
 	
-	public List<BizingoTriangle> generateTrianglesType1(GraphicsContext gc) {
-		List<BizingoTriangle> trianglesType1  = new ArrayList<>();
-		Integer[] type1_amout = new Integer[]{10,11,10,9,8,7,6,5,4,3,2};
+	public void generateBoard(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, GraphicsContext gc, AnchorPane parent) {
+		
+		generateTrianglesType1(triangles, gc);
+		generateTrianglesType2(triangles, gc);
+		generatePiecesType1(triangles, pieces);
+		generatePiecesType2(triangles, pieces);
+		
+		drawBoard(triangles, pieces, gc, parent);
+		
+		return;
+	}
+	
+	private void drawBoard(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, GraphicsContext gc, AnchorPane parent) {
+		for(int i=0; i<triangles.size(); i++) {
+			triangles.get(i).draw(gc);
+		}
+		
+		for(int i=0; i<pieces.size(); i++) {
+			parent.getChildren().addAll(pieces.get(i).stack);
+		}
+		
+		return;
+	}
+	
+	private void generateTrianglesType1(List<BizingoTriangle> triangles, GraphicsContext gc) {
+		Integer[] type1_amount = new Integer[]{10,11,10,9,8,7,6,5,4,3,2};
 		
 		Double x1, y1;
 		Double x2, y2;
@@ -49,26 +71,25 @@ public class BizingoBoardGenerator {
 		x1 = base_x;
 		y1 = base_y;
 		
-		for(int triangles=0; triangles<type1_amout.length; triangles++) {
-			x1 = base_x - (size/2)*(1+(type1_amout[triangles]-type1_amout[0]));
+		for(int i=0; i<type1_amount.length; i++) {
+			x1 = base_x - (size/2)*(1+(type1_amount[i]-type1_amount[0]));
 			y1 = y1 - (size-10);
-			for(int triangle=0; triangle<type1_amout[triangles]; triangle++) {
+			for(int j=0; j<type1_amount[i]; j++) {
 				x1 = x1 + size;
 				x2 = x1 - (size/2);
 				y2 = y1 + (size-10);
 				x3 = x1 - size;
 				y3 = y1;
-				trianglesType1.add(new BizingoTriangle(x1, y1, x2, y2, x3, y3, color_triangle_type1, color_triangle_stroke));
-				trianglesType1.get(trianglesType1.size() - 1).draw(gc);
+				triangles.add(new BizingoTriangle(true, x1, y1, x2, y2, x3, y3, color_triangle_type1, color_triangle_stroke));
+				triangles.get(triangles.size() - 1).draw(gc);
 			}
 		}
 		
-		return trianglesType1;
+		return;
 	}
 	    
-	public List<BizingoTriangle> generateTrianglesType2(GraphicsContext gc) {
-		List<BizingoTriangle> trianglesType2 = new ArrayList<>();
-    	Integer[] type2_amout = new Integer[]{9,10,11,10,9,8,7,6,5,4,3};
+	private void generateTrianglesType2(List<BizingoTriangle> triangles, GraphicsContext gc) {
+    	Integer[] type2_amount = new Integer[]{9,10,11,10,9,8,7,6,5,4,3};
     	
     	Double x1, y1;
     	Double x2, y2;
@@ -79,77 +100,67 @@ public class BizingoBoardGenerator {
     	x1 = base_x;
     	y1 = base_y;
     	
-    	for(int triangles=0; triangles<type2_amout.length; triangles++) {
-    		x1 = base_x - (size/2)*(1+(type2_amout[triangles]-type2_amout[0]));
+    	for(int i=0; i<type2_amount.length; i++) {
+    		x1 = base_x - (size/2)*(1+(type2_amount[i]-type2_amount[0]));
     		y1 = y1 - (size-10);
-    		for(int triangle=0; triangle<type2_amout[triangles]; triangle++) {
+    		for(int j=0; j<type2_amount[i]; j++) {
     			x1 = x1 + size;
     			x2 = x1 + (size/2);
     			y2 = y1 - (size-10);
     			x3 = x1 + size;
     			y3 = y1;
-    			trianglesType2.add(new BizingoTriangle(x1, y1, x2, y2, x3, y3, color_triangle_type2, color_triangle_stroke));
-    			trianglesType2.get(trianglesType2.size() - 1).draw(gc);
+    			triangles.add(new BizingoTriangle(true, x1, y1, x2, y2, x3, y3, color_triangle_type2, color_triangle_stroke));
+    			triangles.get(triangles.size() - 1).draw(gc);
     		}
     	}
-		return trianglesType2;
+    	
+		return;
 	}
 
-	public List<BizingoPiece> generatePiecesPlayer1(AnchorPane parent, List<BizingoTriangle> trianglesType1){
-		List<BizingoPiece> piecesPlayer1 = new ArrayList<>();
+	private void generatePiecesType1(List<BizingoTriangle> triangles, List<BizingoPiece> pieces){		
+        pieces.add(new BizingoPiece(true, true, triangles.get(33).getCenter(), color_player1_cap, color_player_stroke));
+        pieces.add(new BizingoPiece(true, true, triangles.get(37).getCenter(), color_player1_cap, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(13).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(14).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(15).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(16).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(17).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(23).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(24).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(25).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(26).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(27).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(28).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(32).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(34).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(35).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(36).getCenter(), color_player1, color_player_stroke));
+		pieces.add(new BizingoPiece(true, false, triangles.get(38).getCenter(), color_player1, color_player_stroke));
 		
-        piecesPlayer1.add(new BizingoPiece(true, trianglesType1.get(33).getCenter(), color_player1_cap, color_player_stroke));
-        piecesPlayer1.add(new BizingoPiece(true, trianglesType1.get(37).getCenter(), color_player1_cap, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(13).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(14).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(15).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(16).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(17).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(23).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(24).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(25).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(26).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(27).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(28).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(32).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(34).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(35).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(36).getCenter(), color_player1, color_player_stroke));
-		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(38).getCenter(), color_player1, color_player_stroke));
-		
-		for(int i=0; i<piecesPlayer1.size(); i++) {
-			parent.getChildren().addAll(piecesPlayer1.get(i).stack);
-		}
-		
-		return piecesPlayer1;
+		return;
 	}
 	
-	public List<BizingoPiece> generatePiecesPlayer2(AnchorPane parent, List<BizingoTriangle> trianglesType2){
-		List<BizingoPiece> piecesPlayer2 = new ArrayList<>();
+	
+	private void generatePiecesType2(List<BizingoTriangle> triangles, List<BizingoPiece> pieces){
+		pieces.add(new BizingoPiece(false, true, triangles.get(75+51).getCenter(), color_player2_cap, color_player_stroke));
+        pieces.add(new BizingoPiece(false, true, triangles.get(75+54).getCenter(), color_player2_cap, color_player_stroke));
+        pieces.add(new BizingoPiece(false, false, triangles.get(75+50).getCenter(), color_player2, color_player_stroke));
+        pieces.add(new BizingoPiece(false, false, triangles.get(75+52).getCenter(), color_player2, color_player_stroke));
+        pieces.add(new BizingoPiece(false, false, triangles.get(75+53).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+55).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+58).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+59).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+60).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+61).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+62).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+65).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+66).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+67).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+68).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+71).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+72).getCenter(), color_player2, color_player_stroke));
+		pieces.add(new BizingoPiece(false, false, triangles.get(75+73).getCenter(), color_player2, color_player_stroke));
         
-		piecesPlayer2.add(new BizingoPiece(true, trianglesType2.get(51).getCenter(), color_player2_cap, color_player_stroke));
-        piecesPlayer2.add(new BizingoPiece(true, trianglesType2.get(54).getCenter(), color_player2_cap, color_player_stroke));
-        piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(50).getCenter(), color_player2, color_player_stroke));
-        piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(52).getCenter(), color_player2, color_player_stroke));
-        piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(53).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(55).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(58).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(59).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(60).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(61).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(62).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(65).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(66).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(67).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(68).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(71).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(72).getCenter(), color_player2, color_player_stroke));
-		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(73).getCenter(), color_player2, color_player_stroke));
-        
-		for(int i=0; i<piecesPlayer2.size(); i++) {
-			parent.getChildren().addAll(piecesPlayer2.get(i).stack);
-		}
-		
-		return piecesPlayer2;
+		return;
 	}
 }

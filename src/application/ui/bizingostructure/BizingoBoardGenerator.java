@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class BizingoBoardGenerator {
@@ -94,7 +95,7 @@ public class BizingoBoardGenerator {
 		return trianglesType2;
 	}
 
-	public List<BizingoPiece> generatePiecesPlayer1(GraphicsContext gc, List<BizingoTriangle> trianglesType1){
+	public List<BizingoPiece> generatePiecesPlayer1(AnchorPane parent, List<BizingoTriangle> trianglesType1){
 		List<BizingoPiece> piecesPlayer1 = new ArrayList<>();
 		
         piecesPlayer1.add(new BizingoPiece(true, trianglesType1.get(33).getCenter(), color_player1_cap, color_player_stroke));
@@ -117,13 +118,13 @@ public class BizingoBoardGenerator {
 		piecesPlayer1.add(new BizingoPiece(false, trianglesType1.get(38).getCenter(), color_player1, color_player_stroke));
 		
 		for(int i=0; i<piecesPlayer1.size(); i++) {
-			piecesPlayer1.get(i).draw(gc);
+			parent.getChildren().addAll(piecesPlayer1.get(i).stack);
 		}
 		
 		return piecesPlayer1;
 	}
 	
-	public List<BizingoPiece> generatePiecesPlayer2(GraphicsContext gc, List<BizingoTriangle> trianglesType2){
+	public List<BizingoPiece> generatePiecesPlayer2(AnchorPane parent, List<BizingoTriangle> trianglesType2){
 		List<BizingoPiece> piecesPlayer2 = new ArrayList<>();
         
 		piecesPlayer2.add(new BizingoPiece(true, trianglesType2.get(51).getCenter(), color_player2_cap, color_player_stroke));
@@ -146,7 +147,7 @@ public class BizingoBoardGenerator {
 		piecesPlayer2.add(new BizingoPiece(false, trianglesType2.get(73).getCenter(), color_player2, color_player_stroke));
         
 		for(int i=0; i<piecesPlayer2.size(); i++) {
-			piecesPlayer2.get(i).draw(gc);
+			parent.getChildren().addAll(piecesPlayer2.get(i).stack);
 		}
 		
 		return piecesPlayer2;

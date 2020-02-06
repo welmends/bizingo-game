@@ -10,7 +10,7 @@
    <children>
       <Rectangle fx:id="bizingoRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="680.0" layoutX="20.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="760.0" />
       <Canvas fx:id="bizingoCanvasFixed" height="680.0" layoutX="20.0" layoutY="20.0" width="760.0" />
-      <Canvas fx:id="bizingoCanvasBack" height="680.0" layoutX="20.0" layoutY="20.0" width="760.0" />
-      <Canvas fx:id="bizingoCanvasFront" height="680.0" layoutX="20.0" layoutY="20.0" width="760.0" />
+      <AnchorPane fx:id="bizingoAnchorPane" layoutX="20.0" layoutY="20.0" prefHeight="680.0" prefWidth="760.0" />
+      <Canvas fx:id="bizingoCanvasActive" height="680.0" layoutX="20.0" layoutY="20.0" width="760.0" />
    </children>
 </AnchorPane>

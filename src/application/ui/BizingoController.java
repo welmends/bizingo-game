@@ -7,6 +7,11 @@ import java.util.ResourceBundle;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class BizingoController implements Initializable {
 	
@@ -23,13 +29,12 @@ public class BizingoController implements Initializable {
 	@FXML AnchorPane bizingoPane;
 	@FXML Rectangle bizingoRect;
 	@FXML Canvas bizingoCanvasFixed;
-	@FXML Canvas bizingoCanvasBack;
-	@FXML Canvas bizingoCanvasFront;
+	@FXML Canvas bizingoCanvasActive;
+	@FXML AnchorPane bizingoAnchorPane;
 	
 	// Variables
 	GraphicsContext gc_fixed;
-	GraphicsContext gc_back;
-	GraphicsContext gc_front;
+	GraphicsContext gc_active;
 	
 	BizingoBoardGenerator boardGen;
 	
@@ -45,18 +50,17 @@ public class BizingoController implements Initializable {
 		bizingoRect.setArcHeight(30.0);
 		bizingoRect.setFill(Color.rgb(203,236,215));
 		
-		gc_fixed = bizingoCanvasFixed.getGraphicsContext2D();
-		gc_back  = bizingoCanvasBack.getGraphicsContext2D();
-		gc_front = bizingoCanvasFront.getGraphicsContext2D();
+		gc_fixed  = bizingoCanvasFixed.getGraphicsContext2D();
+		gc_active = bizingoCanvasActive.getGraphicsContext2D();
 		
 		
 		boardGen = new BizingoBoardGenerator(60.0);
 		trianglesType1 = boardGen.generateTrianglesType1(gc_fixed);
 		trianglesType2 = boardGen.generateTrianglesType2(gc_fixed);
-		piecesPlayer1 = boardGen.generatePiecesPlayer1(gc_back, trianglesType1);
-		piecesPlayer2 = boardGen.generatePiecesPlayer2(gc_back, trianglesType2);
+		piecesPlayer1 = boardGen.generatePiecesPlayer1(bizingoAnchorPane, trianglesType1);
+		piecesPlayer2 = boardGen.generatePiecesPlayer2(bizingoAnchorPane, trianglesType2);
 		
-		bizingoCanvasFront.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+		bizingoCanvasActive.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
 	        public void handle(MouseEvent event) {
@@ -64,7 +68,7 @@ public class BizingoController implements Initializable {
 	        	double x = event.getX();
 	        	double y = event.getY();
 	        	
-	        	gc_front.clearRect(0, 0, bizingoCanvasFront.getWidth(), bizingoCanvasFront.getHeight());
+	        	gc_active.clearRect(0, 0, bizingoCanvasActive.getWidth(), bizingoCanvasActive.getHeight());
 	        	
 	        	int cType = 1;
 	        	int cPiece = 0;
@@ -87,14 +91,42 @@ public class BizingoController implements Initializable {
 	        		}
 	        	}
 	        	
-	        	BizingoTriangle mark_place;
+	        	BizingoTriangle spot_triangle;
+	        	BizingoTriangle mark_triangle;
+	        	BizingoPiece    mark_piece;
 	        	if(cType==1) {
-	        		mark_place = new BizingoTriangle(trianglesType1.get(cPiece).getPoints(), boardGen.color_triangle_selected, boardGen.color_triangle_stroke);
+	        		mark_triangle = trianglesType1.get(cPiece);
+	        		
 	        	}else {
-	        		mark_place = new BizingoTriangle(trianglesType2.get(cPiece).getPoints(), boardGen.color_triangle_selected, boardGen.color_triangle_stroke);
+	        		mark_triangle = trianglesType2.get(cPiece);
 	        	}
-	        	mark_place.draw(gc_front);
-
+	        	spot_triangle = new BizingoTriangle(mark_triangle.getPoints(), boardGen.color_triangle_selected, boardGen.color_triangle_stroke);
+	        	spot_triangle.draw(gc_active);
+	        	mark_piece = piecesPlayer1.get(0);
+	    		
+	    		SequentialTransition st = new SequentialTransition();
+	    		Timeline timeline = new Timeline();
+	    		
+	    		final KeyValue kv_x = new KeyValue(mark_piece.stack.layoutXProperty(), 10);
+	    		final KeyValue kv_y = new KeyValue(mark_piece.stack.layoutYProperty(), 10);
+	    		final KeyFrame kf = new KeyFrame(Duration.millis(1000), kv_x, kv_y);
+	    		
+	    		timeline.getKeyFrames().addAll(kf);
+	    		timeline.setOnFinished(new EventHandler<ActionEvent>() {
+	    			@Override
+	    			public void handle(ActionEvent event) {
+	    				System.out.println("Timeline ended");
+	    			}
+	    		});
+	    		
+	    		st.getChildren().addAll(timeline);
+	    		st.play();
+	    		st.setOnFinished(new EventHandler<ActionEvent>() {
+	    			@Override
+	    			public void handle(ActionEvent event) {
+	    				System.out.println("SequentialTransition ended");
+	    			}
+	    		});
 	        }
 	    });
 	}

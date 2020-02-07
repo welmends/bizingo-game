@@ -1,5 +1,8 @@
 package application.ui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class LoginController implements Initializable {
@@ -35,6 +39,16 @@ public class LoginController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		Font sixty = null;
+		try {
+			sixty = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 100);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		titleLabel.setText("B I Z I N G O    G A M E");
+		titleLabel.setFont(sixty);
 		
 		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 

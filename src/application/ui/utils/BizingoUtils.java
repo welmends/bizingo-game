@@ -1,5 +1,6 @@
 package application.ui.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import application.ui.bizingostructure.BizingoConstants;
@@ -9,16 +10,27 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class BizingoUtils {
 	
+	public List<Integer> playables;
+	
 	public BizingoUtils() {
-		
+		playables = new ArrayList<>();
 	}
 	
-	public void paintPressedTriangle(GraphicsContext gc, Double[] points) {
+	public void paintHighlightedTriangle(GraphicsContext gc, Double[] points) {
     	BizingoTriangle pressed;
-    	pressed = new BizingoTriangle(true, points, BizingoConstants.COLOR_TRIANGLE_SELECTED, BizingoConstants.COLOR_TRIANGLE_STROKE);
+    	pressed = new BizingoTriangle(true, points, BizingoConstants.COLOR_TRIANGLE_HIGHLIGHT, BizingoConstants.COLOR_TRIANGLE_STROKE);
     	pressed.draw(gc);
 	}
 	
+	public void paintHighlightedPlayableTriangles(GraphicsContext gc, List<BizingoTriangle> triangles) {
+    	BizingoTriangle pressed;
+    	
+    	for(int i=0; i<playables.size(); i++) {
+        	pressed = new BizingoTriangle(true, triangles.get(playables.get(i)).getPoints(), BizingoConstants.COLOR_TRIANGLE_HIGHLIGHT, BizingoConstants.COLOR_TRIANGLE_STROKE);
+        	pressed.draw(gc);
+    	}
+	}
+
 	public int findPressedTriangle(double x, double y, List<BizingoTriangle> triangles) {
 		int idx;
     	double min_dist, dist;
@@ -47,6 +59,36 @@ public class BizingoUtils {
     		}
     	}
     	return -1;
+	}
+
+	public void findPlayableTriangles(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, int idx_triangle) {
+		playables = new ArrayList<>();
+		
+    	double dist, dif_x, dif_y;
+    	
+    	for(int i=0; i<triangles.size(); i++) {
+    		if(triangles.get(idx_triangle).type==triangles.get(i).type && idx_triangle!=i) {
+    			dif_x = triangles.get(idx_triangle).getCenter()[0]-triangles.get(i).getCenter()[0];
+    			dif_y = triangles.get(idx_triangle).getCenter()[1]-triangles.get(i).getCenter()[1];
+        		dist = Math.sqrt(Math.pow(dif_x, 2) + Math.pow(dif_y, 2));
+        		if(dist<=BizingoConstants.MIN_DISTANCE_NEIGHBOUR_TRIANGLE) {
+        			if(triangleHasPiece(triangles.get(i), pieces)==-1) {
+        				playables.add(i);
+        			}
+        		}
+    		}
+    	}
+		
+		return;
+	}
+	
+	public Boolean triangleIsPlayable(int idx_triangle) {
+		for(int i=0; i<playables.size(); i++) {
+			if(idx_triangle==playables.get(i)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public int triangleHasPiece(BizingoTriangle triangle, List<BizingoPiece> pieces) {		

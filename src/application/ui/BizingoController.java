@@ -84,8 +84,13 @@ public class BizingoController implements Initializable {
 			        	idx_piece = utils.triangleHasPiece(triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
-				        	piece_selected = false;
-				        	animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+			        		if(utils.triangleIsPlayable(idx_triangle)) {
+					        	piece_selected = false;
+					        	animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+			        		}
+			        		else {
+			        			piece_selected = false;
+			        		}
 			        	}else {
 			        		piece_selected = false;
 			        	}
@@ -100,7 +105,9 @@ public class BizingoController implements Initializable {
 			        		piece_selected = false;
 			        	}else {
 				        	piece_selected = true;
-				        	utils.paintPressedTriangle(gc_active, triangles.get(idx_triangle).getPoints());
+				        	utils.findPlayableTriangles(triangles, pieces, idx_triangle);
+				        	utils.paintHighlightedPlayableTriangles(gc_active, triangles);
+				        	utils.paintHighlightedTriangle(gc_active, triangles.get(idx_triangle).getPoints());
 				        	idx_triangle_last = idx_triangle;
 				        	idx_piece_last = idx_piece;
 			        	}

@@ -7,7 +7,7 @@ public class BizingoConstants {
 	// Colors
 	public static Color COLOR_TRIANGLE_TYPE1 = Color.rgb(255,253,254);
 	public static Color COLOR_TRIANGLE_TYPE2 = Color.rgb(65,167,107);
-	public static Color COLOR_TRIANGLE_SELECTED = Color.rgb(0, 0, 0, 0.5);
+	public static Color COLOR_TRIANGLE_HIGHLIGHT = Color.rgb(0, 0, 0, 0.3);
 	public static Color COLOR_TRIANGLE_STROKE = Color.DARKBLUE;
 	
 	public static Color COLOR_PLAYER1_CAP = Color.rgb(248,236,18);
@@ -26,7 +26,8 @@ public class BizingoConstants {
 	
 	// Utils
 	public static Double MIN_DISTANCE_OUT_TRIANGLE = 30.0;
-		
+	public static Double MIN_DISTANCE_NEIGHBOUR_TRIANGLE = 60.0;
+	
 	// Animation
 	public static int MOVE_MILLIS = 500;
 }

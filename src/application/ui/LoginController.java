@@ -59,8 +59,8 @@ public class LoginController implements Initializable {
 		Font sixty_big = null;
 		Font sixty_small = null;
 		try {
-			sixty_big = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 100);
-			sixty_small = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 30);
+			sixty_big = Font.loadFont(new FileInputStream(new File("./src/fonts/sixty.ttf")), 100);
+			sixty_small = Font.loadFont(new FileInputStream(new File("./src/fonts/sixty.ttf")), 30);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

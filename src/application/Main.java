@@ -1,8 +1,5 @@
 package application;
 
-import java.io.File;
-import java.io.FileInputStream;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -21,8 +18,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("scenes/main_scene.fxml"));
+		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/resources/images/bizingo_icon.png")));
 		primaryStage.setResizable(false);
-		primaryStage.getIcons().add(new Image(new FileInputStream(new File("./fonts/sixty.ttf"))));
 		primaryStage.setTitle("Bizingo Game");
 		primaryStage.setScene(new Scene(root, 1280, 720));
 		primaryStage.show();

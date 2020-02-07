@@ -8,50 +8,58 @@ public class BizingoTriangle {
 	public int thickness;
 	
 	public Boolean type; //Is Server? or Is Type 1?
+	
 	public Double x1, y1;
 	public Double x2, y2;
 	public Double x3, y3;
+	
 	public Color fillColor;
 	public Color strokeColor;
 	
 	public BizingoTriangle(Boolean type, Double x1, Double y1, Double x2, Double y2, Double x3, Double y3, Color fillColor, Color strokeColor) {
-		this.thickness = 3;
+		this.thickness = BizingoConstants.TRIANGLE_THICKNESS;
 		
 		this.type = type;
+		
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
 		this.x3 = x3;
 		this.y3 = y3;
+		
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}
 	
 	public BizingoTriangle(Boolean type, Double[] p1, Double[] p2, Double[] p3, Color fillColor, Color strokeColor) {
-		this.thickness = 3;
+		this.thickness = BizingoConstants.TRIANGLE_THICKNESS;
 		
 		this.type = type;
+		
 		this.x1 = p1[0];
 		this.y1 = p1[1];
 		this.x2 = p2[0];
 		this.y2 = p2[1];
 		this.x3 = p3[0];
 		this.y3 = p3[1];
+		
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}
 	
 	public BizingoTriangle(Boolean type, Double[] points, Color fillColor, Color strokeColor) {
-		this.thickness = 3;
+		this.thickness = BizingoConstants.TRIANGLE_THICKNESS;
 		
 		this.type = type;
+		
 		this.x1 = points[0];
 		this.y1 = points[1];
 		this.x2 = points[2];
 		this.y2 = points[3];
 		this.x3 = points[4];
 		this.y3 = points[5];
+		
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}

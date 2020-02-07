@@ -1,5 +1,6 @@
 package application.ui.animation;
 
+import application.ui.bizingostructure.BizingoConstants;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
 import javafx.animation.KeyFrame;
@@ -15,11 +16,7 @@ public class BizingoAnimation {
 	public int millis;
 
 	public BizingoAnimation() {
-		this.millis = 1000;
-	}
-	
-	public BizingoAnimation(int millis) {
-		this.millis = millis;
+		this.millis = BizingoConstants.MOVE_MILLIS;
 	}
 	
 	public void move(BizingoPiece piece, Double[] dest_location) {

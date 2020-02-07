@@ -15,7 +15,7 @@ public class BizingoUtils {
 	
 	public void paintPressedTriangle(GraphicsContext gc, Double[] points) {
     	BizingoTriangle pressed;
-    	pressed = new BizingoTriangle(true, points, BizingoConstants.color_triangle_selected, BizingoConstants.color_triangle_stroke);
+    	pressed = new BizingoTriangle(true, points, BizingoConstants.COLOR_TRIANGLE_SELECTED, BizingoConstants.COLOR_TRIANGLE_STROKE);
     	pressed.draw(gc);
 	}
 	
@@ -33,7 +33,7 @@ public class BizingoUtils {
     		}
     	}
     	
-    	if(min_dist>30.0) {
+    	if(min_dist>BizingoConstants.MIN_DISTANCE_OUT_TRIANGLE) {
     		idx = -1;
     	}
     	
@@ -51,14 +51,6 @@ public class BizingoUtils {
 	
 	public int triangleHasPiece(BizingoTriangle triangle, List<BizingoPiece> pieces) {		
     	for(int i=0; i<pieces.size(); i++) {
-//    		System.out.print(triangle.getCenter()[0].intValue());
-//    		System.out.print(",");
-//    		System.out.print(triangle.getCenter()[1].intValue());
-//    		System.out.print("  -  ");
-//    		System.out.print(pieces.get(i).getPosition()[0].intValue());
-//    		System.out.print(",");
-//    		System.out.println(pieces.get(i).getPosition()[1].intValue());
-    		
     		if(triangle.getCenter()[0].intValue()==pieces.get(i).getPosition()[0].intValue() && 
     		   triangle.getCenter()[1].intValue()==pieces.get(i).getPosition()[1].intValue()) {
     			return i;

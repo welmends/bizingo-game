@@ -39,16 +39,7 @@ public class LoginController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		Font sixty = null;
-		try {
-			sixty = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 100);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		titleLabel.setText("B I Z I N G O    G A M E");
-		titleLabel.setFont(sixty);
+		setupComponentsFont();
 		
 		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
@@ -62,6 +53,30 @@ public class LoginController implements Initializable {
 	public void loadFromParent(HBox mainHBox, AnchorPane loginAnchorPane) {
 		this.node1 = loginAnchorPane;
 		this.node2 = mainHBox;
+	}
+	
+	private void setupComponentsFont() {
+		Font sixty_big = null;
+		Font sixty_small = null;
+		try {
+			sixty_big = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 100);
+			sixty_small = Font.loadFont(new FileInputStream(new File("./fonts/sixty.ttf")), 30);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		titleLabel.setText("B I Z I N G O    G A M E");
+		titleLabel.setFont(sixty_big);
+		
+		ipLabel.setText("I P");
+		ipLabel.setFont(sixty_small);
+		
+		portLabel.setText("P O R T");
+		portLabel.setFont(sixty_small);
+		
+		connectButton.setText("C O N N E C T");
+		connectButton.setFont(sixty_small);
 	}
 	
 	private void makeFadeTransition() {

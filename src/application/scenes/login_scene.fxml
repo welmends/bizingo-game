@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
@@ -10,52 +11,57 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<VBox fx:id="loginVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.LoginController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.LoginController">
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" prefHeight="300.0" prefWidth="1280.0">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </Label>
-      <Label fx:id="ipLabel" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0" text="IP">
-         <VBox.margin>
-            <Insets bottom="5.0" left="500.0" right="500.0" />
-         </VBox.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="ipTextField" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
-         <VBox.margin>
-            <Insets bottom="20.0" left="500.0" right="500.0" />
-         </VBox.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <Label fx:id="portLabel" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0" text="Porta">
-         <VBox.margin>
-            <Insets bottom="5.0" left="500.0" right="500.0" />
-         </VBox.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="portTextField" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
-         <VBox.margin>
-            <Insets bottom="30.0" left="500.0" right="500.0" />
-         </VBox.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="1280.0">
-         <VBox.margin>
-            <Insets left="450.0" right="450.0" top="10.0" />
-         </VBox.margin>
-      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d8e2eb" height="720.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
+      <VBox fx:id="loginVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <Label fx:id="titleLabel" alignment="CENTER" prefHeight="300.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="ipLabel" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="500.0" right="500.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ipTextField" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="500.0" right="500.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <Label fx:id="portLabel" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="500.0" right="500.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="portTextField" alignment="CENTER" prefHeight="30.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="500.0" right="500.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="1280.0">
+               <VBox.margin>
+                  <Insets left="450.0" right="450.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </VBox>
    </children>
-   <cursor>
-      <Cursor fx:constant="HAND" />
-   </cursor>
-</VBox>
+</AnchorPane>

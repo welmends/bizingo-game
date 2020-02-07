@@ -1,8 +1,5 @@
 package application.ui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,15 +53,8 @@ public class LoginController implements Initializable {
 	}
 	
 	private void setupComponentsFont() {
-		Font sixty_big = null;
-		Font sixty_small = null;
-		try {
-			sixty_big = Font.loadFont(new FileInputStream(new File("./src/fonts/sixty.ttf")), 100);
-			sixty_small = Font.loadFont(new FileInputStream(new File("./src/fonts/sixty.ttf")), 30);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Font sixty_big = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
+		Font sixty_small = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		
 		titleLabel.setText("B I Z I N G O    G A M E");
 		titleLabel.setFont(sixty_big);

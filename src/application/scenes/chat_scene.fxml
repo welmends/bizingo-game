@@ -12,12 +12,12 @@
    <children>
       <HBox prefHeight="50.0" prefWidth="480.0">
          <children>
-            <Label fx:id="chatLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0">
+            <Label fx:id="chatLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="100.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" top="5.0" />
+                  <Insets left="10.0" top="10.0" />
                </HBox.margin>
             </Label>
             <ImageView fx:id="chatImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -27,17 +27,21 @@
             </ImageView>
          </children>
       </HBox>
-      <TextArea fx:id="chatTextArea" editable="false" prefHeight="600.0" prefWidth="480.0">
+      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" prefHeight="600.0" prefViewportHeight="600.0" prefViewportWidth="460.0" prefWidth="480.0">
+         <content>
+            <TextFlow fx:id="chatTextFlow" prefHeight="580.0" prefWidth="480.0">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </TextFlow>
+         </content>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <VBox.margin>
-            <Insets left="10.0" right="10.0" />
+            <Insets left="15.0" right="15.0" top="10.0" />
          </VBox.margin>
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextArea>
+      </ScrollPane>
       <HBox prefHeight="40.0" prefWidth="480.0">
          <VBox.margin>
             <Insets top="10.0" />
@@ -49,7 +53,7 @@
                </font></TextField>
          </children>
          <padding>
-            <Insets left="10.0" right="10.0" />
+            <Insets left="15.0" right="15.0" />
          </padding>
       </HBox>
    </children>

@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +17,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ChatController implements Initializable {
 	
@@ -24,7 +26,8 @@ public class ChatController implements Initializable {
 	@FXML VBox chatVBox;
 	@FXML Label chatLabel;
 	@FXML ImageView chatImageView;
-	@FXML TextArea chatTextArea;
+	@FXML ScrollPane chatScrollPane;
+	@FXML TextFlow chatTextFlow;
 	@FXML TextField chatTextField;
 	
 	@Override
@@ -36,21 +39,7 @@ public class ChatController implements Initializable {
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		
-		chatTextArea.setWrapText(true);
-		setTextAreaScrollBehavior();
-		
 		setTextFieldKeyPressedBehavior();
-	}
-
-	private void setTextAreaScrollBehavior() {
-		chatTextArea.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				chatTextArea.setScrollTop(Double.MAX_VALUE);
-			}
-			
-		});
 	}
 
 	private void setTextFieldKeyPressedBehavior() {
@@ -60,9 +49,23 @@ public class ChatController implements Initializable {
 	        public void handle(KeyEvent key){
 	            if (key.getCode().equals(KeyCode.ENTER)){
 	            	
-	            	chatTextArea.setText(chatTextArea.getText()+"\n"+chatTextField.getText());
-	            	chatTextArea.appendText("");
-	            	chatTextField.setText("");
+	            	Text txt1 = new Text();
+	            	txt1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
+	            	txt1.setText(chatTextField.getText()+"\n");
+	            	
+	                Text txt2 = new Text();
+	                txt2.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
+	                txt2.setText(chatTextField.getText()+"\n");
+	                
+	                Text txt3 = new Text();
+	                txt3.setStyle("-fx-fill: BLUE;-fx-font-weight:bold;");
+	                txt3.setText(chatTextField.getText()+"\n");
+	                
+	                chatTextFlow.getChildren().addAll(txt1, txt2, txt3);
+	                chatScrollPane.setVvalue(1.0);
+	                
+	                chatTextField.setText("");
+	                
 	            }
 	        }
 	        

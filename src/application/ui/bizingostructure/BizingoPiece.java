@@ -1,5 +1,6 @@
 package application.ui.bizingostructure;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Lighting;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -58,6 +59,20 @@ public class BizingoPiece {
         stack.setPrefSize(radius, radius);
         stack.setLayoutX(x1-radius);
         stack.setLayoutY(y1-radius);
+	}
+	
+	public void draw(GraphicsContext gc) {
+    	gc.setFill(fillColor);
+        gc.setStroke(strokeColor);
+        gc.fillOval(x1-radius/2, y1-radius/2, radius, radius);
+        gc.strokeOval(x1-radius/2, y1-radius/2, radius, radius);
+	}
+	
+	public void draw(GraphicsContext gc, Double radius) {
+    	gc.setFill(fillColor);
+        gc.setStroke(strokeColor);
+        gc.fillOval(x1-radius/2, y1-radius/2, radius, radius);
+        gc.strokeOval(x1-radius/2, y1-radius/2, radius, radius);
 	}
 	
 	public Double[] getPosition() {

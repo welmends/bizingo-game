@@ -16,6 +16,9 @@ public class BizingoConstants {
 	public static Color COLOR_PLAYER2 = Color.rgb(6,2,6);
 	public static Color COLOR_PLAYER_STROKE = Color.BLACK;
 	
+	public static Color GREEN = Color.DARKGREEN;
+	public static Color RED = Color.DARKRED;
+	
 	// Piece and Triangle
 	public static Double PIECE_RADIUS = 10.0;
 	public static int TRIANGLE_THICKNESS = 3;

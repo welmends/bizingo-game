@@ -9,6 +9,7 @@ import application.socket.SocketP2P;
 import application.ui.animation.BizingoAnimation;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
+import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.utils.BizingoUtils;
 import javafx.application.Platform;
@@ -29,22 +30,26 @@ public class BizingoController extends Thread implements Initializable {
 	// FXML Variables
 	@FXML AnchorPane bizingoPane;
 	@FXML Rectangle bizingoRect;
-	@FXML Canvas bizingoCanvasFixed;
-	@FXML Canvas bizingoCanvasActive;
+	@FXML Canvas bizingoCanvasBackground;
+	@FXML Canvas bizingoCanvasBoard;
+	@FXML Canvas bizingoCanvasStatus;
 	@FXML AnchorPane bizingoAnchorPane;
 	@FXML Button bizingoLeave;
 	@FXML Button bizingoRestart;
 	@FXML Label bizingoNameUp;
 	@FXML Label bizingoNameDown;
+	@FXML Label bizingoNameScore;
 	
 	// Socket
 	SocketP2P soc_p2p;
 	
 	// Variables
-	GraphicsContext gc_fixed;
-	GraphicsContext gc_active;
+	GraphicsContext gc_background;
+	GraphicsContext gc_board;
+	GraphicsContext gc_status;
 	
 	BizingoBoardGenerator boardGen;
+	BizingoStatus status;
 	BizingoUtils utils;
 	BizingoAnimation animator;
 	
@@ -63,9 +68,11 @@ public class BizingoController extends Thread implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Instantiating objects
-		gc_fixed  = bizingoCanvasFixed.getGraphicsContext2D();
-		gc_active = bizingoCanvasActive.getGraphicsContext2D();
+		gc_background  = bizingoCanvasBackground.getGraphicsContext2D();
+		gc_board = bizingoCanvasBoard.getGraphicsContext2D();
+		gc_status = bizingoCanvasStatus.getGraphicsContext2D();
 		boardGen = new BizingoBoardGenerator(60.0);
+		status = new BizingoStatus();
 		utils = new BizingoUtils();
 		animator = new BizingoAnimation();
 		triangles = new ArrayList<>();
@@ -73,6 +80,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Components setup
 		Font sixty40p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 40);
+		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		Font sixty16p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 16);
 		Font sixty14p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 14);
 		
@@ -88,13 +96,18 @@ public class BizingoController extends Thread implements Initializable {
 		bizingoNameDown.setText("G A M E");
 		bizingoNameDown.setFont(sixty40p);
 		
+		bizingoNameScore.setText("S C O R E");
+		bizingoNameScore.setFont(sixty30p);
+		
+		status.draw_cover(gc_status);
+		
 		// Variables
 		piece_selected = false;
 		idx_triangle_last = -1;
 		idx_piece_last = -1;
 		
 		// Generate Board
-		boardGen.generateBoard(triangles, pieces, gc_fixed, bizingoAnchorPane);
+		boardGen.generateBoard(triangles, pieces, gc_background, bizingoAnchorPane);
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
@@ -129,13 +142,13 @@ public class BizingoController extends Thread implements Initializable {
 	}
 	
 	private void setCanvasMousePressedBehavior() {
-		bizingoCanvasActive.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+		bizingoCanvasBoard.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
 	        public void handle(MouseEvent event) {
 	        	if(turn==false) { return; }
 	        	
-	        	gc_active.clearRect(0, 0, bizingoCanvasActive.getWidth(), bizingoCanvasActive.getHeight());
+	        	gc_board.clearRect(0, 0, bizingoCanvasBoard.getWidth(), bizingoCanvasBoard.getHeight());
 	        		        	
 	        	double x = event.getX();
 	        	double y = event.getY();
@@ -164,8 +177,8 @@ public class BizingoController extends Thread implements Initializable {
 			        	}else {
 			        		piece_selected = true;
 				        	utils.findPlayableTriangles(triangles, pieces, idx_triangle);
-				        	utils.paintHighlightedPlayableTriangles(gc_active, triangles);
-				        	utils.paintHighlightedTriangle(gc_active, triangles.get(idx_triangle).getPoints());
+				        	utils.paintHighlightedPlayableTriangles(gc_board, triangles);
+				        	utils.paintHighlightedTriangle(gc_board, triangles.get(idx_triangle).getPoints());
 				        	idx_triangle_last = idx_triangle;
 				        	idx_piece_last = idx_piece;
 			        	}
@@ -181,8 +194,8 @@ public class BizingoController extends Thread implements Initializable {
 			        	}else {
 				        	piece_selected = true;
 				        	utils.findPlayableTriangles(triangles, pieces, idx_triangle);
-				        	utils.paintHighlightedPlayableTriangles(gc_active, triangles);
-				        	utils.paintHighlightedTriangle(gc_active, triangles.get(idx_triangle).getPoints());
+				        	utils.paintHighlightedPlayableTriangles(gc_board, triangles);
+				        	utils.paintHighlightedTriangle(gc_board, triangles.get(idx_triangle).getPoints());
 				        	idx_triangle_last = idx_triangle;
 				        	idx_piece_last = idx_piece;
 			        	}

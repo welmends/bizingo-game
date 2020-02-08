@@ -34,6 +34,8 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		soc_p2p = new SocketP2P();
+		
 		loginLoader = new FXMLLoader(getClass().getResource("/application/scenes/login_scene.fxml"));
 		bizingoLoader = new FXMLLoader(getClass().getResource("/application/scenes/bizingo_scene.fxml"));
 		chatLoader = new FXMLLoader(getClass().getResource("/application/scenes/chat_scene.fxml"));
@@ -59,6 +61,6 @@ public class MainController implements Initializable {
 		bizingoController = bizingoLoader.getController();
 		chatController = chatLoader.getController();
 		
-		loginController.loadFromParent(mainHBox, loginAnchorPane);
+		loginController.loadFromParent(soc_p2p, mainHBox, loginAnchorPane);
 	}
 }

@@ -19,6 +19,9 @@ public class MainController implements Initializable {
 	@FXML HBox mainHBox;
 	@FXML AnchorPane loginAnchorPane;
 	
+	// Socket
+	SocketP2P soc_p2p;
+	
 	// FXML Loaders
 	FXMLLoader loginLoader;
 	FXMLLoader bizingoLoader;
@@ -29,21 +32,20 @@ public class MainController implements Initializable {
 	BizingoController bizingoController;
 	ChatController chatController;
 	
-	// Socket
-	SocketP2P soc_p2p;
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// Initialize Objects
 		soc_p2p = new SocketP2P();
-		
-		loginLoader = new FXMLLoader(getClass().getResource("/application/scenes/login_scene.fxml"));
-		bizingoLoader = new FXMLLoader(getClass().getResource("/application/scenes/bizingo_scene.fxml"));
-		chatLoader = new FXMLLoader(getClass().getResource("/application/scenes/chat_scene.fxml"));
 		
 		Scene loginScene = null;
 		Scene bizingoScene = null;
 		Scene chatScene = null;
 		
+		loginLoader = new FXMLLoader(getClass().getResource("/application/scenes/login_scene.fxml"));
+		bizingoLoader = new FXMLLoader(getClass().getResource("/application/scenes/bizingo_scene.fxml"));
+		chatLoader = new FXMLLoader(getClass().getResource("/application/scenes/chat_scene.fxml"));
+		
+		//Load Scenes
 		try {
 			loginScene = new Scene(loginLoader.load());
 			bizingoScene = new Scene(bizingoLoader.load());
@@ -52,15 +54,19 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		
+		// Add nodes to MainController holders 
 		mainHBox.getChildren().add(bizingoScene.getRoot());
 		mainHBox.getChildren().add(chatScene.getRoot());
 		loginAnchorPane.getChildren().add(loginScene.getRoot());
 		
+		// Get Controller
 		loginController = loginLoader.getController();
 		bizingoController = bizingoLoader.getController();
 		chatController = chatLoader.getController();
 		
+		// Load common objects from parent
 		loginController.loadFromParent(soc_p2p, mainHBox, loginAnchorPane);
+		bizingoController.loadFromParent(soc_p2p);
+		chatController.loadFromParent(soc_p2p);
 	}
 }

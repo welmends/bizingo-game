@@ -3,6 +3,7 @@ package application.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.socket.SocketP2P;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +28,9 @@ public class ChatController implements Initializable {
 	@FXML VBox chatVBoxOnScroll;
 	@FXML TextField chatTextField;
 	
+	// Socket
+	SocketP2P soc_p2p;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Font sixty26p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 26);
@@ -41,7 +45,11 @@ public class ChatController implements Initializable {
 		
 		setTextFieldKeyPressedBehavior();
 	}
-
+	
+	public void loadFromParent(SocketP2P soc_p2p) {
+		this.soc_p2p = soc_p2p;
+	}
+	
 	private void setTextFieldKeyPressedBehavior() {
 		chatTextField.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			

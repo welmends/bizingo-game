@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.socket.SocketP2P;
 import application.ui.animation.BizingoAnimation;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
@@ -27,6 +28,9 @@ public class BizingoController implements Initializable {
 	@FXML Canvas bizingoCanvasFixed;
 	@FXML Canvas bizingoCanvasActive;
 	@FXML AnchorPane bizingoAnchorPane;
+	
+	// Socket
+	SocketP2P soc_p2p;
 	
 	// Variables
 	GraphicsContext gc_fixed;
@@ -64,6 +68,10 @@ public class BizingoController implements Initializable {
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
+	}
+	
+	public void loadFromParent(SocketP2P soc_p2p) {
+		this.soc_p2p = soc_p2p;
 	}
 	
 	private void setCanvasMousePressedBehavior() {

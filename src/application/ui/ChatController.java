@@ -56,6 +56,9 @@ public class ChatController extends Thread implements Initializable {
 		// VBox Scrolls Down Behavior
 		setVBoxScrollsBehavior();
 		
+		// TextField Text Boundaries Behavior
+		setTextFieldTextBoundariesBehavior();
+		
 		// TextField Enter Key Pressed Behavior
 		setTextFieldKeyPressedBehavior();
 		
@@ -133,6 +136,19 @@ public class ChatController extends Thread implements Initializable {
 	    });
 	}
 	
+	private void setTextFieldTextBoundariesBehavior() {
+		chatTextField.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue.length()==45) {
+					chatTextField.setText(oldValue);
+				}
+			}
+	        
+		});
+	}
+	
 	private void setVBoxScrollsBehavior() {
 		chatVBoxOnScroll.heightProperty().addListener(new ChangeListener<Number>() {
 
@@ -145,6 +161,5 @@ public class ChatController extends Thread implements Initializable {
 	        
 		});
 	}
-	
 	
 }

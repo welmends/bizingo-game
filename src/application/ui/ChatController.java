@@ -3,11 +3,10 @@ package application.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -17,8 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 public class ChatController implements Initializable {
 	
@@ -27,7 +24,7 @@ public class ChatController implements Initializable {
 	@FXML Label chatLabel;
 	@FXML ImageView chatImageView;
 	@FXML ScrollPane chatScrollPane;
-	@FXML TextFlow chatTextFlow;
+	@FXML VBox chatVBoxOnScroll;
 	@FXML TextField chatTextField;
 	
 	@Override
@@ -39,6 +36,9 @@ public class ChatController implements Initializable {
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		
+		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-border-color: #7894ac; -fx-border-width: 3;");
+		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
+		
 		setTextFieldKeyPressedBehavior();
 	}
 
@@ -49,21 +49,29 @@ public class ChatController implements Initializable {
 	        public void handle(KeyEvent key){
 	            if (key.getCode().equals(KeyCode.ENTER)){
 	            	
-	            	Text txt1 = new Text();
-	            	txt1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
-	            	txt1.setText(chatTextField.getText()+"\n");
-	            	
-	                Text txt2 = new Text();
-	                txt2.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
-	                txt2.setText(chatTextField.getText()+"\n");
-	                
-	                Text txt3 = new Text();
-	                txt3.setStyle("-fx-fill: BLUE;-fx-font-weight:bold;");
-	                txt3.setText(chatTextField.getText()+"\n");
-	                
-	                chatTextFlow.getChildren().addAll(txt1, txt2, txt3);
+	                Label txt1 = new Label(chatTextField.getText()+"\n");
+	                txt1.setStyle("-fx-font-weight:bold; -fx-text-fill: green;");
+	                txt1.setPrefWidth(480);
+	                txt1.setPrefHeight(20); 
+	                txt1.setAlignment(Pos.CENTER_LEFT);
+
+	                chatVBoxOnScroll.getChildren().addAll(txt1);
 	                chatScrollPane.setVvalue(1.0);
+	                	                
+	                chatTextField.setText("");
 	                
+	            }
+	            if (key.getCode().equals(KeyCode.BACK_SPACE)){	            
+	                
+	                Label txt1 = new Label(chatTextField.getText()+"\n");
+	                txt1.setStyle("-fx-font-weight:bold; -fx-fill: green;");
+	                txt1.setPrefWidth(480);
+	                txt1.setPrefHeight(20); 
+	                txt1.setAlignment(Pos.CENTER_RIGHT);
+
+	                chatVBoxOnScroll.getChildren().addAll(txt1);
+	                chatScrollPane.setVvalue(1.0);
+	                	                
 	                chatTextField.setText("");
 	                
 	            }

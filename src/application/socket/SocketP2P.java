@@ -1,6 +1,7 @@
 package application.socket;
 
 import java.net.*;
+import java.util.concurrent.Semaphore;
 import java.io.*;
 
 public class SocketP2P extends Thread {
@@ -10,6 +11,7 @@ public class SocketP2P extends Thread {
     private String peer_type;
     private int thread_action;
     private Boolean is_connected;
+    private Semaphore mutex;
     
     private String ip;
     private int port;
@@ -24,12 +26,14 @@ public class SocketP2P extends Thread {
     	this.peer_type = "";
     	this.thread_action = 1;
     	this.is_connected = false;
+    	mutex = new Semaphore(1);
     }
     
     public SocketP2P(String ip, int port){
     	this.peer_type = "";
     	this.thread_action = 1;
     	this.is_connected = false;
+    	mutex = new Semaphore(1);
     	
         this.ip   = ip;
         this.port = port;
@@ -68,7 +72,9 @@ public class SocketP2P extends Thread {
     		try {
                 while(true){
                     String message_received = input_stream.readUTF();
-                    message_input = message_received; //SEMAPHORE
+                    mutex.acquire();
+                    message_input = message_received;
+                    mutex.release();
                 }
             } catch(Exception e) {
                 System.out.println(e);
@@ -121,7 +127,16 @@ public class SocketP2P extends Thread {
     }
     
     public Boolean messageStackFull() {
-    	if(message_input.length()>0) { //SEMAPHORE
+    	int length=0;
+		try {
+			mutex.acquire();
+	    	length = message_input.length();
+	    	mutex.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+    	if(length>0) {
     		return true;
     	}else {
     		return false;
@@ -139,8 +154,15 @@ public class SocketP2P extends Thread {
     }
     
     public String get_message() {
-    	String message_received = message_input; //SEMAPHORE
-    	message_input = ""; //SEMAPHORE
+    	String message_received = "";
+		try {
+			mutex.acquire();
+			message_received = message_input;
+			message_input = "";
+	    	mutex.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     	return message_received; 
     }
     

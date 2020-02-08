@@ -50,7 +50,7 @@ public class ChatController extends Thread implements Initializable {
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		
-		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-border-color: #7894ac; -fx-border-width: 3;");
+		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
 		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
 		
 		// VBox Scrolls Down Behavior
@@ -83,13 +83,13 @@ public class ChatController extends Thread implements Initializable {
 				        txt.setTextFill(Color.BLACK);
 				        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #ffffff; -fx-background-radius: 10 10 10 0;");
 				        txt.setPrefWidth(message_received.length()*10+5);
-						txt.setPrefHeight(40);
+						txt.setPrefHeight(35);
 						txt.setAlignment(Pos.CENTER);
 		            	
 				        StackPane sp = new StackPane();
 				        sp.setPrefWidth(480);
-				        sp.setPrefHeight(45);
-				        sp.setMinHeight(45);
+				        sp.setPrefHeight(40);
+				        sp.setMinHeight(40);
 				        sp.getChildren().add(txt);
 				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
 						
@@ -113,13 +113,13 @@ public class ChatController extends Thread implements Initializable {
 			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 10 10 0 10;");
 			        
 			        txt.setPrefWidth(txt.getText().length()*10+10);
-					txt.setPrefHeight(40);
+					txt.setPrefHeight(35);
 					txt.setAlignment(Pos.CENTER);
 	            	
 			        StackPane sp = new StackPane();
 			        sp.setPrefWidth(480);
-			        sp.setPrefHeight(45);
-			        sp.setMinHeight(45);
+			        sp.setPrefHeight(40);
+			        sp.setMinHeight(40);
 			        sp.getChildren().add(txt);
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        

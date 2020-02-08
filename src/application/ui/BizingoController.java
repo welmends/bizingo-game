@@ -17,9 +17,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 public class BizingoController extends Thread implements Initializable {
 	
@@ -29,6 +32,10 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Canvas bizingoCanvasFixed;
 	@FXML Canvas bizingoCanvasActive;
 	@FXML AnchorPane bizingoAnchorPane;
+	@FXML Button bizingoLeave;
+	@FXML Button bizingoRestart;
+	@FXML Label bizingoNameUp;
+	@FXML Label bizingoNameDown;
 	
 	// Socket
 	SocketP2P soc_p2p;
@@ -63,6 +70,23 @@ public class BizingoController extends Thread implements Initializable {
 		animator = new BizingoAnimation();
 		triangles = new ArrayList<>();
 		pieces = new ArrayList<>();
+		
+		// Components setup
+		Font sixty40p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 40);
+		Font sixty16p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 16);
+		Font sixty14p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 14);
+		
+		bizingoLeave.setText("L E A V E");
+		bizingoLeave.setFont(sixty16p);
+		
+		bizingoRestart.setText("R E S T A R T");
+		bizingoRestart.setFont(sixty14p);
+		
+		bizingoNameUp.setText("B I Z I N G O");
+		bizingoNameUp.setFont(sixty40p);
+		
+		bizingoNameDown.setText("G A M E");
+		bizingoNameDown.setFont(sixty40p);
 		
 		// Variables
 		piece_selected = false;

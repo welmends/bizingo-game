@@ -85,10 +85,8 @@ public class SocketP2P extends Thread {
                 while(true){
                     String message_received = input_stream.readUTF();
                     mutex.acquire();
-                    //System.out.println("1 - Acquire");
                     message_input = message_received;
                     mutex.release();
-                    //System.out.println("1 - Release");
                 }
             } catch(Exception e) {
                 System.out.println(e);
@@ -144,10 +142,8 @@ public class SocketP2P extends Thread {
     	String message_received = "";
 		try {
 			mutex.acquire();
-			//System.out.println("2 - Acquire");
 			message_received = message_input;
 	    	mutex.release();
-	    	//System.out.println("2 - Release");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -174,7 +170,7 @@ public class SocketP2P extends Thread {
 		}
 
     	if(message_received.length()>0) {
-    		if(CHAT_CODEC.equals(message_received.substring(0,GAME_CODEC.length()))) {
+    		if(GAME_CODEC.equals(message_received.substring(0,GAME_CODEC.length()))) {
     			return true;
     		}else {
     			return false;
@@ -208,11 +204,9 @@ public class SocketP2P extends Thread {
     	String message_received = "";
 		try {
 			mutex.acquire();
-			//System.out.println("3 - Acquire");
 			message_received = message_input;
+			message_input = "";
 	    	mutex.release();
-	    	//System.out.println("3 - Release");
-	    	message_input = "";
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -8,32 +8,44 @@ public class SocketP2P extends Thread {
     private ServerSocket serverSocket = null;
     private Socket socket = null;
     
-    private String peer_type;
-    private int thread_action;
-    private Boolean is_connected;
-    private Semaphore mutex;
-    
-    private String ip;
-    private int port;
-
     private DataInputStream input_stream  = null;
     private DataOutputStream output_stream = null;
 
     private String message_input= "";
     private String message_output= "";
     
+    private String peer_type;
+    private int thread_action;
+    private Boolean is_connected;
+    
+    private Semaphore mutex;
+    
+    private String GAME_CODEC;
+    private String CHAT_CODEC;
+    
+    private String ip;
+    private int port;
+    
     public SocketP2P(){
     	this.peer_type = "";
     	this.thread_action = 1;
     	this.is_connected = false;
+    	
     	mutex = new Semaphore(1);
+    	
+    	CHAT_CODEC = "#C$";
+    	GAME_CODEC = "#G$";
     }
     
     public SocketP2P(String ip, int port){
     	this.peer_type = "";
     	this.thread_action = 1;
     	this.is_connected = false;
+    	
     	mutex = new Semaphore(1);
+    	
+    	CHAT_CODEC = "#C$";
+    	GAME_CODEC = "#G$";
     	
         this.ip   = ip;
         this.port = port;
@@ -73,8 +85,10 @@ public class SocketP2P extends Thread {
                 while(true){
                     String message_received = input_stream.readUTF();
                     mutex.acquire();
+                    //System.out.println("1 - Acquire");
                     message_input = message_received;
                     mutex.release();
+                    //System.out.println("1 - Release");
                 }
             } catch(Exception e) {
                 System.out.println(e);
@@ -126,26 +140,53 @@ public class SocketP2P extends Thread {
 
     }
     
-    public Boolean messageStackFull() {
-    	int length=0;
+    public Boolean chatMessageStackFull() {
+    	String message_received = "";
 		try {
 			mutex.acquire();
-	    	length = message_input.length();
+			//System.out.println("2 - Acquire");
+			message_received = message_input;
 	    	mutex.release();
+	    	//System.out.println("2 - Release");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-    	if(length>0) {
-    		return true;
+    	if(message_received.length()>0) {
+    		if(CHAT_CODEC.equals(message_received.substring(0,CHAT_CODEC.length()))) {
+    			return true;
+    		}else {
+    			return false;
+    		}
     	}else {
     		return false;
     	}
     }
     
-    public void send_message(String msg) {
+    public Boolean gameMessageStackFull() {
+    	String message_received = "";
 		try {
-			message_output = msg;
+			mutex.acquire();
+			message_received = message_input;
+	    	mutex.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+    	if(message_received.length()>0) {
+    		if(CHAT_CODEC.equals(message_received.substring(0,GAME_CODEC.length()))) {
+    			return true;
+    		}else {
+    			return false;
+    		}
+    	}else {
+    		return false;
+    	}
+    }
+    
+    public void sendChatMessage(String msg) {
+		try {
+			message_output = CHAT_CODEC + msg;
 			output_stream.writeUTF(message_output);
 			output_stream.flush();
 		} catch (IOException e) {
@@ -153,17 +194,29 @@ public class SocketP2P extends Thread {
 		}
     }
     
-    public String get_message() {
+    public void sendGameMessage(String msg) {
+		try {
+			message_output = GAME_CODEC + msg;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public String getMessage() {
     	String message_received = "";
 		try {
 			mutex.acquire();
+			//System.out.println("3 - Acquire");
 			message_received = message_input;
-			message_input = "";
 	    	mutex.release();
+	    	//System.out.println("3 - Release");
+	    	message_input = "";
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	return message_received; 
+    	return message_received.substring(CHAT_CODEC.length(),message_received.length()); 
     }
     
     public String getPeerType() {
@@ -171,14 +224,14 @@ public class SocketP2P extends Thread {
     }
     
     public Boolean isServer() {
-    	if(this.peer_type=="server") {
+    	if(this.peer_type.equals("server")) {
     		return true;
     	}
     	return false;
     }
     
     public Boolean isClient() {
-    	if(this.peer_type=="client") {
+    	if(this.peer_type.equals("client")) {
     		return true;
     	}
     	return false;

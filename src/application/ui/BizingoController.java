@@ -20,7 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
-public class BizingoController implements Initializable {
+public class BizingoController extends Thread implements Initializable {
 	
 	// FXML Variables
 	@FXML AnchorPane bizingoPane;
@@ -72,6 +72,11 @@ public class BizingoController implements Initializable {
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
+	}
+	
+	@Override
+	public void run() {
+		// Implements socket messages
 	}
 	
 	private void setCanvasMousePressedBehavior() {

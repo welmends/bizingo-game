@@ -65,7 +65,7 @@ public class MainController implements Initializable {
 		chatController = chatLoader.getController();
 		
 		// Load common objects from parent
-		loginController.loadFromParent(soc_p2p, mainHBox, loginAnchorPane);
+		loginController.loadFromParent(soc_p2p, bizingoController, chatController, mainHBox, loginAnchorPane);
 		bizingoController.loadFromParent(soc_p2p);
 		chatController.loadFromParent(soc_p2p);
 	}

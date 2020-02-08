@@ -61,9 +61,6 @@ public class ChatController extends Thread implements Initializable {
 		
 		// TextField Enter Key Pressed Behavior
 		setTextFieldKeyPressedBehavior();
-		
-		// Trigger for message received
-		this.start();
 	}
 	
 	@Override
@@ -74,9 +71,9 @@ public class ChatController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(soc_p2p.messageStackFull()) {
+			if(soc_p2p.chatMessageStackFull()) {
             	// Receive Messages
-				String message_received = soc_p2p.get_message();    // Receive Remote
+				String message_received = soc_p2p.getMessage(); // Receive Remote
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -126,8 +123,8 @@ public class ChatController extends Thread implements Initializable {
 			        sp.getChildren().add(txt);
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        
-	                chatVBoxOnScroll.getChildren().addAll(sp);    // Send Local
-	                soc_p2p.send_message(chatTextField.getText()); // Send Remote                
+	                chatVBoxOnScroll.getChildren().addAll(sp);        // Send Local
+	                soc_p2p.sendChatMessage(chatTextField.getText()); // Send Remote                
 	                
 	                chatTextField.setText("");
 	            }

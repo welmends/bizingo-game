@@ -39,8 +39,16 @@ public class LoginController extends Thread implements Initializable {
 	AnchorPane node1;
 	HBox node2;
 	
-	public void loadFromParent(SocketP2P soc_p2p, HBox mainHBox, AnchorPane loginAnchorPane) {
+	// Controllers
+	ChatController chat;
+	BizingoController bizingo;
+	
+	public void loadFromParent(SocketP2P soc_p2p, BizingoController bizingo, ChatController chat, HBox mainHBox, AnchorPane loginAnchorPane) {
 		this.soc_p2p = soc_p2p;
+		
+		this.bizingo = bizingo;
+		this.chat = chat;
+		
 		this.node1 = loginAnchorPane;
 		this.node2 = mainHBox;
 	}
@@ -139,6 +147,15 @@ public class LoginController extends Thread implements Initializable {
 				fadeTransition2.setFromValue(0);
 				fadeTransition2.setToValue(1);
 				fadeTransition2.play();
+				fadeTransition2.setOnFinished(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent arg0) {
+						// Trigger to enable message receive
+						bizingo.start();
+						chat.start();
+					}
+				});
 			}
 		});
 		fadeTransition1.play();

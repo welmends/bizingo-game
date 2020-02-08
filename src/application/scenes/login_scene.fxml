@@ -59,9 +59,6 @@
                </VBox.margin>
             </Button>
          </children>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
       </VBox>
    </children>
 </AnchorPane>

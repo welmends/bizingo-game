@@ -96,7 +96,12 @@ public class BizingoController implements Initializable {
 			        			piece_selected = false;
 			        		}
 			        	}else {
-			        		piece_selected = false;
+			        		piece_selected = true;
+				        	utils.findPlayableTriangles(triangles, pieces, idx_triangle);
+				        	utils.paintHighlightedPlayableTriangles(gc_active, triangles);
+				        	utils.paintHighlightedTriangle(gc_active, triangles.get(idx_triangle).getPoints());
+				        	idx_triangle_last = idx_triangle;
+				        	idx_piece_last = idx_piece;
 			        	}
 		        	}
 	        	}else {

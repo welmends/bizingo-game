@@ -39,8 +39,15 @@ public class LoginController extends Thread implements Initializable {
 	AnchorPane node1;
 	HBox node2;
 	
+	public void loadFromParent(SocketP2P soc_p2p, HBox mainHBox, AnchorPane loginAnchorPane) {
+		this.soc_p2p = soc_p2p;
+		this.node1 = loginAnchorPane;
+		this.node2 = mainHBox;
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// Components setup
 		Font sixty100p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
 		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		
@@ -56,6 +63,7 @@ public class LoginController extends Thread implements Initializable {
 		connectButton.setText("C O N N E C T");
 		connectButton.setFont(sixty30p);
 		
+		// Button Mouse Pressed Behavior
 		setButtonMousePressedBehavior();
 	}
 	
@@ -63,28 +71,23 @@ public class LoginController extends Thread implements Initializable {
 	public void run() {
 		while(true) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(soc_p2p.isAlive()==false) {
+			if(soc_p2p.isConnected()==true) {
 				break;
 			}
 		}
+		// Transition to game
 		startGame();
-	}
-	
-	public void loadFromParent(SocketP2P soc_p2p, HBox mainHBox, AnchorPane loginAnchorPane) {
-		this.soc_p2p = soc_p2p;
-		this.node1 = loginAnchorPane;
-		this.node2 = mainHBox;
 	}
 	
 	private void setButtonMousePressedBehavior() {
 		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
-	        public void handle(MouseEvent event) {startGame();//** ERASE
+	        public void handle(MouseEvent event) {
 	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
 	        		connectButton.setDisable(true);
 	        		
@@ -92,11 +95,15 @@ public class LoginController extends Thread implements Initializable {
 	        		
 	        		if(soc_p2p.connect()==true) {
 	        			if(soc_p2p.isClient()) {
+	        				// Transition to game
 	        				startGame();
 	        			}else {
 	        				alertInformation();
 			        		
+	        				// Wait for connection
 	        				soc_p2p.start();
+	        				
+	        				// Trigger for client connection
 	        				start();
 	        			}
 	        		}else {
@@ -110,6 +117,7 @@ public class LoginController extends Thread implements Initializable {
 		});
 		
 	}
+	
 	
 	private void startGame() {
 		FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(500), node1);
@@ -136,6 +144,7 @@ public class LoginController extends Thread implements Initializable {
 		fadeTransition1.play();
 	}
 	
+	
 	private void alertInformation() {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
@@ -143,6 +152,7 @@ public class LoginController extends Thread implements Initializable {
 		alert.setHeaderText("Aguardando novo jogador!");
 		alert.showAndWait();
 	}
+	
 	
 	private void alertError() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -152,6 +162,7 @@ public class LoginController extends Thread implements Initializable {
 		alert.showAndWait();
 	}
 	
+	
 	private void alertWarning() {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle("Bizingo Game Alerts");
@@ -159,4 +170,5 @@ public class LoginController extends Thread implements Initializable {
 		alert.setHeaderText("Preencha os campos informando IP/PORTA!");
 		alert.showAndWait();
 	}
+
 }

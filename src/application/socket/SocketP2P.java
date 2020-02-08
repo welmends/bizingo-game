@@ -9,6 +9,7 @@ public class SocketP2P extends Thread {
     
     private String peer_type;
     private int thread_action;
+    private Boolean is_connected;
     
     private String ip;
     private int port;
@@ -19,30 +20,16 @@ public class SocketP2P extends Thread {
     private String message_input= "";
     private String message_output= "";
     
-    @Override
-    public void run(){
-    	if(thread_action==1) {
-    		wait_connection();
-    	}else {
-    		try {
-                while(true){
-                    message_input = input_stream.readUTF();
-                    System.out.println("Received: "+message_input);
-                }
-            } catch(Exception e) {
-                System.out.println(e);
-            }
-    	}
-    }
-    
     public SocketP2P(){
     	this.peer_type = "";
     	this.thread_action = 1;
+    	this.is_connected = false;
     }
     
     public SocketP2P(String ip, int port){
     	this.peer_type = "";
     	this.thread_action = 1;
+    	this.is_connected = false;
     	
         this.ip   = ip;
         this.port = port;
@@ -72,6 +59,23 @@ public class SocketP2P extends Thread {
 		}
     }
     
+    @Override
+    public void run(){
+    	if(thread_action==1) {
+    		wait_connection();
+    	}
+    	if(thread_action==2) {
+    		try {
+                while(true){
+                    String message_received = input_stream.readUTF();
+                    message_input = message_received; //SEMAPHORE
+                }
+            } catch(Exception e) {
+                System.out.println(e);
+            }
+    	}
+    }
+    
     public Boolean connect(){
         try {
         	this.peer_type = "server";
@@ -88,8 +92,8 @@ public class SocketP2P extends Thread {
         		input_stream = new DataInputStream(socket.getInputStream());
         		output_stream = new DataOutputStream(socket.getOutputStream());
         		
-        		thread_action=2;
-        		this.start();// Start receive thread
+        		thread_action=2;// Flag receive behavior
+        		this.start();
         		
         		return true;
         	} catch(Exception e_client) {
@@ -105,14 +109,23 @@ public class SocketP2P extends Thread {
             input_stream = new DataInputStream(socket.getInputStream());
             output_stream = new DataOutputStream(socket.getOutputStream());
             
-            thread_action = 2;
-            this.start();// Start receive thread
+            thread_action = 2;// Flag receive behavior
+            
+            is_connected = true;
             
             return true;
     	} catch(Exception e_client) {
     		return false;
     	}
 
+    }
+    
+    public Boolean messageStackFull() {
+    	if(message_input.length()>0) { //SEMAPHORE
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
     
     public void send_message(String msg) {
@@ -123,6 +136,12 @@ public class SocketP2P extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    public String get_message() {
+    	String message_received = message_input; //SEMAPHORE
+    	message_input = ""; //SEMAPHORE
+    	return message_received; 
     }
     
     public String getPeerType() {
@@ -141,6 +160,10 @@ public class SocketP2P extends Thread {
     		return true;
     	}
     	return false;
+    }
+    
+    public Boolean isConnected() {
+    	return is_connected;
     }
 }
 

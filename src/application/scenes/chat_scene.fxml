@@ -22,7 +22,7 @@
             </Label>
             <ImageView fx:id="chatImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
-                  <Insets left="310.0" top="5.0" />
+                  <Insets left="310.0" top="10.0" />
                </HBox.margin>
             </ImageView>
          </children>

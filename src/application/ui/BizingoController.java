@@ -47,6 +47,10 @@ public class BizingoController implements Initializable {
 	int idx_triangle_last;
 	int idx_piece_last;
 	
+	public void loadFromParent(SocketP2P soc_p2p) {
+		this.soc_p2p = soc_p2p;
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Instantiating objects
@@ -68,10 +72,6 @@ public class BizingoController implements Initializable {
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
-	}
-	
-	public void loadFromParent(SocketP2P soc_p2p) {
-		this.soc_p2p = soc_p2p;
 	}
 	
 	private void setCanvasMousePressedBehavior() {

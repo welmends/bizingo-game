@@ -62,7 +62,11 @@ public class BizingoController implements Initializable {
 		// Generate Board
 		boardGen.generateBoard(triangles, pieces, gc_fixed, bizingoAnchorPane);
 		
-		// Canvas Mouse Pressed - Event Handler
+		// Canvas Mouse Pressed
+		setCanvasMousePressedBehavior();
+	}
+	
+	private void setCanvasMousePressedBehavior() {
 		bizingoCanvasActive.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
@@ -116,6 +120,7 @@ public class BizingoController implements Initializable {
 	    		
 	        }
 	    });
+		
 	}
 	
 	

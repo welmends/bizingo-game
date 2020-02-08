@@ -41,48 +41,22 @@ public class LoginController extends Thread implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Font sixty100p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
+		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		
-		setupComponentsFont();
+		titleLabel.setText("B I Z I N G O    G A M E");
+		titleLabel.setFont(sixty100p);
 		
-		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
-
-	        @Override
-	        public void handle(MouseEvent event) {startGame();//** ERASE
-	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
-	        		connectButton.setDisable(true);
-	        		
-	        		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
-	        		
-	        		if(soc_p2p.connect()==true) {
-	        			if(soc_p2p.isClient()) {
-	        				startGame();
-	        			}else {
-			        		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			        		alert.setTitle("Bizingo Game Alerts");
-			        		alert.setResizable(false);
-			        		alert.setHeaderText("Aguardando novo jogador!");
-			        		alert.showAndWait();
-			        		
-	        				soc_p2p.start();
-	        				start();
-	        			}
-	        		}else {
-		        		Alert alert = new Alert(Alert.AlertType.ERROR);
-		        		alert.setTitle("Bizingo Game Alerts");
-		        		alert.setResizable(false);
-		        		alert.setHeaderText("Conexão mal sucedida!");
-		        		alert.showAndWait();
-	        		}
-	        		
-	        	}else {
-	        		Alert alert = new Alert(Alert.AlertType.WARNING);
-	        		alert.setTitle("Bizingo Game Alerts");
-	        		alert.setResizable(false);
-	        		alert.setHeaderText("Preencha os campos informando IP/PORTA!");
-	        		alert.showAndWait();
-	        	}
-	        }
-		});
+		ipLabel.setText("I P");
+		ipLabel.setFont(sixty30p);
+		
+		portLabel.setText("P O R T");
+		portLabel.setFont(sixty30p);
+		
+		connectButton.setText("C O N N E C T");
+		connectButton.setFont(sixty30p);
+		
+		setButtonMousePressedBehavior();
 	}
 	
 	@Override
@@ -106,21 +80,35 @@ public class LoginController extends Thread implements Initializable {
 		this.node2 = mainHBox;
 	}
 	
-	private void setupComponentsFont() {
-		Font sixty100p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
-		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
+	private void setButtonMousePressedBehavior() {
+		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+
+	        @Override
+	        public void handle(MouseEvent event) {startGame();//** ERASE
+	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
+	        		connectButton.setDisable(true);
+	        		
+	        		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
+	        		
+	        		if(soc_p2p.connect()==true) {
+	        			if(soc_p2p.isClient()) {
+	        				startGame();
+	        			}else {
+	        				alertInformation();
+			        		
+	        				soc_p2p.start();
+	        				start();
+	        			}
+	        		}else {
+	        			alertError();
+	        		}
+	        		
+	        	}else {
+	        		alertWarning();
+	        	}
+	        }
+		});
 		
-		titleLabel.setText("B I Z I N G O    G A M E");
-		titleLabel.setFont(sixty100p);
-		
-		ipLabel.setText("I P");
-		ipLabel.setFont(sixty30p);
-		
-		portLabel.setText("P O R T");
-		portLabel.setFont(sixty30p);
-		
-		connectButton.setText("C O N N E C T");
-		connectButton.setFont(sixty30p);
 	}
 	
 	private void startGame() {
@@ -146,5 +134,29 @@ public class LoginController extends Thread implements Initializable {
 			}
 		});
 		fadeTransition1.play();
+	}
+	
+	private void alertInformation() {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText("Aguardando novo jogador!");
+		alert.showAndWait();
+	}
+	
+	private void alertError() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText("Conexão mal sucedida!");
+		alert.showAndWait();
+	}
+	
+	private void alertWarning() {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText("Preencha os campos informando IP/PORTA!");
+		alert.showAndWait();
 	}
 }

@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -77,15 +78,21 @@ public class ChatController extends Thread implements Initializable {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						Label txt = new Label("");
-						txt.setStyle("-fx-font-weight:bold;");
-						txt.setTextFill(Color.DIMGRAY);
-						txt.setPrefWidth(480);
-						txt.setPrefHeight(20); 
-						txt.setAlignment(Pos.CENTER_LEFT);
-						txt.setText(message_received+"\n");
+				        Label txt = new Label("");
+				        txt.setText(message_received);
+				        txt.setTextFill(Color.BLACK);
+				        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #ffffff; -fx-background-radius: 10 10 10 0;");
+				        txt.setPrefWidth(message_received.length()*10+5);
+						txt.setPrefHeight(40);
+						txt.setAlignment(Pos.CENTER);
+		            	
+				        StackPane sp = new StackPane();
+				        sp.setPrefWidth(480);
+				        sp.setPrefHeight(45);
+				        sp.getChildren().add(txt);
+				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
 						
-						chatVBoxOnScroll.getChildren().addAll(txt); // Receive Local
+						chatVBoxOnScroll.getChildren().addAll(sp); // Receive Local
 					}
 				});
 			}
@@ -100,14 +107,21 @@ public class ChatController extends Thread implements Initializable {
 	            if (key.getCode().equals(KeyCode.ENTER)){
 	            	// Send Messages
 			        Label txt = new Label("");
-			        txt.setStyle("-fx-font-weight:bold;");
-			        txt.setTextFill(Color.DARKGREEN);
-			        txt.setPrefWidth(480);
-			        txt.setPrefHeight(20);
-			        txt.setAlignment(Pos.CENTER_RIGHT);
-			        txt.setText(chatTextField.getText()+"\n");
+			        txt.setText(chatTextField.getText());
+			        txt.setTextFill(Color.BLACK);
+			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 10 10 0 10;");
+			        
+			        txt.setPrefWidth(txt.getText().length()*10+10);
+					txt.setPrefHeight(40);
+					txt.setAlignment(Pos.CENTER);
 	            	
-	                chatVBoxOnScroll.getChildren().addAll(txt);    // Send Local
+			        StackPane sp = new StackPane();
+			        sp.setPrefWidth(480);
+			        sp.setPrefHeight(45);
+			        sp.getChildren().add(txt);
+			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
+			        
+	                chatVBoxOnScroll.getChildren().addAll(sp);    // Send Local
 	                soc_p2p.send_message(chatTextField.getText()); // Send Remote                
 	                
 	                chatTextField.setText("");

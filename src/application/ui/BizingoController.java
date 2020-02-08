@@ -11,6 +11,7 @@ import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.utils.BizingoUtils;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,6 +44,7 @@ public class BizingoController extends Thread implements Initializable {
 	List<BizingoTriangle> triangles;
 	List<BizingoPiece> pieces;
 	
+	Boolean turn;
 	Boolean piece_selected;
 	int idx_triangle_last;
 	int idx_piece_last;
@@ -76,7 +78,30 @@ public class BizingoController extends Thread implements Initializable {
 	
 	@Override
 	public void run() {
-		// Implements socket messages
+		if(soc_p2p.isServer()) {
+			turn = true;
+		}else {
+			turn = false;
+		}
+		while(true) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(soc_p2p.gameMessageStackFull()) {
+            	// Receive Messages
+				String message_received = soc_p2p.getMessage(); // Receive Remote
+
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						turn = true;
+						decodeMove(message_received);
+					}
+				});
+			}
+		}
 	}
 	
 	private void setCanvasMousePressedBehavior() {
@@ -84,6 +109,8 @@ public class BizingoController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
+	        	if(turn==false) { return; }
+	        	
 	        	gc_active.clearRect(0, 0, bizingoCanvasActive.getWidth(), bizingoCanvasActive.getHeight());
 	        		        	
 	        	double x = event.getX();
@@ -103,7 +130,9 @@ public class BizingoController extends Thread implements Initializable {
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
 					        	piece_selected = false;
+					        	turn = false;
 					        	animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+					        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
 			        		}
 			        		else {
 			        			piece_selected = false;
@@ -141,5 +170,17 @@ public class BizingoController extends Thread implements Initializable {
 		
 	}
 	
+	private String encodeMove(int idx_piece_last, int idx_triangle) {
+		String move = String.valueOf(idx_piece_last) + "&" + String.valueOf(idx_triangle);
+		return move;
+	}
 	
+	private void decodeMove(String move) {
+		int idx_piece_last = Integer.valueOf(move.substring(0,move.indexOf("&")));
+		int idx_triangle = Integer.valueOf(move.substring(move.indexOf("&")+1,move.length()));
+		
+		animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+		
+		return;
+	}
 }

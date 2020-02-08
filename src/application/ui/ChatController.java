@@ -89,6 +89,7 @@ public class ChatController extends Thread implements Initializable {
 				        StackPane sp = new StackPane();
 				        sp.setPrefWidth(480);
 				        sp.setPrefHeight(45);
+				        sp.setMinHeight(45);
 				        sp.getChildren().add(txt);
 				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
 						
@@ -118,6 +119,7 @@ public class ChatController extends Thread implements Initializable {
 			        StackPane sp = new StackPane();
 			        sp.setPrefWidth(480);
 			        sp.setPrefHeight(45);
+			        sp.setMinHeight(45);
 			        sp.getChildren().add(txt);
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        

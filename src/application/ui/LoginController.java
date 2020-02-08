@@ -107,20 +107,20 @@ public class LoginController extends Thread implements Initializable {
 	}
 	
 	private void setupComponentsFont() {
-		Font sixty_big = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
-		Font sixty_small = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
+		Font sixty100p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
+		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		
 		titleLabel.setText("B I Z I N G O    G A M E");
-		titleLabel.setFont(sixty_big);
+		titleLabel.setFont(sixty100p);
 		
 		ipLabel.setText("I P");
-		ipLabel.setFont(sixty_small);
+		ipLabel.setFont(sixty30p);
 		
 		portLabel.setText("P O R T");
-		portLabel.setFont(sixty_small);
+		portLabel.setFont(sixty30p);
 		
 		connectButton.setText("C O N N E C T");
-		connectButton.setFont(sixty_small);
+		connectButton.setFont(sixty30p);
 	}
 	
 	private void startGame() {

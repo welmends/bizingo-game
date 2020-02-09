@@ -2,10 +2,9 @@
 Bizingo Game using Sockets implemented with Java
 
 ## Requirements
-Runned and tested on Ubuntu 16.04
+Tested on Ubuntu 16.04
 - openssh-server
-- default-jre
-- default-jdk
+- openjdk-8-jre
 - openjfx
 
 ## Screens

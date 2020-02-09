@@ -16,6 +16,7 @@ public class BizingoConstants {
 	public static Color COLOR_PLAYER2 = Color.rgb(6,2,6);
 	public static Color COLOR_PLAYER_STROKE = Color.BLACK;
 	
+	public static Color BLACK = Color.BLACK;
 	public static Color GREEN = Color.DARKGREEN;
 	public static Color RED = Color.DARKRED;
 	

@@ -103,8 +103,6 @@ public class BizingoController extends Thread implements Initializable {
 		bizingoNameScore.setText("S C O R E");
 		bizingoNameScore.setFont(sixty30p);
 		
-		status.draw_cover(gc_status);
-		
 		// Variables
 		piece_selected = false;
 		idx_triangle = -1;
@@ -123,7 +121,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Restart Button Pressed
 		setRestartButtonBehavior();
-
+		
 //		AudioClip turnOnOff = new AudioClip(new File("/home/well/allProjects/java-projects/bizingo-sockets/src/resources/sounds/receive_msg.mp3").toURI().toString());
 //		turnOnOff.setVolume(1.0);
 //		turnOnOff.play();
@@ -134,9 +132,11 @@ public class BizingoController extends Thread implements Initializable {
 		if(soc_p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
+			status.draw_cover(gc_status, soc_p2p.isServer());
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
+			status.draw_cover(gc_status, soc_p2p.isServer());
 		}
 		while(true) {
 			try {

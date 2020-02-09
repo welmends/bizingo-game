@@ -90,6 +90,7 @@ public class SocketP2P extends Thread {
                 }
             } catch(Exception e) {
                 System.out.println(e);
+                is_connected = false;
             }
     	}
     }
@@ -111,6 +112,9 @@ public class SocketP2P extends Thread {
         		output_stream = new DataOutputStream(socket.getOutputStream());
         		
         		thread_action=2;// Flag receive behavior
+        		
+        		is_connected = true;
+        		
         		this.start();
         		
         		return true;
@@ -118,6 +122,16 @@ public class SocketP2P extends Thread {
         		return false;
         	}
         }
+    }
+    
+    public Boolean disconnect(){
+    	try {
+			socket.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
     }
     
     public Boolean wait_connection() {

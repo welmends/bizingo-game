@@ -98,6 +98,8 @@ public class LoginController extends Thread implements Initializable {
 	        public void handle(MouseEvent event) {
 	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
 	        		connectButton.setDisable(true);
+	        		ipTextField.setDisable(true);
+	        		portTextField.setDisable(true);
 	        		
 	        		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
 	        		

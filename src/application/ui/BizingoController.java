@@ -19,7 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -138,6 +140,11 @@ public class BizingoController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			if(!soc_p2p.isConnected()) {
+				alertDisconnected();
+			}
+			
 			if(soc_p2p.gameMessageStackFull()) {
             	// Receive Messages
 				String message_received = soc_p2p.getMessage(); // Receive Remote
@@ -231,7 +238,16 @@ public class BizingoController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
-	        	//Implement
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Bizingo Game Alerts");
+				alert.setResizable(false);
+				alert.setHeaderText("Deseja realmente sair do jogo?");
+				alert.showAndWait();
+				if(alert.getResult()==ButtonType.OK) {
+		    		soc_p2p.disconnect();
+    		        Platform.exit();
+    		        System.exit(0);
+				}
 	        }
 	        
 		});
@@ -260,6 +276,26 @@ public class BizingoController extends Thread implements Initializable {
 		animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
 		
 		return;
+	}
+	
+	private void alertDisconnected() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Bizingo Game Alerts");
+				alert.setResizable(false);
+				alert.setHeaderText("O outro jogador saiu do jogo!");
+				alert.showAndWait();
+		        Platform.exit();
+		        System.exit(0);
+			}
+		});
+		try {
+			this.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

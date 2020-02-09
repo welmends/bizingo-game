@@ -25,11 +25,29 @@ public class BizingoBoardGenerator {
 		return;
 	}
 	
+	public void generateBoard(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, AnchorPane parent) {
+		
+		generatePiecesType1(triangles, pieces);
+		generatePiecesType2(triangles, pieces);
+		
+		drawBoard(pieces, parent);
+		
+		return;
+	}
+	
 	private void drawBoard(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, GraphicsContext gc, AnchorPane parent) {
 		for(int i=0; i<triangles.size(); i++) {
 			triangles.get(i).draw(gc);
 		}
 		
+		for(int i=0; i<pieces.size(); i++) {
+			parent.getChildren().addAll(pieces.get(i).stack);
+		}
+		
+		return;
+	}
+	
+	private void drawBoard(List<BizingoPiece> pieces, AnchorPane parent) {
 		for(int i=0; i<pieces.size(); i++) {
 			parent.getChildren().addAll(pieces.get(i).stack);
 		}

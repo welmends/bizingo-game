@@ -135,12 +135,12 @@ public class BizingoController extends Thread implements Initializable {
 		if(soc_p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
-			status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
-			status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
 		}
+		status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
+		
 		while(true) {
 			try {
 				Thread.sleep(100);
@@ -154,7 +154,7 @@ public class BizingoController extends Thread implements Initializable {
 			
 			if(soc_p2p.gameMessageStackFull()) {
             	// Receive Messages
-				String message_received = soc_p2p.getMessage(); // Receive Remote
+				String message_received = soc_p2p.getMessage();
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -164,6 +164,41 @@ public class BizingoController extends Thread implements Initializable {
 						decodeMove(message_received);
 					}
 				});
+			}
+			
+			if(soc_p2p.sysMessageStackFull()) {
+            	// Receive Messages
+				String message_received = soc_p2p.getMessage();
+				
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						if(message_received.equals("restart")) {
+							if(ButtonType.OK == alertGeneric("O outro jogador deseja reiniciar a partida. Você aceita?",Alert.AlertType.CONFIRMATION)) {
+								soc_p2p.sendSysMessage("restart_ok");
+								restartGame();
+								bizingoRestart.setDisable(false);
+							}else {
+								soc_p2p.sendSysMessage("restart_fail");
+								bizingoRestart.setDisable(false);
+							}
+						}
+						else if(message_received.equals("restart_ok")) {
+							alertGeneric("O outro jogador aceitou o reinicio da partida",Alert.AlertType.INFORMATION);
+							restartGame();
+							bizingoRestart.setDisable(false);
+						}
+						else if(message_received.equals("restart_fail")) {
+							alertGeneric("O outro jogador negou o reinicio da partida",Alert.AlertType.INFORMATION);
+							if(turn) {
+								bizingoTurnRect.setDisable(false);
+							}
+							bizingoRestart.setDisable(false);
+						}
+					}
+				});
+				
 			}
 		}
 	}
@@ -250,12 +285,7 @@ public class BizingoController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-				alert.setTitle("Bizingo Game Alerts");
-				alert.setResizable(false);
-				alert.setHeaderText("Deseja realmente sair do jogo?");
-				alert.showAndWait();
-				if(alert.getResult()==ButtonType.OK) {
+				if(ButtonType.OK == alertGeneric("Deseja realmente sair da partida?",Alert.AlertType.CONFIRMATION)) {
 		    		soc_p2p.disconnect();
     		        Platform.exit();
     		        System.exit(0);
@@ -270,7 +300,11 @@ public class BizingoController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
-	        	//Implement
+				if(ButtonType.OK == alertGeneric("Deseja realmente reiniciar a partida?",Alert.AlertType.CONFIRMATION)) {
+					soc_p2p.sendSysMessage("restart");
+					bizingoRestart.setDisable(true);
+					bizingoTurnRect.setDisable(true);
+				}
 	        }
 	        
 		});
@@ -298,6 +332,36 @@ public class BizingoController extends Thread implements Initializable {
 		}));
 		
 		return;
+	}
+	
+	private void restartGame() {
+		// Instantiating objects
+		boardGen = new BizingoBoardGenerator(60.0);
+		status = new BizingoStatus();
+		utils = new BizingoUtils();
+		pieces = new ArrayList<>();
+		
+		// Variables
+		piece_selected = false;
+		idx_triangle = -1;
+		idx_triangle_last = -1;
+		idx_piece = -1;
+		idx_piece_last = -1;
+		
+		// Re-Generate Board
+		bizingoPiecesPane.getChildren().clear();
+		boardGen.generateBoard(triangles, pieces, bizingoPiecesPane);
+		
+		// Update status
+		if(soc_p2p.isServer()) {
+			turn = true;
+			bizingoTurnRect.setVisible(false);
+		}else {
+			turn = false;
+			bizingoTurnRect.setVisible(true);
+		}
+		
+		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
 	}
 	
 	private void endGame(int winner) {
@@ -355,5 +419,13 @@ public class BizingoController extends Thread implements Initializable {
 		}
 	}
 	
+	private ButtonType alertGeneric(String message, Alert.AlertType type) {
+		Alert alert = new Alert(type);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText(message);
+		alert.showAndWait();
+		return alert.getResult();
+	}
 	
 }

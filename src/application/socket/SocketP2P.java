@@ -20,8 +20,9 @@ public class SocketP2P extends Thread {
     
     private Semaphore mutex;
     
-    private String GAME_CODEC;
     private String CHAT_CODEC;
+    private String GAME_CODEC;
+    private String SYS_CODEC;
     
     private String ip;
     private int port;
@@ -35,6 +36,7 @@ public class SocketP2P extends Thread {
     	
     	CHAT_CODEC = "#C$";
     	GAME_CODEC = "#G$";
+    	SYS_CODEC = "#S$";
     }
     
     public SocketP2P(String ip, int port){
@@ -46,6 +48,7 @@ public class SocketP2P extends Thread {
     	
     	CHAT_CODEC = "#C$";
     	GAME_CODEC = "#G$";
+    	SYS_CODEC = "#S$";
     	
         this.ip   = ip;
         this.port = port;
@@ -199,6 +202,27 @@ public class SocketP2P extends Thread {
     	}
     }
     
+    public Boolean sysMessageStackFull() {
+    	String message_received = "";
+		try {
+			mutex.acquire();
+			message_received = message_input;
+	    	mutex.release();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+    	if(message_received.length()>0) {
+    		if(SYS_CODEC.equals(message_received.substring(0,SYS_CODEC.length()))) {
+    			return true;
+    		}else {
+    			return false;
+    		}
+    	}else {
+    		return false;
+    	}
+    }
+    
     public void sendChatMessage(String msg) {
 		try {
 			message_output = CHAT_CODEC + msg;
@@ -212,6 +236,16 @@ public class SocketP2P extends Thread {
     public void sendGameMessage(String msg) {
 		try {
 			message_output = GAME_CODEC + msg;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void sendSysMessage(String msg) {
+		try {
+			message_output = SYS_CODEC + msg;
 			output_stream.writeUTF(message_output);
 			output_stream.flush();
 		} catch (IOException e) {

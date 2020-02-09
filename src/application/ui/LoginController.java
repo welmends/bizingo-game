@@ -95,7 +95,7 @@ public class LoginController extends Thread implements Initializable {
 		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
-	        public void handle(MouseEvent event) { startGame();
+	        public void handle(MouseEvent event) {
 	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
 	        		connectButton.setDisable(true);
 	        		

@@ -14,40 +14,26 @@ import javafx.util.Duration;
 public class BizingoAnimation {
 	
 	public int millis;
-
+	
+	public SequentialTransition st;
+	public Timeline timeline;
+	public KeyValue kv_x;
+	public KeyValue kv_y;
+	public KeyFrame kf;
+	
 	public BizingoAnimation() {
 		this.millis = BizingoConstants.MOVE_MILLIS;
-	}
-	
-	public void move(BizingoPiece piece, Double[] dest_location) {
-		SequentialTransition st = new SequentialTransition();
-		Timeline timeline = new Timeline();
-		
-		final KeyValue kv_x = new KeyValue(piece.stack.layoutXProperty(), dest_location[0]-piece.radius);
-		final KeyValue kv_y = new KeyValue(piece.stack.layoutYProperty(), dest_location[1]-piece.radius);
-		final KeyFrame kf = new KeyFrame(Duration.millis(millis), kv_x, kv_y);
-		
-		timeline.getKeyFrames().addAll(kf);
-		
-		st.getChildren().addAll(timeline);
-		st.play();
-		st.setOnFinished(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				piece.setPosition(dest_location);
-			}
-		});
 	}
 	
 	public void move(BizingoPiece piece, BizingoTriangle triangle) {
 		Double[] dest_location = triangle.getCenter();
 		
-		SequentialTransition st = new SequentialTransition();
-		Timeline timeline = new Timeline();
+		st = new SequentialTransition();
+		timeline = new Timeline();
 		
-		final KeyValue kv_x = new KeyValue(piece.stack.layoutXProperty(), dest_location[0]-piece.radius);
-		final KeyValue kv_y = new KeyValue(piece.stack.layoutYProperty(), dest_location[1]-piece.radius);
-		final KeyFrame kf = new KeyFrame(Duration.millis(millis), kv_x, kv_y);
+		kv_x = new KeyValue(piece.stack.layoutXProperty(), dest_location[0]-piece.radius);
+		kv_y = new KeyValue(piece.stack.layoutYProperty(), dest_location[1]-piece.radius);
+		kf = new KeyFrame(Duration.millis(millis), kv_x, kv_y);
 		
 		timeline.getKeyFrames().addAll(kf);
 		

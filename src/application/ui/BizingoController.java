@@ -13,6 +13,7 @@ import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.utils.BizingoUtils;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,6 +40,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Label bizingoNameUp;
 	@FXML Label bizingoNameDown;
 	@FXML Label bizingoNameScore;
+	@FXML Rectangle bizingoTurnRect;
 	
 	// Socket
 	SocketP2P soc_p2p;
@@ -58,8 +60,8 @@ public class BizingoController extends Thread implements Initializable {
 	
 	Boolean turn;
 	Boolean piece_selected;
-	int idx_triangle_last;
-	int idx_piece_last;
+	int idx_triangle, idx_triangle_last;
+	int idx_piece, idx_piece_last;
 	
 	public void loadFromParent(SocketP2P soc_p2p) {
 		this.soc_p2p = soc_p2p;
@@ -103,7 +105,9 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Variables
 		piece_selected = false;
+		idx_triangle = -1;
 		idx_triangle_last = -1;
+		idx_piece = -1;
 		idx_piece_last = -1;
 		
 		// Generate Board
@@ -111,14 +115,22 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
+		
+		// Leave Button Pressed
+		setLeaveButtonBehavior();
+		
+		// Restart Button Pressed
+		setRestartButtonBehavior();
 	}
 	
 	@Override
 	public void run() {
 		if(soc_p2p.isServer()) {
 			turn = true;
+			bizingoTurnRect.setVisible(false);
 		}else {
 			turn = false;
+			bizingoTurnRect.setVisible(true);
 		}
 		while(true) {
 			try {
@@ -134,6 +146,7 @@ public class BizingoController extends Thread implements Initializable {
 					@Override
 					public void run() {
 						turn = true;
+						bizingoTurnRect.setVisible(false);
 						decodeMove(message_received);
 					}
 				});
@@ -153,8 +166,8 @@ public class BizingoController extends Thread implements Initializable {
 	        	double x = event.getX();
 	        	double y = event.getY();
 	        	
-	        	int idx_triangle=-1;
-	        	int idx_piece=-1;
+	        	idx_triangle=-1;
+	        	idx_piece=-1;
 	        	
 	        	idx_triangle = utils.findPressedTriangle(x, y, triangles);
 	        	
@@ -166,10 +179,16 @@ public class BizingoController extends Thread implements Initializable {
 			        	
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
-					        	piece_selected = false;
-					        	turn = false;
-					        	animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
-					        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
+			        			animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+			        			animator.timeline.setOnFinished((new EventHandler<ActionEvent>() {
+			        				@Override
+			        				public void handle(ActionEvent event) {
+			        					piece_selected = false;
+							        	turn = false;
+							        	bizingoTurnRect.setVisible(true);
+							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
+			        				}
+			        			}));
 			        		}
 			        		else {
 			        			piece_selected = false;
@@ -207,6 +226,28 @@ public class BizingoController extends Thread implements Initializable {
 		
 	}
 	
+	private void setLeaveButtonBehavior() {
+		bizingoLeave.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	//Implement
+	        }
+	        
+		});
+	}
+	
+	private void setRestartButtonBehavior() {
+		bizingoRestart.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	//Implement
+	        }
+	        
+		});
+	}
+	
 	private String encodeMove(int idx_piece_last, int idx_triangle) {
 		String move = String.valueOf(idx_piece_last) + "&" + String.valueOf(idx_triangle);
 		return move;
@@ -220,4 +261,5 @@ public class BizingoController extends Thread implements Initializable {
 		
 		return;
 	}
+	
 }

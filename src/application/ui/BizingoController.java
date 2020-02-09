@@ -1,6 +1,5 @@
 package application.ui;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -188,7 +186,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-			        	idx_piece = utils.triangleHasPiece(triangles.get(idx_triangle), pieces);
+			        	idx_piece = utils.triangleHasPiece(soc_p2p.isServer(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
@@ -219,7 +217,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-		        		idx_piece = utils.triangleHasPiece(triangles.get(idx_triangle), pieces);
+		        		idx_piece = utils.triangleHasPiece(soc_p2p.isServer(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		piece_selected = false;

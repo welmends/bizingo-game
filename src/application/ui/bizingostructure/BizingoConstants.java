@@ -31,7 +31,7 @@ public class BizingoConstants {
 	// Utils
 	public static Double MIN_DISTANCE_OUT_TRIANGLE = 30.0;
 	public static Double MIN_DISTANCE_NEIGHBOUR_TRIANGLE = 60.0;
-	public static Integer MIN_PIECES_AMOUNT_TO_END = 16;//2
+	public static Integer MIN_PIECES_AMOUNT_TO_END = 2;
 	public static Integer AMOUNT_PIECES_SURROUND_TO_CAPTURE = 3;
 	
 	// Animation

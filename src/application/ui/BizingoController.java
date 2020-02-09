@@ -320,9 +320,8 @@ public class BizingoController extends Thread implements Initializable {
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
 		alert.setHeaderText("PARABÉNS!!! VOCÊ VENCEU A PARTIDA!!!");
-		alert.showAndWait();
-        Platform.exit();
-        System.exit(0);
+	    alert.setOnHidden(evt -> Platform.exit());
+	    alert.show(); 
 	}
 	
 	private void alertLoser() {
@@ -330,9 +329,8 @@ public class BizingoController extends Thread implements Initializable {
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
 		alert.setHeaderText("SINTO MUITO, VOCÊ PERDEU A PARTIDA!");
-		alert.showAndWait();
-        Platform.exit();
-        System.exit(0);
+	    alert.setOnHidden(evt -> Platform.exit());
+	    alert.show();
 	}
 
 	private void alertDisconnected() {

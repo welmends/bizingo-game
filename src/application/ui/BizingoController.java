@@ -286,6 +286,8 @@ public class BizingoController extends Thread implements Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				soc_p2p.disconnect();
+				
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Bizingo Game Alerts");
 				alert.setResizable(false);

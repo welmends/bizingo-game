@@ -127,6 +127,11 @@ public class SocketP2P extends Thread {
     public Boolean disconnect(){
     	try {
 			socket.close();
+			
+			if(isServer()) {
+				serverSocket.close();
+			}
+			
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

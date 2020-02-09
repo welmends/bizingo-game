@@ -5,7 +5,7 @@ Bizingo Game using Sockets implemented with Java
 Tested on Ubuntu 16.04
 - openssh-server
 - openjdk-8-jre
-- openjfx
+- openjfx 8
 
 ## Screens
 

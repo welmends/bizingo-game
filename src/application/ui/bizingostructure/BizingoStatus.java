@@ -1,5 +1,7 @@
 package application.ui.bizingostructure;
 
+import java.util.List;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
@@ -27,39 +29,47 @@ public class BizingoStatus {
 		sixty25p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 25);
 	}
 	
-	public void draw_cover(GraphicsContext gc, Boolean peer_type) {
-		gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+	public void draw_cover(GraphicsContext gc_down, Boolean peer_type) {
+		gc_down.clearRect(0, 0, gc_down.getCanvas().getWidth(), gc_down.getCanvas().getHeight());
 		
-		p1_c.draw(gc, radius_pieces);
-		p1.draw(gc, radius_pieces);
-		p2_c.draw(gc, radius_pieces);
-		p2.draw(gc, radius_pieces);
+		p1_c.draw(gc_down, radius_pieces);
+		p1.draw(gc_down, radius_pieces);
+		p2_c.draw(gc_down, radius_pieces);
+		p2.draw(gc_down, radius_pieces);
+				
+		gc_down.setFont(sixty25p);
 		
-		gc.setFont(sixty25p);
-		
-		gc.fillText("18", Math.round(150), Math.round(65), 50);
-		gc.fillText("18", Math.round(150), Math.round(105));
+		gc_down.fillText("18", Math.round(150), Math.round(65), 50);
+		gc_down.fillText("18", Math.round(150), Math.round(105));
 		
 		if(peer_type) {
-			drawArrow(gc, 85, 60, 60, 60);
+			drawArrow(gc_down, 85, 60, 60, 60);
 		}
 		else {
-			drawArrow(gc, 85, 100, 60, 100);
+			drawArrow(gc_down, 85, 100, 60, 100);
 		}
 	}
 	
-	public void update_status(GraphicsContext gc, Boolean peer_type, int pieces1, int pieces2) {
-		gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+	public void update_status(GraphicsContext gc_up, Boolean peer_type, List<BizingoPiece> pieces) {
+		gc_up.clearRect(0, 0, gc_up.getCanvas().getWidth(), gc_up.getCanvas().getHeight());
 		
-		p1_c.draw(gc, radius_pieces);
-		p1.draw(gc, radius_pieces);
-		p2_c.draw(gc, radius_pieces);
-		p2.draw(gc, radius_pieces);
+		int pieces1 = 0;
+		int pieces2 = 0;
 		
-		gc.setFont(sixty25p);
+		for(int i=0; i<pieces.size(); i++) {
+			if(pieces.get(i).exists) {
+				if(pieces.get(i).type) {
+					pieces1++;
+				}else {
+					pieces2++;
+				}
+			}
+		}
 		
-		gc.fillText(String.valueOf(pieces1), Math.round(150), Math.round(65), 50);
-		gc.fillText(String.valueOf(pieces2), Math.round(150), Math.round(105));
+		gc_up.setFont(sixty25p);
+		
+		gc_up.fillText(String.valueOf(pieces1), Math.round(150), Math.round(65), 50);
+		gc_up.fillText(String.valueOf(pieces2), Math.round(150), Math.round(105));
 	}
 	
 	void drawArrow(GraphicsContext gc, int x1, int y1, int x2, int y2) {
@@ -76,4 +86,5 @@ public class BizingoStatus {
 	    gc.strokeLine(0, 0, len, 0);
 	    gc.fillPolygon(new double[]{len, len - ARR_SIZE, len - ARR_SIZE, len}, new double[]{0, -ARR_SIZE, ARR_SIZE, 0}, 4);
 	}
+
 }

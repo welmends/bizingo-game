@@ -7,6 +7,7 @@ import application.ui.bizingostructure.BizingoConstants;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
 
 public class BizingoUtils {
 	
@@ -113,4 +114,39 @@ public class BizingoUtils {
     	return -1;
 	}
 	
+	public Boolean findCapturedPiece(Boolean peer_type, List<BizingoPiece> pieces, AnchorPane bizingoPiecesPane) {
+		List<Integer> captured = new ArrayList<>();
+		
+    	double dist, dif_x, dif_y;
+		int counter;
+		
+    	for(int i=0; i<pieces.size(); i++) {
+    		counter = 0;
+    		for(int j=0; j<pieces.size(); j++) {
+    			if(pieces.get(i).type!=pieces.get(j).type) {
+        			dif_x = pieces.get(i).getPosition()[0]-pieces.get(j).getPosition()[0];
+        			dif_y = pieces.get(i).getPosition()[1]-pieces.get(j).getPosition()[1];
+            		dist = Math.sqrt(Math.pow(dif_x, 2) + Math.pow(dif_y, 2));
+            		if(dist<=BizingoConstants.MIN_DISTANCE_NEIGHBOUR_TRIANGLE) {
+            			counter++;
+            			if(counter==3) {
+            				captured.add(i);
+            				break;
+            			}
+            		}
+        		}
+    		}
+    	}
+    	
+    	for(int i=0; i<captured.size(); i++) {
+    		pieces.get(captured.get(i)).removeGraphics(bizingoPiecesPane);
+    	}
+    	
+    	if(captured.size()>0) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    	
+	}
 }

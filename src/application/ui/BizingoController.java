@@ -35,7 +35,8 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Rectangle bizingoRect;
 	@FXML Canvas bizingoCanvasBackground;
 	@FXML Canvas bizingoCanvasBoard;
-	@FXML Canvas bizingoCanvasStatus;
+	@FXML Canvas bizingoCanvasStatusDown;
+	@FXML Canvas bizingoCanvasStatusUp;
 	@FXML AnchorPane bizingoPiecesPane;
 	@FXML Button bizingoLeave;
 	@FXML Button bizingoRestart;
@@ -50,7 +51,8 @@ public class BizingoController extends Thread implements Initializable {
 	// Variables
 	GraphicsContext gc_background;
 	GraphicsContext gc_board;
-	GraphicsContext gc_status;
+	GraphicsContext gc_status_down;
+	GraphicsContext gc_status_up;
 	
 	BizingoBoardGenerator boardGen;
 	BizingoStatus status;
@@ -74,7 +76,8 @@ public class BizingoController extends Thread implements Initializable {
 		// Instantiating objects
 		gc_background  = bizingoCanvasBackground.getGraphicsContext2D();
 		gc_board = bizingoCanvasBoard.getGraphicsContext2D();
-		gc_status = bizingoCanvasStatus.getGraphicsContext2D();
+		gc_status_down = bizingoCanvasStatusDown.getGraphicsContext2D();
+		gc_status_up = bizingoCanvasStatusUp.getGraphicsContext2D();
 		boardGen = new BizingoBoardGenerator(60.0);
 		status = new BizingoStatus();
 		utils = new BizingoUtils();
@@ -132,11 +135,11 @@ public class BizingoController extends Thread implements Initializable {
 		if(soc_p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
-			status.draw_cover(gc_status, soc_p2p.isServer());
+			status.draw_cover(gc_status_down, soc_p2p.isServer());
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
-			status.draw_cover(gc_status, soc_p2p.isServer());
+			status.draw_cover(gc_status_down, soc_p2p.isServer());
 		}
 		while(true) {
 			try {
@@ -191,13 +194,17 @@ public class BizingoController extends Thread implements Initializable {
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
 			        			animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
-			        			animator.timeline.setOnFinished((new EventHandler<ActionEvent>() {
+			        			animator.sequentialTransition.setOnFinished((new EventHandler<ActionEvent>() {
 			        				@Override
 			        				public void handle(ActionEvent event) {
 			        					piece_selected = false;
 							        	turn = false;
 							        	bizingoTurnRect.setVisible(true);
 							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
+							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
+							        	if(utils.findCapturedPiece(soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
+							        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+							        	}
 			        				}
 			        			}));
 			        		}
@@ -278,6 +285,15 @@ public class BizingoController extends Thread implements Initializable {
 		int idx_triangle = Integer.valueOf(move.substring(move.indexOf("&")+1,move.length()));
 		
 		animator.move(pieces.get(idx_piece_last), triangles.get(idx_triangle));
+		animator.sequentialTransition.setOnFinished((new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
+	        	if(utils.findCapturedPiece(!soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
+	        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+	        	}
+			}
+		}));
 		
 		return;
 	}

@@ -1,5 +1,6 @@
 package application.ui;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -123,6 +125,10 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Restart Button Pressed
 		setRestartButtonBehavior();
+
+//		AudioClip turnOnOff = new AudioClip(new File("/home/well/allProjects/java-projects/bizingo-sockets/src/resources/sounds/receive_msg.mp3").toURI().toString());
+//		turnOnOff.setVolume(1.0);
+//		turnOnOff.play();
 	}
 	
 	@Override

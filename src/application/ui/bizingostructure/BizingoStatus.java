@@ -29,7 +29,7 @@ public class BizingoStatus {
 		sixty25p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 25);
 	}
 	
-	public void draw_cover(GraphicsContext gc_down, Boolean peer_type) {
+	public void draw_cover(GraphicsContext gc_down, GraphicsContext gc_up, Boolean peer_type) {
 		gc_down.clearRect(0, 0, gc_down.getCanvas().getWidth(), gc_down.getCanvas().getHeight());
 		
 		p1_c.draw(gc_down, radius_pieces);
@@ -37,17 +37,17 @@ public class BizingoStatus {
 		p2_c.draw(gc_down, radius_pieces);
 		p2.draw(gc_down, radius_pieces);
 				
-		gc_down.setFont(sixty25p);
-		
-		gc_down.fillText("18", Math.round(150), Math.round(65), 50);
-		gc_down.fillText("18", Math.round(150), Math.round(105));
-		
 		if(peer_type) {
 			drawArrow(gc_down, 85, 60, 60, 60);
 		}
 		else {
 			drawArrow(gc_down, 85, 100, 60, 100);
 		}
+		
+		gc_up.setFont(sixty25p);
+		
+		gc_up.fillText("18", Math.round(150), Math.round(65), 50);
+		gc_up.fillText("18", Math.round(150), Math.round(105));
 	}
 	
 	public void update_status(GraphicsContext gc_up, Boolean peer_type, List<BizingoPiece> pieces) {

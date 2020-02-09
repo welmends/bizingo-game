@@ -135,11 +135,11 @@ public class BizingoController extends Thread implements Initializable {
 		if(soc_p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
-			status.draw_cover(gc_status_down, soc_p2p.isServer());
+			status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
-			status.draw_cover(gc_status_down, soc_p2p.isServer());
+			status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
 		}
 		while(true) {
 			try {
@@ -204,6 +204,7 @@ public class BizingoController extends Thread implements Initializable {
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 							        	if(utils.findCapturedPiece(soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
 							        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+							        		endGame(utils.findWinnerAndLoser(pieces));
 							        	}
 			        				}
 			        			}));
@@ -291,6 +292,7 @@ public class BizingoController extends Thread implements Initializable {
 	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 	        	if(utils.findCapturedPiece(!soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
 	        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+	        		endGame(utils.findWinnerAndLoser(pieces));
 	        	}
 			}
 		}));
@@ -298,6 +300,41 @@ public class BizingoController extends Thread implements Initializable {
 		return;
 	}
 	
+	private void endGame(int winner) {
+    	if(soc_p2p.isServer() && winner==1) {
+    		alertWinner();
+    	}
+    	else if(soc_p2p.isServer() && winner==2) {
+    		alertLoser();
+    	}
+    	else if(soc_p2p.isClient() && winner==1) {
+    		alertLoser();
+    	}
+    	else if(soc_p2p.isClient() && winner==2) {
+    		alertWinner();
+    	}
+	}
+	
+	private void alertWinner() {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText("PARABÉNS!!! VOCÊ VENCEU A PARTIDA!!!");
+		alert.showAndWait();
+        Platform.exit();
+        System.exit(0);
+	}
+	
+	private void alertLoser() {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Bizingo Game Alerts");
+		alert.setResizable(false);
+		alert.setHeaderText("SINTO MUITO, VOCÊ PERDEU A PARTIDA!");
+		alert.showAndWait();
+        Platform.exit();
+        System.exit(0);
+	}
+
 	private void alertDisconnected() {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -319,5 +356,6 @@ public class BizingoController extends Thread implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
 	
 }

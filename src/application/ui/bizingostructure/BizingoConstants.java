@@ -22,7 +22,7 @@ public class BizingoConstants {
 	
 	// Piece and Triangle
 	public static Double PIECE_RADIUS = 10.0;
-	public static int TRIANGLE_THICKNESS = 3;
+	public static Integer TRIANGLE_THICKNESS = 3;
 	
 	// Board Generator
 	public static Integer[] TYPE1_AMOUNT = new Integer[]{10,11,10,9,8,7,6,5,4,3,2};
@@ -31,7 +31,9 @@ public class BizingoConstants {
 	// Utils
 	public static Double MIN_DISTANCE_OUT_TRIANGLE = 30.0;
 	public static Double MIN_DISTANCE_NEIGHBOUR_TRIANGLE = 60.0;
+	public static Integer MIN_PIECES_AMOUNT_TO_END = 16;//2
+	public static Integer AMOUNT_PIECES_SURROUND_TO_CAPTURE = 3;
 	
 	// Animation
-	public static int MOVE_MILLIS = 500;
+	public static Integer MOVE_MILLIS = 500;
 }

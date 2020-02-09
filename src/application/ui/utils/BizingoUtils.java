@@ -129,7 +129,7 @@ public class BizingoUtils {
             		dist = Math.sqrt(Math.pow(dif_x, 2) + Math.pow(dif_y, 2));
             		if(dist<=BizingoConstants.MIN_DISTANCE_NEIGHBOUR_TRIANGLE) {
             			counter++;
-            			if(counter==3) {
+            			if(counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE) {
             				captured.add(i);
             				break;
             			}
@@ -147,6 +147,30 @@ public class BizingoUtils {
     	}else {
     		return false;
     	}
-    	
+	}
+	
+	public int findWinnerAndLoser(List<BizingoPiece> pieces) {
+		int pieces1 = 0;
+		int pieces2 = 0;
+		
+		for(int i=0; i<pieces.size(); i++) {
+			if(pieces.get(i).exists) {
+				if(pieces.get(i).type) {
+					pieces1++;
+				}else {
+					pieces2++;
+				}
+			}
+		}
+		
+		if(pieces1==BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
+			return 2;
+		}
+		else if(pieces2==BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
+			return 1;
+		}
+		else {
+			return -1;
+		}
 	}
 }

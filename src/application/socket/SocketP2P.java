@@ -52,30 +52,12 @@ public class SocketP2P extends Thread {
     	
         this.ip   = ip;
         this.port = port;
-
-		try {
-	        if(this.ip=="localhost"){
-	        	InetAddress server = InetAddress.getByName("localhost");
-	            this.ip = server.getHostName();
-	        }
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
     }
     
     public void setup(String ip, int port) {
     	this.peer_type = "";
         this.ip   = ip;
         this.port = port;
-
-		try {
-	        if(this.ip=="localhost"){
-	        	InetAddress server = InetAddress.getByName("localhost");
-	            this.ip = server.getHostName();
-	        }
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
     }
     
     @Override
@@ -102,14 +84,15 @@ public class SocketP2P extends Thread {
         try {
         	this.peer_type = "server";
         	
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port, 50, InetAddress.getByName(ip));
             
             return true;
         } catch(Exception e_server){
+        	System.out.println(e_server);
         	try {
         		this.peer_type = "client";
         		
-        		socket = new Socket(ip, port);
+        		socket = new Socket(InetAddress.getByName(ip), port);
         		
         		input_stream = new DataInputStream(socket.getInputStream());
         		output_stream = new DataOutputStream(socket.getOutputStream());
@@ -122,6 +105,7 @@ public class SocketP2P extends Thread {
         		
         		return true;
         	} catch(Exception e_client) {
+        		System.out.println(e_client);
         		return false;
         	}
         }

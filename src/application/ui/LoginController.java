@@ -179,6 +179,8 @@ public class LoginController extends Thread implements Initializable {
 		alert.setResizable(false);
 		alert.setHeaderText("Conexão mal sucedida!");
 		alert.showAndWait();
+        Platform.exit();
+        System.exit(0);
 	}
 	
 	

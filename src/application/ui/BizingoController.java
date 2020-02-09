@@ -36,7 +36,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Canvas bizingoCanvasBackground;
 	@FXML Canvas bizingoCanvasBoard;
 	@FXML Canvas bizingoCanvasStatus;
-	@FXML AnchorPane bizingoAnchorPane;
+	@FXML AnchorPane bizingoPiecesPane;
 	@FXML Button bizingoLeave;
 	@FXML Button bizingoRestart;
 	@FXML Label bizingoNameUp;
@@ -111,7 +111,7 @@ public class BizingoController extends Thread implements Initializable {
 		idx_piece_last = -1;
 		
 		// Generate Board
-		boardGen.generateBoard(triangles, pieces, gc_background, bizingoAnchorPane);
+		boardGen.generateBoard(triangles, pieces, gc_background, bizingoPiecesPane);
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();

@@ -2,6 +2,7 @@ package application.ui.bizingostructure;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Lighting;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -12,6 +13,7 @@ public class BizingoPiece {
 	
 	public Boolean type;   //Is Server? or Is Type 1?
 	public Boolean captain;//Is Captain?
+	public Boolean exists; //Exists?
 	
 	public Double x1, y1;
 	
@@ -26,6 +28,7 @@ public class BizingoPiece {
 		
 		this.type = type;
 		this.captain = captain;
+		this.exists = true;
 		
 		this.x1 = x1;
 		this.y1 = y1;
@@ -41,6 +44,7 @@ public class BizingoPiece {
 		
 		this.type = type;
 		this.captain = captain;
+		this.exists = true;
 		
 		this.x1 = center[0];
 		this.y1 = center[1];
@@ -52,6 +56,8 @@ public class BizingoPiece {
 	}
 	
 	public void initGraphics() {
+		this.exists = true;
+		
 		circle = new Circle(this.radius, fillColor);
 		circle.setEffect(new Lighting());
 		stack = new StackPane();
@@ -59,6 +65,12 @@ public class BizingoPiece {
         stack.setPrefSize(radius, radius);
         stack.setLayoutX(x1-radius);
         stack.setLayoutY(y1-radius);
+	}
+	
+	public void removeGraphics(AnchorPane bizingoPiecesPane) {
+		this.exists = false;
+		
+		bizingoPiecesPane.getChildren().remove(stack);
 	}
 	
 	public void draw(GraphicsContext gc) {

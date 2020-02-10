@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -56,9 +57,6 @@ public class ChatController extends Thread implements Initializable {
 		// VBox Scrolls Down Behavior
 		setVBoxScrollsBehavior();
 		
-		// TextField Text Boundaries Behavior
-		setTextFieldTextBoundariesBehavior();
-		
 		// TextField Enter Key Pressed Behavior
 		setTextFieldKeyPressedBehavior();
 	}
@@ -80,19 +78,17 @@ public class ChatController extends Thread implements Initializable {
 					public void run() {
 				        Label txt = new Label("");
 				        txt.setText(message_received);
+				        txt.setWrapText(true);
 				        txt.setTextFill(Color.BLACK);
-				        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #ffffff; -fx-background-radius: 10 10 10 0;");
-				        txt.setPrefWidth(message_received.length()*10+5);
-						txt.setPrefHeight(35);
-						txt.setAlignment(Pos.CENTER);
+				        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #ffffff; -fx-background-radius: 20 20 20 0;");
+				        txt.setAlignment(Pos.CENTER);
+				        txt.setPadding(new Insets(10, 10, 10, 10));
 		            	
 				        StackPane sp = new StackPane();
-				        sp.setPrefWidth(480);
-				        sp.setPrefHeight(40);
-				        sp.setMinHeight(40);
+				        sp.setPadding(new Insets(0, 0, 5, 0));
 				        sp.getChildren().add(txt);
 				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
-						
+				        
 						chatVBoxOnScroll.getChildren().addAll(sp); // Receive Local
 					}
 				});
@@ -109,17 +105,14 @@ public class ChatController extends Thread implements Initializable {
 	            	// Send Messages
 			        Label txt = new Label("");
 			        txt.setText(chatTextField.getText());
+			        txt.setWrapText(true);
 			        txt.setTextFill(Color.BLACK);
-			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 10 10 0 10;");
-			        
-			        txt.setPrefWidth(txt.getText().length()*10+10);
-					txt.setPrefHeight(35);
-					txt.setAlignment(Pos.CENTER);
-	            	
+			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 20 20 0 20;");
+			        txt.setAlignment(Pos.CENTER);
+			        txt.setPadding(new Insets(10, 10, 10, 10));
+					
 			        StackPane sp = new StackPane();
-			        sp.setPrefWidth(480);
-			        sp.setPrefHeight(40);
-			        sp.setMinHeight(40);
+			        sp.setPadding(new Insets(0, 0, 5, 0));
 			        sp.getChildren().add(txt);
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        
@@ -133,24 +126,12 @@ public class ChatController extends Thread implements Initializable {
 	    });
 	}
 	
-	private void setTextFieldTextBoundariesBehavior() {
-		chatTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue.length()==45) {
-					chatTextField.setText(oldValue);
-				}
-			}
-	        
-		});
-	}
-	
 	private void setVBoxScrollsBehavior() {
 		chatVBoxOnScroll.heightProperty().addListener(new ChangeListener<Number>() {
 
 	        @Override
 	        public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+	        	System.out.println(arg1);
 	        	if(arg1.intValue()!=0) {
 	        		chatScrollPane.setVvalue(1.0);
 	        	}

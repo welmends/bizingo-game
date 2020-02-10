@@ -94,9 +94,11 @@ public class BizingoUtils {
 	
 	public int triangleHasPiece(BizingoTriangle triangle, List<BizingoPiece> pieces) {		
     	for(int i=0; i<pieces.size(); i++) {
-    		if(triangle.getCenter()[0].intValue()==pieces.get(i).getPosition()[0].intValue() && 
-    		   triangle.getCenter()[1].intValue()==pieces.get(i).getPosition()[1].intValue()) {
-    			return i;
+    		if(pieces.get(i).exists) {
+				if(triangle.getCenter()[0].intValue()==pieces.get(i).getPosition()[0].intValue() && 
+				   triangle.getCenter()[1].intValue()==pieces.get(i).getPosition()[1].intValue()) {
+					return i;
+				}
     		}
     	}
     	return -1;
@@ -104,7 +106,7 @@ public class BizingoUtils {
 	
 	public int triangleHasPiece(Boolean peer_type, BizingoTriangle triangle, List<BizingoPiece> pieces) {		
     	for(int i=0; i<pieces.size(); i++) {
-    		if(pieces.get(i).type == peer_type) {
+    		if(pieces.get(i).exists && pieces.get(i).type == peer_type) {
         		if(triangle.getCenter()[0].intValue()==pieces.get(i).getPosition()[0].intValue() && 
                    triangle.getCenter()[1].intValue()==pieces.get(i).getPosition()[1].intValue()) {
         	    			return i;

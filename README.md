@@ -2,10 +2,16 @@
 Bizingo Game using Sockets implemented with Java
 
 ## Requirements
-Tested on Ubuntu 16.04
+**Tested on Ubuntu 16.04 and 18.04**
 - openssh-server
 - openjdk-8-jre
 - openjfx 8
+
+**P.S.: In Ubuntu 18.04 you might install the requirements as follows:**
+- sudo apt install openssh-server
+- sudo apt install openjdk-8-jre
+- sudo apt install openjfx=8u161-b12-1ubuntu2 libopenjfx-jni=8u161-b12-1ubuntu2 libopenjfx-java=8u161-b12-1ubuntu2
+- sudo apt-mark hold openjfx libopenjfx-jni libopenjfx-java
 
 ## Screens
 

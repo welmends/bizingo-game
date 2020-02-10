@@ -192,7 +192,7 @@ public class BizingoController extends Thread implements Initializable {
 						else if(message_received.equals("restart_fail")) {
 							alertGeneric("O outro jogador negou o reinicio da partida",Alert.AlertType.INFORMATION);
 							if(turn) {
-								bizingoTurnRect.setDisable(false);
+								bizingoTurnRect.setVisible(false);
 							}
 							bizingoRestart.setDisable(false);
 						}
@@ -303,7 +303,7 @@ public class BizingoController extends Thread implements Initializable {
 				if(ButtonType.OK == alertGeneric("Deseja realmente reiniciar a partida?",Alert.AlertType.CONFIRMATION)) {
 					soc_p2p.sendSysMessage("restart");
 					bizingoRestart.setDisable(true);
-					bizingoTurnRect.setDisable(true);
+					bizingoTurnRect.setVisible(true);
 				}
 	        }
 	        

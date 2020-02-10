@@ -120,15 +120,15 @@ public class SocketP2P extends Thread {
 			}
 			
 			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 			return false;
 		}
     }
     
     public Boolean wait_connection() {
     	try {
-            socket = serverSocket.accept();
+            socket = serverSocket.accept();System.out.println("waiting...");
             
             input_stream = new DataInputStream(socket.getInputStream());
             output_stream = new DataOutputStream(socket.getOutputStream());
@@ -138,7 +138,8 @@ public class SocketP2P extends Thread {
             is_connected = true;
             
             return true;
-    	} catch(Exception e_client) {
+    	} catch(Exception e) {
+    		System.out.println(e);
     		return false;
     	}
 
@@ -150,8 +151,8 @@ public class SocketP2P extends Thread {
 			mutex.acquire();
 			message_received = message_input;
 	    	mutex.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 
     	if(message_received.length()>0) {
@@ -171,8 +172,8 @@ public class SocketP2P extends Thread {
 			mutex.acquire();
 			message_received = message_input;
 	    	mutex.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 
     	if(message_received.length()>0) {
@@ -192,8 +193,8 @@ public class SocketP2P extends Thread {
 			mutex.acquire();
 			message_received = message_input;
 	    	mutex.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 
     	if(message_received.length()>0) {
@@ -212,8 +213,8 @@ public class SocketP2P extends Thread {
 			message_output = CHAT_CODEC + msg;
 			output_stream.writeUTF(message_output);
 			output_stream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
     }
     
@@ -222,8 +223,8 @@ public class SocketP2P extends Thread {
 			message_output = GAME_CODEC + msg;
 			output_stream.writeUTF(message_output);
 			output_stream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
     }
     
@@ -232,8 +233,8 @@ public class SocketP2P extends Thread {
 			message_output = SYS_CODEC + msg;
 			output_stream.writeUTF(message_output);
 			output_stream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
     }
     
@@ -244,8 +245,8 @@ public class SocketP2P extends Thread {
 			message_received = message_input;
 			message_input = "";
 	    	mutex.release();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
     	return message_received.substring(CHAT_CODEC.length(),message_received.length()); 
     }

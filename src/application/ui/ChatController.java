@@ -52,6 +52,7 @@ public class ChatController extends Thread implements Initializable {
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		
 		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
+		
 		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
 		
 		// VBox Scrolls Down Behavior
@@ -71,7 +72,9 @@ public class ChatController extends Thread implements Initializable {
 			}
 			if(soc_p2p.chatMessageStackFull()) {
             	// Receive Messages
-				String message_received = soc_p2p.getMessage(); // Receive Remote
+				
+				// Receive Remote
+				String message_received = soc_p2p.getMessage();
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -89,7 +92,15 @@ public class ChatController extends Thread implements Initializable {
 				        sp.getChildren().add(txt);
 				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
 				        
-						chatVBoxOnScroll.getChildren().addAll(sp); // Receive Local
+				        // Receive Local
+						chatVBoxOnScroll.getChildren().addAll(sp);
+						
+						// Find the width and height of the component before the Stage has been shown
+		                chatScrollPane.applyCss();
+		                chatScrollPane.layout();
+		                
+		                // Limit the component height
+		                sp.setMinHeight(sp.getHeight());
 					}
 				});
 			}
@@ -110,14 +121,24 @@ public class ChatController extends Thread implements Initializable {
 			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 20 20 0 20;");
 			        txt.setAlignment(Pos.CENTER);
 			        txt.setPadding(new Insets(10, 10, 10, 10));
-					
+			        
 			        StackPane sp = new StackPane();
 			        sp.setPadding(new Insets(0, 0, 5, 0));
 			        sp.getChildren().add(txt);
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        
-	                chatVBoxOnScroll.getChildren().addAll(sp);        // Send Local
-	                soc_p2p.sendChatMessage(chatTextField.getText()); // Send Remote                
+			        // Send Local
+	                chatVBoxOnScroll.getChildren().addAll(sp);
+	                
+	                // Find the width and height of the component before the Stage has been shown
+	                chatScrollPane.applyCss();
+	                chatScrollPane.layout();
+	                
+	                // Limit the component height
+	                sp.setMinHeight(sp.getHeight());
+	                
+	                // Send Remote
+	                soc_p2p.sendChatMessage(chatTextField.getText()); 
 	                
 	                chatTextField.setText("");
 	            }

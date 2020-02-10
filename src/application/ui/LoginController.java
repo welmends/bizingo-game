@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -96,38 +98,51 @@ public class LoginController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
-	        	if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
-	        		connectButton.setDisable(true);
-	        		ipTextField.setDisable(true);
-	        		portTextField.setDisable(true);
-	        		
-	        		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
-	        		
-	        		if(soc_p2p.connect()==true) {
-	        			if(soc_p2p.isClient()) {
-	        				// Transition to game
-	        				startGame();
-	        			}else {
-	        				alertInformation();
-			        		
-	        				// Wait for connection
-	        				soc_p2p.start();
-	        				
-	        				// Trigger for client connection
-	        				start();
-	        			}
-	        		}else {
-	        			alertError();
-	        		}
-	        		
-	        	}else {
-	        		alertWarning();
-	        	}
+	        	tryConnection();
 	        }
 		});
 		
+		connectButton.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			
+	        @Override
+	        public void handle(KeyEvent key){
+	            if (key.getCode().equals(KeyCode.ENTER)){
+	            	tryConnection();
+	            }
+	        }
+	        
+	    });
 	}
 	
+	private void tryConnection() {
+		if(ipTextField.getText().length()>0 && portTextField.getText().length()>0) {
+    		connectButton.setDisable(true);
+    		ipTextField.setDisable(true);
+    		portTextField.setDisable(true);
+    		
+    		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
+    		
+    		if(soc_p2p.connect()==true) {
+    			if(soc_p2p.isClient()) {
+    				// Transition to game
+    				startGame();
+    			}else {
+    				alertInformation();
+	        		
+    				// Wait for connection
+    				soc_p2p.start();
+    				
+    				// Trigger for client connection
+    				start();
+    			}
+    		}else {
+    			alertError();
+    		}
+    		
+    	}else {
+    		alertWarning();
+    	}
+	}
 	
 	private void startGame() {
 		FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(500), node1);

@@ -131,7 +131,6 @@ public class ChatController extends Thread implements Initializable {
 
 	        @Override
 	        public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-	        	System.out.println(arg1);
 	        	if(arg1.intValue()!=0) {
 	        		chatScrollPane.setVvalue(1.0);
 	        	}

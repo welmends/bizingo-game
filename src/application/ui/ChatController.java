@@ -112,7 +112,7 @@ public class ChatController extends Thread implements Initializable {
 			
 	        @Override
 	        public void handle(KeyEvent key){
-	            if (key.getCode().equals(KeyCode.ENTER)){
+	            if (key.getCode().equals(KeyCode.ENTER) && chatTextField.getText().length()>0){
 	            	// Send Messages
 			        Label txt = new Label("");
 			        txt.setText(chatTextField.getText());

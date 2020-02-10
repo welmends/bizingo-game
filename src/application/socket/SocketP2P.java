@@ -128,7 +128,7 @@ public class SocketP2P extends Thread {
     
     public Boolean wait_connection() {
     	try {
-            socket = serverSocket.accept();System.out.println("waiting...");
+            socket = serverSocket.accept();
             
             input_stream = new DataInputStream(socket.getInputStream());
             output_stream = new DataOutputStream(socket.getOutputStream());

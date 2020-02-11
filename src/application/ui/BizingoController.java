@@ -124,10 +124,6 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Restart Button Pressed
 		setRestartButtonBehavior();
-		
-//		AudioClip turnOnOff = new AudioClip(new File("/home/well/allProjects/java-projects/bizingo-sockets/src/resources/sounds/receive_msg.mp3").toURI().toString());
-//		turnOnOff.setVolume(1.0);
-//		turnOnOff.play();
 	}
 	
 	@Override

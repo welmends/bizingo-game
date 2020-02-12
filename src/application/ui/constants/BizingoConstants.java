@@ -38,11 +38,20 @@ public class BizingoConstants {
 	// Animation
 	public static Integer MOVE_MILLIS = 500;
 	
+	// Sleep
+	public static Integer THREAD_SLEEP_TIME_MILLIS = 100;
+	
 	// Text
 	public static String TEXT_BUTTON_LEAVE = "L E A V E";
 	public static String TEXT_BUTTON_RESTART = "R E S T A R T";
 	public static String TEXT_LABEL_NAME_UP = "B I Z I N G O";
 	public static String TEXT_LABEL_NAME_DOWN = "G A M E";
 	public static String TEXT_LABEL_SCORE = "S C O R E";
+	
+	// Sys Messages
+	public static String SYS_RESTART_REQUEST = "restart";
+	public static String SYS_RESTART_RESPONSE_OK = "restart_ok";
+	public static String SYS_RESTART_RESPONSE_FAIL = "restart_fail";
+	
 	
 }

@@ -130,7 +130,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 		while(true) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(BizingoConstants.THREAD_SLEEP_TIME_MILLIS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -174,22 +174,22 @@ public class BizingoController extends Thread implements Initializable {
 					
 					@Override
 					public void run() {
-						if(message_received.equals("restart")) {
+						if(message_received.equals(BizingoConstants.SYS_RESTART_REQUEST)) {
 							if(ButtonType.OK == alertUtils.alertRestartGameResponse()) {
-								soc_p2p.sendSysMessage("restart_ok");
+								soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_OK);
 								restartGame();
 								bizingoRestart.setDisable(false);
 							}else {
-								soc_p2p.sendSysMessage("restart_fail");
+								soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_FAIL);
 								bizingoRestart.setDisable(false);
 							}
 						}
-						else if(message_received.equals("restart_ok")) {
+						else if(message_received.equals(BizingoConstants.SYS_RESTART_RESPONSE_OK)) {
 							alertUtils.alertRestartGameSucceeded();
 							restartGame();
 							bizingoRestart.setDisable(false);
 						}
-						else if(message_received.equals("restart_fail")) {
+						else if(message_received.equals(BizingoConstants.SYS_RESTART_RESPONSE_FAIL)) {
 							alertUtils.alertRestartGameFailed();
 							if(turn) {
 								bizingoTurnRect.setVisible(false);
@@ -319,7 +319,7 @@ public class BizingoController extends Thread implements Initializable {
 	        @Override
 	        public void handle(MouseEvent event) {
 				if(ButtonType.OK == alertUtils.alertRestartGameRequest()) {
-					soc_p2p.sendSysMessage("restart");
+					soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_REQUEST);
 					bizingoRestart.setDisable(true);
 					bizingoTurnRect.setVisible(true);
 				}

@@ -13,6 +13,7 @@ import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.constants.BizingoConstants;
 import application.ui.constants.FontConstants;
+import application.ui.constants.ImageConstants;
 import application.ui.utils.BizingoUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
@@ -399,28 +400,19 @@ public class BizingoController extends Thread implements Initializable {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
-		alert.setGraphic(img_victory);
+		alert.setGraphic(new ImageView(ImageConstants.WINNER_IMAGE));
 		alert.setHeaderText("PARABÉNS!!! VOCÊ VENCEU A PARTIDA!!!");
 	    alert.setOnHidden(evt -> Platform.exit());
 	    alert.show(); 
 	}
 	
 	private void alertLoser() {
-		ImageView img_defeat = null;
-		try {
-			img_defeat = new ImageView(new Image(getClass().getResource("/resources/images/defeat.png").toURI().toString()));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		img_defeat.setFitHeight(100);
-		img_defeat.setFitWidth(100);
-		
 		soundUtils.playDefeatSound();
 		
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
-		alert.setGraphic(img_defeat);
+		alert.setGraphic(new ImageView(ImageConstants.LOSER_IMAGE));
 		alert.setHeaderText("SINTO MUITO, VOCÊ PERDEU A PARTIDA!");
 	    alert.setOnHidden(evt -> Platform.exit());
 	    alert.show();

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import application.socket.SocketP2P;
 import application.ui.constants.ChatConstants;
 import application.ui.constants.FontConstants;
+import application.ui.constants.ImageConstants;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -106,7 +106,7 @@ public class ChatController extends Thread implements Initializable {
 		chatLabel.setText(ChatConstants.TEXT_LABEL_CHAT);
 		chatLabel.setFont(FontConstants.sixty26p);
 		
-		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
+		chatImageView.setImage(ImageConstants.CHAT_TOP_ICON);
 		
 		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
 		

@@ -6,13 +6,13 @@ import java.util.ResourceBundle;
 import application.socket.SocketP2P;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
+import application.ui.utils.AlertUtils;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -38,6 +38,9 @@ public class LoginController extends Thread implements Initializable {
 	// Socket
 	SocketP2P soc_p2p;
 	
+	// Alerts
+	AlertUtils alertUtils;
+	
 	// Fading nodes
 	AnchorPane node1;
 	HBox node2;
@@ -58,6 +61,9 @@ public class LoginController extends Thread implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// Instantiating objects
+		alertUtils = new AlertUtils();
+		
 		// Setup components
 		setupComponents();
 		
@@ -129,7 +135,7 @@ public class LoginController extends Thread implements Initializable {
     				// Transition to game
     				startGame();
     			}else {
-    				alertInformation();
+    				alertUtils.alertLoginInformation();
 	        		
     				// Wait for connection
     				soc_p2p.start();
@@ -138,11 +144,13 @@ public class LoginController extends Thread implements Initializable {
     				start();
     			}
     		}else {
-    			alertError();
+    			alertUtils.alertLoginError();
+    	        Platform.exit();
+    	        System.exit(0);
     		}
     		
     	}else {
-    		alertWarning();
+    		alertUtils.alertLoginWarning();
     	}
 	}
 	
@@ -178,32 +186,6 @@ public class LoginController extends Thread implements Initializable {
 			}
 		});
 		fadeTransition1.play();
-	}
-	
-	private void alertInformation() {
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setHeaderText("Aguardando novo jogador!");
-		alert.showAndWait();
-	}
-	
-	private void alertError() {
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setHeaderText("Conexão mal sucedida!");
-		alert.showAndWait();
-        Platform.exit();
-        System.exit(0);
-	}
-	
-	private void alertWarning() {
-		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setHeaderText("Preencha os campos informando IP/PORTA!");
-		alert.showAndWait();
 	}
 
 }

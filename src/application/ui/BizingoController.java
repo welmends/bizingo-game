@@ -13,7 +13,7 @@ import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.constants.BizingoConstants;
 import application.ui.constants.FontConstants;
-import application.ui.constants.ImageConstants;
+import application.ui.utils.AlertUtils;
 import application.ui.utils.BizingoUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
@@ -23,12 +23,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
@@ -64,6 +61,7 @@ public class BizingoController extends Thread implements Initializable {
 	BizingoUtils utils;
 	BizingoAnimation animator;
 	
+	AlertUtils alertUtils;
 	SoundUtils soundUtils;
 	
 	List<BizingoTriangle> triangles;
@@ -89,7 +87,10 @@ public class BizingoController extends Thread implements Initializable {
 		status = new BizingoStatus();
 		utils = new BizingoUtils();
 		animator = new BizingoAnimation();
+		
+		alertUtils = new AlertUtils();
 		soundUtils = new SoundUtils();
+		
 		triangles = new ArrayList<>();
 		pieces = new ArrayList<>();
 		
@@ -135,7 +136,20 @@ public class BizingoController extends Thread implements Initializable {
 			}
 			
 			if(!soc_p2p.isConnected()) {
-				alertDisconnected();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						soc_p2p.disconnect();
+						alertUtils.alertDisconnected();
+				        Platform.exit();
+				        System.exit(0);
+					}
+				});
+				try {
+					this.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			if(soc_p2p.gameMessageStackFull()) {
@@ -161,7 +175,7 @@ public class BizingoController extends Thread implements Initializable {
 					@Override
 					public void run() {
 						if(message_received.equals("restart")) {
-							if(ButtonType.OK == alertGeneric("O outro jogador deseja reiniciar a partida. Você aceita?",Alert.AlertType.CONFIRMATION)) {
+							if(ButtonType.OK == alertUtils.alertRestartGameResponse()) {
 								soc_p2p.sendSysMessage("restart_ok");
 								restartGame();
 								bizingoRestart.setDisable(false);
@@ -171,12 +185,12 @@ public class BizingoController extends Thread implements Initializable {
 							}
 						}
 						else if(message_received.equals("restart_ok")) {
-							alertGeneric("O outro jogador aceitou o reinicio da partida",Alert.AlertType.INFORMATION);
+							alertUtils.alertRestartGameSucceeded();
 							restartGame();
 							bizingoRestart.setDisable(false);
 						}
 						else if(message_received.equals("restart_fail")) {
-							alertGeneric("O outro jogador negou o reinicio da partida",Alert.AlertType.INFORMATION);
+							alertUtils.alertRestartGameFailed();
 							if(turn) {
 								bizingoTurnRect.setVisible(false);
 							}
@@ -284,13 +298,12 @@ public class BizingoController extends Thread implements Initializable {
 		
 	}
 	
-	
 	private void setLeaveButtonBehavior() {
 		bizingoLeave.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
 	        public void handle(MouseEvent event) {
-				if(ButtonType.OK == alertGeneric("Deseja realmente sair da partida?",Alert.AlertType.CONFIRMATION)) {
+				if(ButtonType.OK == alertUtils.alertLeaveGame()) {
 		    		soc_p2p.disconnect();
     		        Platform.exit();
     		        System.exit(0);
@@ -305,7 +318,7 @@ public class BizingoController extends Thread implements Initializable {
 
 	        @Override
 	        public void handle(MouseEvent event) {
-				if(ButtonType.OK == alertGeneric("Deseja realmente reiniciar a partida?",Alert.AlertType.CONFIRMATION)) {
+				if(ButtonType.OK == alertUtils.alertRestartGameRequest()) {
 					soc_p2p.sendSysMessage("restart");
 					bizingoRestart.setDisable(true);
 					bizingoTurnRect.setVisible(true);
@@ -372,81 +385,21 @@ public class BizingoController extends Thread implements Initializable {
 	
 	private void endGame(int winner) {
     	if(soc_p2p.isServer() && winner==1) {
-    		alertWinner();
+    		soundUtils.playVictorySound();
+    		alertUtils.alertWinner();
     	}
     	else if(soc_p2p.isServer() && winner==2) {
-    		alertLoser();
+    		soundUtils.playDefeatSound();
+    		alertUtils.alertLoser();
     	}
     	else if(soc_p2p.isClient() && winner==1) {
-    		alertLoser();
+    		soundUtils.playDefeatSound();
+    		alertUtils.alertLoser();
     	}
     	else if(soc_p2p.isClient() && winner==2) {
-    		alertWinner();
+    		soundUtils.playVictorySound();
+    		alertUtils.alertWinner();
     	}
-	}
-	
-	private void alertWinner() {
-		ImageView img_victory = null;
-		try {
-			img_victory = new ImageView(new Image(getClass().getResource("/resources/images/trophy.png").toURI().toString()));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		img_victory.setFitHeight(100);
-		img_victory.setFitWidth(100);
-		
-		soundUtils.playVictorySound();
-		
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setGraphic(new ImageView(ImageConstants.WINNER_IMAGE));
-		alert.setHeaderText("PARABÉNS!!! VOCÊ VENCEU A PARTIDA!!!");
-	    alert.setOnHidden(evt -> Platform.exit());
-	    alert.show(); 
-	}
-	
-	private void alertLoser() {
-		soundUtils.playDefeatSound();
-		
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setGraphic(new ImageView(ImageConstants.LOSER_IMAGE));
-		alert.setHeaderText("SINTO MUITO, VOCÊ PERDEU A PARTIDA!");
-	    alert.setOnHidden(evt -> Platform.exit());
-	    alert.show();
-	}
-
-	private void alertDisconnected() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				soc_p2p.disconnect();
-				
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Bizingo Game Alerts");
-				alert.setResizable(false);
-				alert.setHeaderText("O outro jogador saiu do jogo!");
-				alert.showAndWait();
-		        Platform.exit();
-		        System.exit(0);
-			}
-		});
-		try {
-			this.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private ButtonType alertGeneric(String message, Alert.AlertType type) {
-		Alert alert = new Alert(type);
-		alert.setTitle("Bizingo Game Alerts");
-		alert.setResizable(false);
-		alert.setHeaderText(message);
-		alert.showAndWait();
-		return alert.getResult();
 	}
 	
 }

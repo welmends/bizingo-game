@@ -1,6 +1,8 @@
 package application.ui;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
@@ -14,6 +16,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -74,17 +77,24 @@ public class ChatController extends Thread implements Initializable {
 					@Override
 					public void run() {
 				        Label txt = new Label("");
-				        txt.setText(message_received);
+				        txt.setText(message_received+ChatConstants.SPACE_FOR_LABEL_TIME);
 				        txt.setWrapText(true);
 				        txt.setTextFill(ChatConstants.COLOR_LABEL_TEXT_RECEIVE);
 				        txt.setStyle(ChatConstants.STYLE_LABEL_TEXT_RECEIVE);
 				        txt.setPadding(ChatConstants.PADDING_LABEL_TEXT_RECEIVE);
 				        txt.setAlignment(ChatConstants.ALIGNMENT_LABEL_TEXT_RECEIVE);
 		            	
+				        Label time = new Label(new SimpleDateFormat(ChatConstants.LABEL_TIME_SIMPLE_DATE_FORMAT).format(new Date()));
+				        time.setFont(ChatConstants.LABEL_TIME_FONT);
+				        time.setPadding(ChatConstants.PADDING_LABEL_TIME);
+				        time.setTextAlignment(ChatConstants.TEXT_ALIGNMENT_LABEL_TIME);
+				        
 				        StackPane sp = new StackPane();
 				        sp.setPadding(ChatConstants.PADDING_STACK_PANE_RECEIVE);
 				        sp.getChildren().add(txt);
+				        sp.getChildren().add(time);
 				        StackPane.setAlignment(txt, ChatConstants.ALIGNMENT_STACK_PANE_RECEIVE);
+				        StackPane.setAlignment(time, ChatConstants.ALIGNMENT_STACK_PANE_LABEL_TIME);
 				        
 				        // Receive Local
 				        soundUtils.playReceiveSound();
@@ -96,6 +106,9 @@ public class ChatController extends Thread implements Initializable {
 		                
 		                // Limit the component height
 		                sp.setMinHeight(sp.getHeight());
+		                
+		                // Adjust width of time label through padding
+		                time.setPadding(new Insets(0,sp.getWidth()-txt.getWidth()+6,2,0));
 					}
 				});
 			}
@@ -121,17 +134,24 @@ public class ChatController extends Thread implements Initializable {
 	            if (key.getCode().equals(KeyCode.ENTER) && chatTextField.getText().length()>0){
 	            	// Send Messages
 			        Label txt = new Label("");
-			        txt.setText(chatTextField.getText());
+			        txt.setText(chatTextField.getText()+ChatConstants.SPACE_FOR_LABEL_TIME);
 			        txt.setWrapText(true);
 			        txt.setTextFill(ChatConstants.COLOR_LABEL_TEXT_SEND);
 			        txt.setStyle(ChatConstants.STYLE_LABEL_TEXT_SEND);
 			        txt.setPadding(ChatConstants.PADDING_LABEL_TEXT_SEND);
 			        txt.setAlignment(ChatConstants.ALIGNMENT_LABEL_TEXT_SEND);
 			        
+			        Label time = new Label(new SimpleDateFormat(ChatConstants.LABEL_TIME_SIMPLE_DATE_FORMAT).format(new Date()));
+			        time.setFont(ChatConstants.LABEL_TIME_FONT);
+			        time.setPadding(ChatConstants.PADDING_LABEL_TIME);
+			        time.setTextAlignment(ChatConstants.TEXT_ALIGNMENT_LABEL_TIME);
+			        
 			        StackPane sp = new StackPane();
 			        sp.setPadding(ChatConstants.PADDING_STACK_PANE_SEND);
 			        sp.getChildren().add(txt);
+			        sp.getChildren().add(time);
 			        StackPane.setAlignment(txt, ChatConstants.ALIGNMENT_STACK_PANE_SEND);
+			        StackPane.setAlignment(time, ChatConstants.ALIGNMENT_STACK_PANE_LABEL_TIME);
 			        
 			        // Send Local
 			        soundUtils.playSendSound();

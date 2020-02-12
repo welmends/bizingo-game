@@ -162,10 +162,10 @@ public class BizingoUtils {
 			}
 		}
 		
-		if(pieces1==BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
+		if(pieces1<=BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
 			return 2;
 		}
-		else if(pieces2==BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
+		else if(pieces2<=BizingoConstants.MIN_PIECES_AMOUNT_TO_END) {
 			return 1;
 		}
 		else {

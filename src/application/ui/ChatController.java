@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.constants.ChatConstants;
 import application.ui.utils.FontUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
@@ -12,8 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,7 +22,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class ChatController extends Thread implements Initializable {
 	
@@ -62,7 +60,7 @@ public class ChatController extends Thread implements Initializable {
 	public void run() {
 		while(true) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(ChatConstants.THREAD_SLEEP_TIME_MILLIS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -78,15 +76,15 @@ public class ChatController extends Thread implements Initializable {
 				        Label txt = new Label("");
 				        txt.setText(message_received);
 				        txt.setWrapText(true);
-				        txt.setTextFill(Color.BLACK);
-				        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #ffffff; -fx-background-radius: 20 20 20 0;");
-				        txt.setAlignment(Pos.CENTER);
-				        txt.setPadding(new Insets(10, 10, 10, 10));
+				        txt.setTextFill(ChatConstants.COLOR_LABEL_TEXT_RECEIVE);
+				        txt.setStyle(ChatConstants.STYLE_LABEL_TEXT_RECEIVE);
+				        txt.setPadding(ChatConstants.PADDING_LABEL_TEXT_RECEIVE);
+				        txt.setAlignment(ChatConstants.ALIGNMENT_LABEL_TEXT_RECEIVE);
 		            	
 				        StackPane sp = new StackPane();
-				        sp.setPadding(new Insets(0, 0, 5, 0));
+				        sp.setPadding(ChatConstants.PADDING_STACK_PANE_RECEIVE);
 				        sp.getChildren().add(txt);
-				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
+				        StackPane.setAlignment(txt, ChatConstants.ALIGNMENT_STACK_PANE_RECEIVE);
 				        
 				        // Receive Local
 				        soundUtils.playReceiveSound();
@@ -105,7 +103,7 @@ public class ChatController extends Thread implements Initializable {
 	}
 	
 	private void setupComponents() {
-		chatLabel.setText("C H A T");
+		chatLabel.setText(ChatConstants.TEXT_LABEL_CHAT);
 		chatLabel.setFont(FontUtils.sixty26p);
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
@@ -125,15 +123,15 @@ public class ChatController extends Thread implements Initializable {
 			        Label txt = new Label("");
 			        txt.setText(chatTextField.getText());
 			        txt.setWrapText(true);
-			        txt.setTextFill(Color.BLACK);
-			        txt.setStyle("-fx-font-weight:bold; -fx-background-color: #e2ffc9; -fx-background-radius: 20 20 0 20;");
-			        txt.setAlignment(Pos.CENTER);
-			        txt.setPadding(new Insets(10, 10, 10, 10));
+			        txt.setTextFill(ChatConstants.COLOR_LABEL_TEXT_SEND);
+			        txt.setStyle(ChatConstants.STYLE_LABEL_TEXT_SEND);
+			        txt.setPadding(ChatConstants.PADDING_LABEL_TEXT_SEND);
+			        txt.setAlignment(ChatConstants.ALIGNMENT_LABEL_TEXT_SEND);
 			        
 			        StackPane sp = new StackPane();
-			        sp.setPadding(new Insets(0, 0, 5, 0));
+			        sp.setPadding(ChatConstants.PADDING_STACK_PANE_SEND);
 			        sp.getChildren().add(txt);
-			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
+			        StackPane.setAlignment(txt, ChatConstants.ALIGNMENT_STACK_PANE_SEND);
 			        
 			        // Send Local
 			        soundUtils.playSendSound();

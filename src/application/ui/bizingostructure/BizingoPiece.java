@@ -1,5 +1,6 @@
 package application.ui.bizingostructure;
 
+import application.ui.constants.BizingoConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Lighting;
 import javafx.scene.layout.AnchorPane;

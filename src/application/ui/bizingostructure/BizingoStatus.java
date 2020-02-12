@@ -2,6 +2,7 @@ package application.ui.bizingostructure;
 
 import java.util.List;
 
+import application.ui.constants.BizingoConstants;
 import application.ui.utils.FontUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;

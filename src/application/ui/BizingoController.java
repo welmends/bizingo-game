@@ -11,6 +11,7 @@ import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
+import application.ui.constants.BizingoConstants;
 import application.ui.utils.BizingoUtils;
 import application.ui.utils.FontUtils;
 import application.ui.utils.SoundUtils;
@@ -188,19 +189,19 @@ public class BizingoController extends Thread implements Initializable {
 	}
 	
 	private void setupComponents() {
-		bizingoLeave.setText("L E A V E");
+		bizingoLeave.setText(BizingoConstants.TEXT_BUTTON_LEAVE);
 		bizingoLeave.setFont(FontUtils.sixty16p);
 		
-		bizingoRestart.setText("R E S T A R T");
+		bizingoRestart.setText(BizingoConstants.TEXT_BUTTON_RESTART);
 		bizingoRestart.setFont(FontUtils.sixty14p);
 		
-		bizingoNameUp.setText("B I Z I N G O");
+		bizingoNameUp.setText(BizingoConstants.TEXT_LABEL_NAME_UP);
 		bizingoNameUp.setFont(FontUtils.sixty40p);
 		
-		bizingoNameDown.setText("G A M E");
+		bizingoNameDown.setText(BizingoConstants.TEXT_LABEL_NAME_DOWN);
 		bizingoNameDown.setFont(FontUtils.sixty40p);
 		
-		bizingoNameScore.setText("S C O R E");
+		bizingoNameScore.setText(BizingoConstants.TEXT_LABEL_SCORE);
 		bizingoNameScore.setFont(FontUtils.sixty30p);
 	}
 	

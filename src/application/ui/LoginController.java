@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.constants.LoginConstants;
 import application.ui.utils.FontUtils;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -68,7 +69,7 @@ public class LoginController extends Thread implements Initializable {
 	public void run() {
 		while(true) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(LoginConstants.THREAD_SLEEP_TIME_MILLIS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -81,16 +82,16 @@ public class LoginController extends Thread implements Initializable {
 	}
 	
 	private void setupComponents() {
-		titleLabel.setText("B I Z I N G O    G A M E");
+		titleLabel.setText(LoginConstants.TEXT_LABEL_TITLE);
 		titleLabel.setFont(FontUtils.sixty100p);
 		
-		ipLabel.setText("I P");
+		ipLabel.setText(LoginConstants.TEXT_LABEL_IP);
 		ipLabel.setFont(FontUtils.sixty30p);
 		
-		portLabel.setText("P O R T");
+		portLabel.setText(LoginConstants.TEXT_LABEL_PORT);
 		portLabel.setFont(FontUtils.sixty30p);
 		
-		connectButton.setText("C O N N E C T");
+		connectButton.setText(LoginConstants.TEXT_BUTTON_CONNECTION);
 		connectButton.setFont(FontUtils.sixty30p);
 	}
 	
@@ -146,8 +147,8 @@ public class LoginController extends Thread implements Initializable {
 	}
 	
 	private void startGame() {
-		FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(500), node1);
-		FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(500), node2);
+		FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(LoginConstants.FADING_TIME_MILLIS), node1);
+		FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(LoginConstants.FADING_TIME_MILLIS), node2);
 		node2.setVisible(false);
 		fadeTransition1.setFromValue(1);
 		fadeTransition1.setToValue(0);

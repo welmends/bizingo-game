@@ -1,4 +1,4 @@
-package application.ui.bizingostructure;
+package application.ui.constants;
 
 import javafx.scene.paint.Color;
 
@@ -37,4 +37,12 @@ public class BizingoConstants {
 	
 	// Animation
 	public static Integer MOVE_MILLIS = 500;
+	
+	// Text
+	public static String TEXT_BUTTON_LEAVE = "L E A V E";
+	public static String TEXT_BUTTON_RESTART = "R E S T A R T";
+	public static String TEXT_LABEL_NAME_UP = "B I Z I N G O";
+	public static String TEXT_LABEL_NAME_DOWN = "G A M E";
+	public static String TEXT_LABEL_SCORE = "S C O R E";
+	
 }

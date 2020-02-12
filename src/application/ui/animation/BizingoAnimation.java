@@ -1,8 +1,8 @@
 package application.ui.animation;
 
-import application.ui.bizingostructure.BizingoConstants;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
+import application.ui.constants.BizingoConstants;
 import application.ui.utils.SoundUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

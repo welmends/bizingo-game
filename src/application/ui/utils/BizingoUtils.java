@@ -3,9 +3,9 @@ package application.ui.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.ui.bizingostructure.BizingoConstants;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
+import application.ui.constants.BizingoConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 

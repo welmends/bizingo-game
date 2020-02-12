@@ -2,6 +2,7 @@ package application.ui.bizingostructure;
 
 import java.util.List;
 
+import application.ui.constants.BizingoConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 

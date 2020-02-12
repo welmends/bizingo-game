@@ -11,6 +11,13 @@ public class SoundUtils {
 	private Media send;
 	private Media victory;
 	private Media defeat;
+	private MediaPlayer capturePlayer;
+	private MediaPlayer movePlayer;
+	private MediaPlayer receivePlayer;
+	private MediaPlayer sendPlayer;
+	private MediaPlayer victoryPlayer;
+	private MediaPlayer defeatPlayer;
+	
 	
 	public SoundUtils() {
 		try {
@@ -20,37 +27,40 @@ public class SoundUtils {
 			send     = new Media(getClass().getResource("/resources/sounds/send.wav").toURI().toString());
 			victory  = new Media(getClass().getResource("/resources/sounds/victory.wav").toURI().toString());
 			defeat   = new Media(getClass().getResource("/resources/sounds/defeat.wav").toURI().toString());
+			
+			capturePlayer  = new MediaPlayer(capture);
+			movePlayer     = new MediaPlayer(move);
+			receivePlayer  = new MediaPlayer(receive);
+			sendPlayer     = new MediaPlayer(send);
+			victoryPlayer  = new MediaPlayer(victory);
+			defeatPlayer   = new MediaPlayer(defeat);
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 	
-	private void playSound(Media m) {
-        MediaPlayer mediaPlayer = new MediaPlayer(m);
-        mediaPlayer.play();
-	}
-	
 	public void playCaptureSound() {
-		playSound(capture);
+		capturePlayer.play();
 	}
 	
 	public void playMoveSound() {
-		playSound(move);
+		movePlayer.play();
 	}
 	
 	public void playReceiveSound() {
-		playSound(receive);
+		receivePlayer.play();
 	}
 	
 	public void playSendSound() {
-		playSound(send);
+		sendPlayer.play();
 	}
 	
 	public void playVictorySound() {
-		playSound(victory);
+		victoryPlayer.play();
 	}
 	
 	public void playDefeatSound() {
-		playSound(defeat);
+		defeatPlayer.play();
 	}
 }

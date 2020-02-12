@@ -25,6 +25,7 @@ public class BizingoConstants {
 	public static Integer TRIANGLE_THICKNESS = 3;
 	
 	// Board Generator
+	public static Double BOARD_SIZE = 60.0;
 	public static Integer[] TYPE1_AMOUNT = new Integer[]{10,11,10,9,8,7,6,5,4,3,2};
 	public static Integer[] TYPE2_AMOUNT = new Integer[]{9,10,11,10,9,8,7,6,5,4,3};
 	

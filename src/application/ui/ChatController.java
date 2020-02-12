@@ -48,15 +48,8 @@ public class ChatController extends Thread implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// Components setup
-		chatLabel.setText("C H A T");
-		chatLabel.setFont(FontUtils.sixty26p);
-		
-		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
-		
-		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
-		
-		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
+		// Setup components
+		setupComponents();
 		
 		// VBox Scrolls Down Behavior
 		setVBoxScrollsBehavior();
@@ -109,6 +102,17 @@ public class ChatController extends Thread implements Initializable {
 				});
 			}
 		}
+	}
+	
+	private void setupComponents() {
+		chatLabel.setText("C H A T");
+		chatLabel.setFont(FontUtils.sixty26p);
+		
+		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
+		
+		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
+		
+		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
 	}
 	
 	private void setTextFieldKeyPressedBehavior() {

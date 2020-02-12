@@ -57,19 +57,8 @@ public class LoginController extends Thread implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// Components setup
-		
-		titleLabel.setText("B I Z I N G O    G A M E");
-		titleLabel.setFont(FontUtils.sixty100p);
-		
-		ipLabel.setText("I P");
-		ipLabel.setFont(FontUtils.sixty30p);
-		
-		portLabel.setText("P O R T");
-		portLabel.setFont(FontUtils.sixty30p);
-		
-		connectButton.setText("C O N N E C T");
-		connectButton.setFont(FontUtils.sixty30p);
+		// Setup components
+		setupComponents();
 		
 		// Button Mouse Pressed Behavior
 		setButtonMousePressedBehavior();
@@ -89,6 +78,20 @@ public class LoginController extends Thread implements Initializable {
 		}
 		// Transition to game
 		startGame();
+	}
+	
+	private void setupComponents() {
+		titleLabel.setText("B I Z I N G O    G A M E");
+		titleLabel.setFont(FontUtils.sixty100p);
+		
+		ipLabel.setText("I P");
+		ipLabel.setFont(FontUtils.sixty30p);
+		
+		portLabel.setText("P O R T");
+		portLabel.setFont(FontUtils.sixty30p);
+		
+		connectButton.setText("C O N N E C T");
+		connectButton.setFont(FontUtils.sixty30p);
 	}
 	
 	private void setButtonMousePressedBehavior() {

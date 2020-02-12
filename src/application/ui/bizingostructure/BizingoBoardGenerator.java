@@ -6,11 +6,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 
 public class BizingoBoardGenerator {
-	
-	public Double size;
-	
-	public BizingoBoardGenerator(Double size) {
-		this.size = size;
+
+	public BizingoBoardGenerator() {
+		
 	}
 	
 	public void generateBoard(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, GraphicsContext gc, AnchorPane parent) {
@@ -60,19 +58,19 @@ public class BizingoBoardGenerator {
 		Double x2, y2;
 		Double x3, y3;
 		
-		Double base_x = size+50;
-		Double base_y = gc.getCanvas().getHeight() - size;
+		Double base_x = BizingoConstants.BOARD_SIZE+50;
+		Double base_y = gc.getCanvas().getHeight() - BizingoConstants.BOARD_SIZE;
 		x1 = base_x;
 		y1 = base_y;
 		
 		for(int i=0; i<BizingoConstants.TYPE1_AMOUNT.length; i++) {
-			x1 = base_x - (size/2)*(1+(BizingoConstants.TYPE1_AMOUNT[i]-BizingoConstants.TYPE1_AMOUNT[0]));
-			y1 = y1 - (size-10);
+			x1 = base_x - (BizingoConstants.BOARD_SIZE/2)*(1+(BizingoConstants.TYPE1_AMOUNT[i]-BizingoConstants.TYPE1_AMOUNT[0]));
+			y1 = y1 - (BizingoConstants.BOARD_SIZE-10);
 			for(int j=0; j<BizingoConstants.TYPE1_AMOUNT[i]; j++) {
-				x1 = x1 + size;
-				x2 = x1 - (size/2);
-				y2 = y1 + (size-10);
-				x3 = x1 - size;
+				x1 = x1 + BizingoConstants.BOARD_SIZE;
+				x2 = x1 - (BizingoConstants.BOARD_SIZE/2);
+				y2 = y1 + (BizingoConstants.BOARD_SIZE-10);
+				x3 = x1 - BizingoConstants.BOARD_SIZE;
 				y3 = y1;
 				triangles.add(new BizingoTriangle(true, x1, y1, x2, y2, x3, y3, BizingoConstants.COLOR_TRIANGLE_TYPE1, BizingoConstants.COLOR_TRIANGLE_STROKE));
 				triangles.get(triangles.size() - 1).draw(gc);
@@ -87,19 +85,19 @@ public class BizingoBoardGenerator {
     	Double x2, y2;
     	Double x3, y3;
     	
-    	Double base_x = size+20;
-    	Double base_y = gc.getCanvas().getHeight() - size + (size-10);
+    	Double base_x = BizingoConstants.BOARD_SIZE+20;
+    	Double base_y = gc.getCanvas().getHeight() - BizingoConstants.BOARD_SIZE + (BizingoConstants.BOARD_SIZE-10);
     	x1 = base_x;
     	y1 = base_y;
     	
     	for(int i=0; i<BizingoConstants.TYPE2_AMOUNT.length; i++) {
-    		x1 = base_x - (size/2)*(1+(BizingoConstants.TYPE2_AMOUNT[i]-BizingoConstants.TYPE2_AMOUNT[0]));
-    		y1 = y1 - (size-10);
+    		x1 = base_x - (BizingoConstants.BOARD_SIZE/2)*(1+(BizingoConstants.TYPE2_AMOUNT[i]-BizingoConstants.TYPE2_AMOUNT[0]));
+    		y1 = y1 - (BizingoConstants.BOARD_SIZE-10);
     		for(int j=0; j<BizingoConstants.TYPE2_AMOUNT[i]; j++) {
-    			x1 = x1 + size;
-    			x2 = x1 + (size/2);
-    			y2 = y1 - (size-10);
-    			x3 = x1 + size;
+    			x1 = x1 + BizingoConstants.BOARD_SIZE;
+    			x2 = x1 + (BizingoConstants.BOARD_SIZE/2);
+    			y2 = y1 - (BizingoConstants.BOARD_SIZE-10);
+    			x3 = x1 + BizingoConstants.BOARD_SIZE;
     			y3 = y1;
     			triangles.add(new BizingoTriangle(false, x1, y1, x2, y2, x3, y3, BizingoConstants.COLOR_TRIANGLE_TYPE2, BizingoConstants.COLOR_TRIANGLE_STROKE));
     			triangles.get(triangles.size() - 1).draw(gc);

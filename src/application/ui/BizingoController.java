@@ -83,29 +83,13 @@ public class BizingoController extends Thread implements Initializable {
 		gc_board = bizingoCanvasBoard.getGraphicsContext2D();
 		gc_status_down = bizingoCanvasStatusDown.getGraphicsContext2D();
 		gc_status_up = bizingoCanvasStatusUp.getGraphicsContext2D();
-		boardGen = new BizingoBoardGenerator(60.0);
+		boardGen = new BizingoBoardGenerator();
 		status = new BizingoStatus();
 		utils = new BizingoUtils();
 		animator = new BizingoAnimation();
 		soundUtils = new SoundUtils();
 		triangles = new ArrayList<>();
 		pieces = new ArrayList<>();
-		
-		// Components setup
-		bizingoLeave.setText("L E A V E");
-		bizingoLeave.setFont(FontUtils.sixty16p);
-		
-		bizingoRestart.setText("R E S T A R T");
-		bizingoRestart.setFont(FontUtils.sixty14p);
-		
-		bizingoNameUp.setText("B I Z I N G O");
-		bizingoNameUp.setFont(FontUtils.sixty40p);
-		
-		bizingoNameDown.setText("G A M E");
-		bizingoNameDown.setFont(FontUtils.sixty40p);
-		
-		bizingoNameScore.setText("S C O R E");
-		bizingoNameScore.setFont(FontUtils.sixty30p);
 		
 		// Variables
 		piece_selected = false;
@@ -116,6 +100,9 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Generate Board
 		boardGen.generateBoard(triangles, pieces, gc_background, bizingoPiecesPane);
+		
+		// Components setup
+		setupComponents();
 		
 		// Canvas Mouse Pressed
 		setCanvasMousePressedBehavior();
@@ -200,6 +187,23 @@ public class BizingoController extends Thread implements Initializable {
 		}
 	}
 	
+	private void setupComponents() {
+		bizingoLeave.setText("L E A V E");
+		bizingoLeave.setFont(FontUtils.sixty16p);
+		
+		bizingoRestart.setText("R E S T A R T");
+		bizingoRestart.setFont(FontUtils.sixty14p);
+		
+		bizingoNameUp.setText("B I Z I N G O");
+		bizingoNameUp.setFont(FontUtils.sixty40p);
+		
+		bizingoNameDown.setText("G A M E");
+		bizingoNameDown.setFont(FontUtils.sixty40p);
+		
+		bizingoNameScore.setText("S C O R E");
+		bizingoNameScore.setFont(FontUtils.sixty30p);
+	}
+	
 	private void setCanvasMousePressedBehavior() {
 		bizingoCanvasBoard.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
@@ -278,6 +282,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 	}
 	
+	
 	private void setLeaveButtonBehavior() {
 		bizingoLeave.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
@@ -335,7 +340,7 @@ public class BizingoController extends Thread implements Initializable {
 	
 	private void restartGame() {
 		// Instantiating objects
-		boardGen = new BizingoBoardGenerator(60.0);
+		boardGen = new BizingoBoardGenerator();
 		status = new BizingoStatus();
 		utils = new BizingoUtils();
 		pieces = new ArrayList<>();

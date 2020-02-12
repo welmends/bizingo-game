@@ -1,7 +1,7 @@
 package application.ui.utils;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class SoundUtils {
 	
@@ -11,12 +11,12 @@ public class SoundUtils {
 	private Media send;
 	private Media victory;
 	private Media defeat;
-	private MediaPlayer capturePlayer;
-	private MediaPlayer movePlayer;
-	private MediaPlayer receivePlayer;
-	private MediaPlayer sendPlayer;
-	private MediaPlayer victoryPlayer;
-	private MediaPlayer defeatPlayer;
+	private AudioClip capturePlayer;
+	private AudioClip movePlayer;
+	private AudioClip receivePlayer;
+	private AudioClip sendPlayer;
+	private AudioClip victoryPlayer;
+	private AudioClip defeatPlayer;
 	
 	
 	public SoundUtils() {
@@ -28,12 +28,12 @@ public class SoundUtils {
 			victory  = new Media(getClass().getResource("/resources/sounds/victory.wav").toURI().toString());
 			defeat   = new Media(getClass().getResource("/resources/sounds/defeat.wav").toURI().toString());
 			
-			capturePlayer  = new MediaPlayer(capture);
-			movePlayer     = new MediaPlayer(move);
-			receivePlayer  = new MediaPlayer(receive);
-			sendPlayer     = new MediaPlayer(send);
-			victoryPlayer  = new MediaPlayer(victory);
-			defeatPlayer   = new MediaPlayer(defeat);
+			capturePlayer  = new AudioClip(capture.getSource());
+			movePlayer     = new AudioClip(move.getSource());
+			receivePlayer  = new AudioClip(receive.getSource());
+			sendPlayer     = new AudioClip(send.getSource());
+			victoryPlayer  = new AudioClip(victory.getSource());
+			defeatPlayer   = new AudioClip(defeat.getSource());
 			
 		} catch (Exception e) {
 			System.out.println(e);

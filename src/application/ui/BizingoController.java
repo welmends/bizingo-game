@@ -12,6 +12,7 @@ import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.utils.BizingoUtils;
+import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,6 +60,8 @@ public class BizingoController extends Thread implements Initializable {
 	BizingoUtils utils;
 	BizingoAnimation animator;
 	
+	SoundUtils soundUtils;
+	
 	List<BizingoTriangle> triangles;
 	List<BizingoPiece> pieces;
 	
@@ -82,6 +85,7 @@ public class BizingoController extends Thread implements Initializable {
 		status = new BizingoStatus();
 		utils = new BizingoUtils();
 		animator = new BizingoAnimation();
+		soundUtils = new SoundUtils();
 		triangles = new ArrayList<>();
 		pieces = new ArrayList<>();
 		
@@ -234,6 +238,7 @@ public class BizingoController extends Thread implements Initializable {
 							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 							        	if(utils.findCapturedPiece(soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
+							        		soundUtils.playCaptureSound();
 							        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
 							        		endGame(utils.findWinnerAndLoser(pieces));
 							        	}
@@ -321,6 +326,7 @@ public class BizingoController extends Thread implements Initializable {
 			public void handle(ActionEvent event) {
 	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 	        	if(utils.findCapturedPiece(!soc_p2p.isServer(), pieces, bizingoPiecesPane)) {
+	        		soundUtils.playCaptureSound();
 	        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
 	        		endGame(utils.findWinnerAndLoser(pieces));
 	        	}
@@ -376,6 +382,7 @@ public class BizingoController extends Thread implements Initializable {
 	}
 	
 	private void alertWinner() {
+		soundUtils.playVictorySound();
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
@@ -385,6 +392,7 @@ public class BizingoController extends Thread implements Initializable {
 	}
 	
 	private void alertLoser() {
+		soundUtils.playDefeatSound();
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);

@@ -41,7 +41,6 @@ public class BizingoAnimation {
 		sequentialTransition.getChildren().addAll(timeline);
 		soundUtils.playMoveSound();
 		sequentialTransition.play();
-		
 	}
 	
 	public void move(BizingoPiece piece, Double[] new_location) {

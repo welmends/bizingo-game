@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -37,8 +38,12 @@ public class ChatController extends Thread implements Initializable {
 	// Socket
 	SocketP2P soc_p2p;
 	
+	// Variables
+	SoundUtils soundUtils;
+	
 	public void loadFromParent(SocketP2P soc_p2p) {
 		this.soc_p2p = soc_p2p;
+		soundUtils = new SoundUtils();
 	}
 	
 	@Override
@@ -93,6 +98,7 @@ public class ChatController extends Thread implements Initializable {
 				        StackPane.setAlignment(txt, Pos.CENTER_LEFT);
 				        
 				        // Receive Local
+				        soundUtils.playReceiveSound();
 						chatVBoxOnScroll.getChildren().addAll(sp);
 						
 						// Find the width and height of the component before the Stage has been shown
@@ -128,6 +134,7 @@ public class ChatController extends Thread implements Initializable {
 			        StackPane.setAlignment(txt, Pos.CENTER_RIGHT);
 			        
 			        // Send Local
+			        soundUtils.playSendSound();
 	                chatVBoxOnScroll.getChildren().addAll(sp);
 	                
 	                // Find the width and height of the component before the Stage has been shown

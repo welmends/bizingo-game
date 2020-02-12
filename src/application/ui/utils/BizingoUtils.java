@@ -52,15 +52,6 @@ public class BizingoUtils {
     	
     	return idx;
 	}
-	
-	public int findPieceBoardPosition(List<BizingoTriangle> triangles, BizingoPiece piece) {
-    	for(int i=0; i<triangles.size(); i++) {
-    		if(triangles.get(i).getCenter()==piece.getPosition()) {
-    			return i;
-    		}
-    	}
-    	return -1;
-	}
 
 	public void findPlayableTriangles(List<BizingoTriangle> triangles, List<BizingoPiece> pieces, int idx_triangle) {
 		playables = new ArrayList<>();
@@ -123,8 +114,14 @@ public class BizingoUtils {
 		int counter;
 		
     	for(int i=0; i<pieces.size(); i++) {
+			if(pieces.get(i).exists==false) {
+				continue;
+			}
     		counter = 0;
     		for(int j=0; j<pieces.size(); j++) {
+    			if(pieces.get(j).exists==false) {
+    				continue;
+    			}
     			if(pieces.get(i).type!=pieces.get(j).type) {
         			dif_x = pieces.get(i).getPosition()[0]-pieces.get(j).getPosition()[0];
         			dif_y = pieces.get(i).getPosition()[1]-pieces.get(j).getPosition()[1];

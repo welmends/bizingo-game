@@ -24,6 +24,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
@@ -382,20 +384,42 @@ public class BizingoController extends Thread implements Initializable {
 	}
 	
 	private void alertWinner() {
+		ImageView img_victory = null;
+		try {
+			img_victory = new ImageView(new Image(getClass().getResource("/resources/images/trophy.png").toURI().toString()));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		img_victory.setFitHeight(100);
+		img_victory.setFitWidth(100);
+		
 		soundUtils.playVictorySound();
+		
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
+		alert.setGraphic(img_victory);
 		alert.setHeaderText("PARABÉNS!!! VOCÊ VENCEU A PARTIDA!!!");
 	    alert.setOnHidden(evt -> Platform.exit());
 	    alert.show(); 
 	}
 	
 	private void alertLoser() {
+		ImageView img_defeat = null;
+		try {
+			img_defeat = new ImageView(new Image(getClass().getResource("/resources/images/defeat.png").toURI().toString()));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		img_defeat.setFitHeight(100);
+		img_defeat.setFitWidth(100);
+		
 		soundUtils.playDefeatSound();
+		
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
 		alert.setResizable(false);
+		alert.setGraphic(img_defeat);
 		alert.setHeaderText("SINTO MUITO, VOCÊ PERDEU A PARTIDA!");
 	    alert.setOnHidden(evt -> Platform.exit());
 	    alert.show();

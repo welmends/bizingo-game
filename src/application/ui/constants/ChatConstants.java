@@ -11,6 +11,10 @@ public class ChatConstants {
 	// Label
 	public static String TEXT_LABEL_CHAT = "C H A T";
 	
+	// Components Style
+	public static String STYLE_SCROLL_PANE_CHAT = "-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;";
+	public static String STYLE_VBOX_CHAT = "-fx-background-color:#d8e2eb;";
+	
 	// Sleep
 	public static Integer THREAD_SLEEP_TIME_MILLIS = 100;
 	
@@ -39,4 +43,5 @@ public class ChatConstants {
 	
 	public static Insets PADDING_STACK_PANE_SEND = new Insets(0, 0, 5, 0);
 	public static Pos ALIGNMENT_STACK_PANE_SEND = Pos.CENTER_RIGHT;
+	
 }

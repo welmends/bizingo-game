@@ -101,8 +101,8 @@ public class ChatController extends Thread implements Initializable {
 						chatVBoxOnScroll.getChildren().addAll(sp);
 						
 						// Find the width and height of the component before the Stage has been shown
-		                chatScrollPane.applyCss();
-		                chatScrollPane.layout();
+						chatVBoxOnScroll.applyCss();
+						chatVBoxOnScroll.layout();
 		                
 		                // Limit the component height
 		                sp.setMinHeight(sp.getHeight());
@@ -121,9 +121,9 @@ public class ChatController extends Thread implements Initializable {
 		
 		chatImageView.setImage(ImageConstants.CHAT_TOP_ICON);
 		
-		chatScrollPane.setStyle("-fx-background-color:#d8e2eb; -fx-background-radius: 10 10 10 10; -fx-border-color: #7894ac; -fx-border-width: 3; -fx-border-radius: 10 10 10 10;");
+		chatScrollPane.setStyle(ChatConstants.STYLE_SCROLL_PANE_CHAT);
 		
-		chatVBoxOnScroll.setStyle("-fx-background-color:#d8e2eb;");
+		chatVBoxOnScroll.setStyle(ChatConstants.STYLE_VBOX_CHAT);
 	}
 	
 	private void setTextFieldKeyPressedBehavior() {
@@ -158,8 +158,8 @@ public class ChatController extends Thread implements Initializable {
 	                chatVBoxOnScroll.getChildren().addAll(sp);
 	                
 	                // Find the width and height of the component before the Stage has been shown
-	                chatScrollPane.applyCss();
-	                chatScrollPane.layout();
+	                chatVBoxOnScroll.applyCss();
+	                chatVBoxOnScroll.layout();
 	                
 	                // Limit the component height
 	                sp.setMinHeight(sp.getHeight());

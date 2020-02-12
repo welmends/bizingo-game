@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
 import application.ui.constants.ChatConstants;
-import application.ui.utils.FontUtils;
+import application.ui.constants.FontConstants;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -104,7 +104,7 @@ public class ChatController extends Thread implements Initializable {
 	
 	private void setupComponents() {
 		chatLabel.setText(ChatConstants.TEXT_LABEL_CHAT);
-		chatLabel.setFont(FontUtils.sixty26p);
+		chatLabel.setFont(FontConstants.sixty26p);
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		

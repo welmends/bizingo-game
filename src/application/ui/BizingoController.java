@@ -12,8 +12,8 @@ import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.constants.BizingoConstants;
+import application.ui.constants.FontConstants;
 import application.ui.utils.BizingoUtils;
-import application.ui.utils.FontUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -190,19 +190,19 @@ public class BizingoController extends Thread implements Initializable {
 	
 	private void setupComponents() {
 		bizingoLeave.setText(BizingoConstants.TEXT_BUTTON_LEAVE);
-		bizingoLeave.setFont(FontUtils.sixty16p);
+		bizingoLeave.setFont(FontConstants.sixty16p);
 		
 		bizingoRestart.setText(BizingoConstants.TEXT_BUTTON_RESTART);
-		bizingoRestart.setFont(FontUtils.sixty14p);
+		bizingoRestart.setFont(FontConstants.sixty14p);
 		
 		bizingoNameUp.setText(BizingoConstants.TEXT_LABEL_NAME_UP);
-		bizingoNameUp.setFont(FontUtils.sixty40p);
+		bizingoNameUp.setFont(FontConstants.sixty40p);
 		
 		bizingoNameDown.setText(BizingoConstants.TEXT_LABEL_NAME_DOWN);
-		bizingoNameDown.setFont(FontUtils.sixty40p);
+		bizingoNameDown.setFont(FontConstants.sixty40p);
 		
 		bizingoNameScore.setText(BizingoConstants.TEXT_LABEL_SCORE);
-		bizingoNameScore.setFont(FontUtils.sixty30p);
+		bizingoNameScore.setFont(FontConstants.sixty30p);
 	}
 	
 	private void setCanvasMousePressedBehavior() {

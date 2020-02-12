@@ -3,7 +3,7 @@ package application.ui.bizingostructure;
 import java.util.List;
 
 import application.ui.constants.BizingoConstants;
-import application.ui.utils.FontUtils;
+import application.ui.constants.FontConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Transform;
@@ -41,7 +41,7 @@ public class BizingoStatus {
 			drawArrow(gc_down, 85, 100, 60, 100);
 		}
 		
-		gc_up.setFont(FontUtils.sixty25p);
+		gc_up.setFont(FontConstants.sixty25p);
 		
 		gc_up.fillText("18", Math.round(150), Math.round(65), 50);
 		gc_up.fillText("18", Math.round(150), Math.round(105));
@@ -63,7 +63,7 @@ public class BizingoStatus {
 			}
 		}
 		
-		gc_up.setFont(FontUtils.sixty25p);
+		gc_up.setFont(FontConstants.sixty25p);
 		
 		gc_up.fillText(String.valueOf(pieces1), Math.round(150), Math.round(65), 50);
 		gc_up.fillText(String.valueOf(pieces2), Math.round(150), Math.round(105));

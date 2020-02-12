@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
-import application.ui.utils.FontUtils;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -83,16 +83,16 @@ public class LoginController extends Thread implements Initializable {
 	
 	private void setupComponents() {
 		titleLabel.setText(LoginConstants.TEXT_LABEL_TITLE);
-		titleLabel.setFont(FontUtils.sixty100p);
+		titleLabel.setFont(FontConstants.sixty100p);
 		
 		ipLabel.setText(LoginConstants.TEXT_LABEL_IP);
-		ipLabel.setFont(FontUtils.sixty30p);
+		ipLabel.setFont(FontConstants.sixty30p);
 		
 		portLabel.setText(LoginConstants.TEXT_LABEL_PORT);
-		portLabel.setFont(FontUtils.sixty30p);
+		portLabel.setFont(FontConstants.sixty30p);
 		
 		connectButton.setText(LoginConstants.TEXT_BUTTON_CONNECTION);
-		connectButton.setFont(FontUtils.sixty30p);
+		connectButton.setFont(FontConstants.sixty30p);
 	}
 	
 	private void setButtonMousePressedBehavior() {

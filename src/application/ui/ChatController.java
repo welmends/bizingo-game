@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.utils.FontUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -23,7 +24,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class ChatController extends Thread implements Initializable {
 	
@@ -49,10 +49,8 @@ public class ChatController extends Thread implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Components setup
-		Font sixty26p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 26);
-		
 		chatLabel.setText("C H A T");
-		chatLabel.setFont(sixty26p);
+		chatLabel.setFont(FontUtils.sixty26p);
 		
 		chatImageView.setImage(new Image(this.getClass().getResourceAsStream("/resources/images/chat_icon.png"), 40, 40, true, true));
 		

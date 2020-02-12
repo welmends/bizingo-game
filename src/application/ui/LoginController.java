@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.socket.SocketP2P;
+import application.ui.utils.FontUtils;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class LoginController extends Thread implements Initializable {
@@ -58,20 +58,18 @@ public class LoginController extends Thread implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Components setup
-		Font sixty100p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 100);
-		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
 		
 		titleLabel.setText("B I Z I N G O    G A M E");
-		titleLabel.setFont(sixty100p);
+		titleLabel.setFont(FontUtils.sixty100p);
 		
 		ipLabel.setText("I P");
-		ipLabel.setFont(sixty30p);
+		ipLabel.setFont(FontUtils.sixty30p);
 		
 		portLabel.setText("P O R T");
-		portLabel.setFont(sixty30p);
+		portLabel.setFont(FontUtils.sixty30p);
 		
 		connectButton.setText("C O N N E C T");
-		connectButton.setFont(sixty30p);
+		connectButton.setFont(FontUtils.sixty30p);
 		
 		// Button Mouse Pressed Behavior
 		setButtonMousePressedBehavior();
@@ -178,7 +176,6 @@ public class LoginController extends Thread implements Initializable {
 		fadeTransition1.play();
 	}
 	
-	
 	private void alertInformation() {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Bizingo Game Alerts");
@@ -186,7 +183,6 @@ public class LoginController extends Thread implements Initializable {
 		alert.setHeaderText("Aguardando novo jogador!");
 		alert.showAndWait();
 	}
-	
 	
 	private void alertError() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -197,7 +193,6 @@ public class LoginController extends Thread implements Initializable {
         Platform.exit();
         System.exit(0);
 	}
-	
 	
 	private void alertWarning() {
 		Alert alert = new Alert(Alert.AlertType.WARNING);

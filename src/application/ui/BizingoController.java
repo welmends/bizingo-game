@@ -12,6 +12,7 @@ import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoStatus;
 import application.ui.bizingostructure.BizingoTriangle;
 import application.ui.utils.BizingoUtils;
+import application.ui.utils.FontUtils;
 import application.ui.utils.SoundUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,7 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
 public class BizingoController extends Thread implements Initializable {
 	
@@ -92,25 +92,20 @@ public class BizingoController extends Thread implements Initializable {
 		pieces = new ArrayList<>();
 		
 		// Components setup
-		Font sixty40p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 40);
-		Font sixty30p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 30);
-		Font sixty16p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 16);
-		Font sixty14p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 14);
-		
 		bizingoLeave.setText("L E A V E");
-		bizingoLeave.setFont(sixty16p);
+		bizingoLeave.setFont(FontUtils.sixty16p);
 		
 		bizingoRestart.setText("R E S T A R T");
-		bizingoRestart.setFont(sixty14p);
+		bizingoRestart.setFont(FontUtils.sixty14p);
 		
 		bizingoNameUp.setText("B I Z I N G O");
-		bizingoNameUp.setFont(sixty40p);
+		bizingoNameUp.setFont(FontUtils.sixty40p);
 		
 		bizingoNameDown.setText("G A M E");
-		bizingoNameDown.setFont(sixty40p);
+		bizingoNameDown.setFont(FontUtils.sixty40p);
 		
 		bizingoNameScore.setText("S C O R E");
-		bizingoNameScore.setFont(sixty30p);
+		bizingoNameScore.setFont(FontUtils.sixty30p);
 		
 		// Variables
 		piece_selected = false;

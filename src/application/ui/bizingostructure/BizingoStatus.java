@@ -2,8 +2,8 @@ package application.ui.bizingostructure;
 
 import java.util.List;
 
+import application.ui.utils.FontUtils;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Transform;
 
@@ -14,8 +14,6 @@ public class BizingoStatus {
 	private BizingoPiece p1, p1_c;
 	private BizingoPiece p2, p2_c;
 	
-	private Font sixty25p;
-	
 	private final int ARR_SIZE = 8;
 	
 	public BizingoStatus() {
@@ -25,8 +23,6 @@ public class BizingoStatus {
 		p1   = new BizingoPiece(true, false, 40.0, 60.0 , BizingoConstants.COLOR_PLAYER1, BizingoConstants.COLOR_PLAYER_STROKE);
 		p2_c = new BizingoPiece(true, true, 30.0, 100.0 , BizingoConstants.COLOR_PLAYER2_CAP, BizingoConstants.COLOR_PLAYER_STROKE);
 		p2   = new BizingoPiece(true, false, 40.0, 100.0 , BizingoConstants.COLOR_PLAYER2, BizingoConstants.COLOR_PLAYER_STROKE);
-		
-		sixty25p = Font.loadFont(getClass().getResourceAsStream("/fonts/sixty.ttf"), 25);
 	}
 	
 	public void draw_cover(GraphicsContext gc_down, GraphicsContext gc_up, Boolean peer_type) {
@@ -44,7 +40,7 @@ public class BizingoStatus {
 			drawArrow(gc_down, 85, 100, 60, 100);
 		}
 		
-		gc_up.setFont(sixty25p);
+		gc_up.setFont(FontUtils.sixty25p);
 		
 		gc_up.fillText("18", Math.round(150), Math.round(65), 50);
 		gc_up.fillText("18", Math.round(150), Math.round(105));
@@ -66,7 +62,7 @@ public class BizingoStatus {
 			}
 		}
 		
-		gc_up.setFont(sixty25p);
+		gc_up.setFont(FontUtils.sixty25p);
 		
 		gc_up.fillText(String.valueOf(pieces1), Math.round(150), Math.round(65), 50);
 		gc_up.fillText(String.valueOf(pieces2), Math.round(150), Math.round(105));

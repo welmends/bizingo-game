@@ -3,6 +3,7 @@ package application.ui.animation;
 import application.ui.bizingostructure.BizingoConstants;
 import application.ui.bizingostructure.BizingoPiece;
 import application.ui.bizingostructure.BizingoTriangle;
+import application.ui.utils.SoundUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;
@@ -18,9 +19,11 @@ public class BizingoAnimation {
 	private KeyValue kv_x;
 	private KeyValue kv_y;
 	private KeyFrame kf;
+	private SoundUtils soundUtils;
 	
 	public BizingoAnimation() {
 		this.millis = BizingoConstants.MOVE_MILLIS;
+		soundUtils = new SoundUtils();
 	}
 	
 	public void move(BizingoPiece piece, BizingoTriangle triangle) {
@@ -36,7 +39,9 @@ public class BizingoAnimation {
 		timeline.getKeyFrames().addAll(kf);
 		
 		sequentialTransition.getChildren().addAll(timeline);
+		soundUtils.playMoveSound();
 		sequentialTransition.play();
+		
 	}
 	
 	public void move(BizingoPiece piece, Double[] new_location) {
@@ -52,6 +57,7 @@ public class BizingoAnimation {
 		timeline.getKeyFrames().addAll(kf);
 		
 		sequentialTransition.getChildren().addAll(timeline);
+		soundUtils.playMoveSound();
 		sequentialTransition.play();
 	}
 	
@@ -68,6 +74,7 @@ public class BizingoAnimation {
 		timeline.getKeyFrames().addAll(kf);
 		
 		sequentialTransition.getChildren().addAll(timeline);
+		soundUtils.playMoveSound();
 		sequentialTransition.play();
 	}
 }

@@ -9,6 +9,8 @@ public class SoundUtils {
 	private Media move;
 	private Media receive1;
 	private Media receive2;
+	private Media victory;
+	private Media defeat;
 	
 	public SoundUtils() {
 		try {
@@ -16,6 +18,8 @@ public class SoundUtils {
 			move     = new Media(getClass().getResource("/resources/sounds/move.wav").toURI().toString());
 			receive1 = new Media(getClass().getResource("/resources/sounds/receive1.wav").toURI().toString());
 			receive2 = new Media(getClass().getResource("/resources/sounds/receive2.wav").toURI().toString());
+			victory = new Media(getClass().getResource("/resources/sounds/victory.wav").toURI().toString());
+			defeat = new Media(getClass().getResource("/resources/sounds/defeat.wav").toURI().toString());
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -40,5 +44,13 @@ public class SoundUtils {
 	
 	public void playReceive2Sound() {
 		playSound(receive2);
+	}
+	
+	public void playVictorySound() {
+		playSound(victory);
+	}
+	
+	public void playDefeatSound() {
+		playSound(defeat);
 	}
 }

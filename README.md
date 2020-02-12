@@ -19,7 +19,7 @@ Bizingo Game using Sockets implemented with Java
 ![login_bizingo](https://user-images.githubusercontent.com/19287934/74107127-c4867d00-4b4b-11ea-8e88-04cb39ff7331.png)
 
 #### Player 1 View :stuck_out_tongue_winking_eye:
-![game_bizingo](https://user-images.githubusercontent.com/19287934/74107123-b5073400-4b4b-11ea-982e-e9ed4a42a4d9.png)
+![game_bizingo_1](https://user-images.githubusercontent.com/19287934/74387926-b4370200-4dd8-11ea-8ad9-f16f6b4c6ea4.png)
 
 #### Player 2 View :relieved:
-![bizingo_game_2](https://user-images.githubusercontent.com/19287934/74107186-51313b00-4b4c-11ea-932a-cb821e79501f.png)
+![game_bizingo_2](https://user-images.githubusercontent.com/19287934/74387935-b6995c00-4dd8-11ea-9491-ebba67f7b1e9.png)

@@ -28,7 +28,9 @@ public class BizingoConstants {
 	public static Double BOARD_SIZE = 60.0;
 	public static Integer[] TYPE1_AMOUNT = new Integer[]{10,11,10,9,8,7,6,5,4,3,2};
 	public static Integer[] TYPE2_AMOUNT = new Integer[]{9,10,11,10,9,8,7,6,5,4,3};
-	
+	public static Integer[] TYPE1_EDGE_INDEXES = new Integer[]{};
+	public static Integer[] TYPE2_EDGE_INDEXES = new Integer[]{};
+
 	// Utils
 	public static Double MIN_DISTANCE_OUT_TRIANGLE = 30.0;
 	public static Double MIN_DISTANCE_NEIGHBOUR_TRIANGLE = 60.0;

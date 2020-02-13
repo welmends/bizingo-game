@@ -112,31 +112,82 @@ public class BizingoUtils {
 		
     	double dist, dif_x, dif_y;
 		int counter;
+		Boolean piece_captured;
+		Boolean captain_in_capture;
+		Boolean captain_capture;
+		Boolean edge_capture;
 		
+		// Get piece to be evaluated
     	for(int i=0; i<pieces.size(); i++) {
-			if(pieces.get(i).exists==false) {
-				continue;
-			}
+    		// Piece exists?
+			if(pieces.get(i).exists==false) { continue; }
+			
+			// Set control variables
     		counter = 0;
-    		for(int j=0; j<pieces.size(); j++) {
-    			if(pieces.get(j).exists==false) {
-    				continue;
+    		piece_captured = false;
+    		captain_in_capture = false;
+    		edge_capture = false;
+    		if(pieces.get(i).captain) { captain_capture = true;  }
+    		else                      { captain_capture = false; }
+    		
+    		// Piece is in edge?
+    		if(pieces.get(i).type) {
+    			// Type 1
+    			for(int e=0; e<BizingoConstants.TYPE1_EDGE_INDEXES.length; e++) {
+    				if(i==BizingoConstants.TYPE1_EDGE_INDEXES[e]) {
+    					edge_capture = true;
+    					break;
+    				}
     			}
+    		}else {
+    			// Type 2
+    			for(int e=0; e<BizingoConstants.TYPE2_EDGE_INDEXES.length; e++) {
+    				if(i==BizingoConstants.TYPE2_EDGE_INDEXES[e]) {
+    					edge_capture = true;
+    					break;
+    				}
+    			}
+    		}
+    		
+    		// Get piece to compare vertex
+    		for(int j=0; j<pieces.size(); j++) {
+    			// Piece exists?
+    			if(pieces.get(j).exists==false) { continue; }
+    			
+    			// Piece is a likely enemy?
     			if(pieces.get(i).type!=pieces.get(j).type) {
+    				
+    				// Calculate distance between them
         			dif_x = pieces.get(i).getPosition()[0]-pieces.get(j).getPosition()[0];
         			dif_y = pieces.get(i).getPosition()[1]-pieces.get(j).getPosition()[1];
             		dist = Math.sqrt(Math.pow(dif_x, 2) + Math.pow(dif_y, 2));
+            		
+            		// Verify if is near
             		if(dist<=BizingoConstants.MIN_DISTANCE_NEIGHBOUR_TRIANGLE) {
+            			
+            			// If has a capture in capture
+            			if(pieces.get(j).captain) { captain_in_capture = true; }
+            			
+            			// Is a near piece, increment
             			counter++;
-            			if(counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE) {
-            				captured.add(i);
-            				break;
-            			}
+            			
+            			// If has 3 pieces -> add to captured list
+            			if(counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE) { captured.add(i); piece_captured = true; break; }
+            			
+            			// If has 2 pieces and it is an edge capture -> add to captured list
+            			if(edge_capture==true && counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE-1) { captured.add(i); piece_captured = true; break; }
+            			
             		}
         		}
     		}
+    		
+    		// Remove the last capture if is undue
+    		if(piece_captured==true && (captain_capture==true || edge_capture==true) && captain_in_capture==false) {
+    			captured.remove(captured.size()-1);
+    		}
     	}
     	
+    	// Make the arrests
     	for(int i=0; i<captured.size(); i++) {
     		pieces.get(captured.get(i)).removeGraphics(bizingoPiecesPane);
     	}

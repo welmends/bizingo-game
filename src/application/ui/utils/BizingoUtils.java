@@ -83,6 +83,16 @@ public class BizingoUtils {
 		return false;
 	}
 	
+	public int pieceHasTriangle(List<BizingoTriangle> triangles, BizingoPiece piece) {		
+    	for(int i=0; i<triangles.size(); i++) {
+			if(triangles.get(i).getCenter()[0].intValue()==piece.getPosition()[0].intValue() && 
+			   triangles.get(i).getCenter()[1].intValue()==piece.getPosition()[1].intValue()) {
+				return i;
+			}
+    	}
+    	return -1;
+	}
+	
 	public int triangleHasPiece(BizingoTriangle triangle, List<BizingoPiece> pieces) {		
     	for(int i=0; i<pieces.size(); i++) {
     		if(pieces.get(i).exists) {
@@ -107,15 +117,16 @@ public class BizingoUtils {
     	return -1;
 	}
 	
-	public Boolean findCapturedPiece(Boolean peer_type, List<BizingoPiece> pieces, AnchorPane bizingoPiecesPane) {
+	public Boolean findCapturedPiece(Boolean peer_type, List<BizingoTriangle> triangles, List<BizingoPiece> pieces, AnchorPane bizingoPiecesPane) {
 		List<Integer> captured = new ArrayList<>();
 		
-    	double dist, dif_x, dif_y;
-		int counter;
 		Boolean piece_captured;
 		Boolean captain_in_capture;
 		Boolean captain_capture;
 		Boolean edge_capture;
+		int idx_triangle;
+		int counter;
+		double dist, dif_x, dif_y;
 		
 		// Get piece to be evaluated
     	for(int i=0; i<pieces.size(); i++) {
@@ -131,10 +142,11 @@ public class BizingoUtils {
     		else                      { captain_capture = false; }
     		
     		// Piece is in edge?
+    		idx_triangle = pieceHasTriangle(triangles, pieces.get(i));
     		if(pieces.get(i).type) {
     			// Type 1
     			for(int e=0; e<BizingoConstants.TYPE1_EDGE_INDEXES.length; e++) {
-    				if(i==BizingoConstants.TYPE1_EDGE_INDEXES[e]) {
+    				if(idx_triangle==BizingoConstants.TYPE1_EDGE_INDEXES[e]) {
     					edge_capture = true;
     					break;
     				}
@@ -142,7 +154,7 @@ public class BizingoUtils {
     		}else {
     			// Type 2
     			for(int e=0; e<BizingoConstants.TYPE2_EDGE_INDEXES.length; e++) {
-    				if(i==BizingoConstants.TYPE2_EDGE_INDEXES[e]) {
+    				if(idx_triangle==BizingoConstants.TYPE2_EDGE_INDEXES[e]) {
     					edge_capture = true;
     					break;
     				}

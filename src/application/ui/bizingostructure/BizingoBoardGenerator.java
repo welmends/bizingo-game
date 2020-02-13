@@ -74,7 +74,6 @@ public class BizingoBoardGenerator {
 				x3 = x1 - BizingoConstants.BOARD_SIZE;
 				y3 = y1;
 				triangles.add(new BizingoTriangle(true, x1, y1, x2, y2, x3, y3, BizingoConstants.COLOR_TRIANGLE_TYPE1, BizingoConstants.COLOR_TRIANGLE_STROKE));
-				triangles.get(triangles.size() - 1).draw(gc);
 			}
 		}
 		
@@ -101,7 +100,6 @@ public class BizingoBoardGenerator {
     			x3 = x1 + BizingoConstants.BOARD_SIZE;
     			y3 = y1;
     			triangles.add(new BizingoTriangle(false, x1, y1, x2, y2, x3, y3, BizingoConstants.COLOR_TRIANGLE_TYPE2, BizingoConstants.COLOR_TRIANGLE_STROKE));
-    			triangles.get(triangles.size() - 1).draw(gc);
     		}
     	}
     	

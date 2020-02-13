@@ -254,7 +254,7 @@ public class BizingoController extends Thread implements Initializable {
 							        	bizingoTurnRect.setVisible(true);
 							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
-							        	if(utils.findCapturedPiece(soc_p2p.isServer(), triangles, pieces, bizingoPiecesPane)) {
+							        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 							        		soundUtils.playCaptureSound();
 							        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
 							        		endGame(utils.findWinnerAndLoser(pieces));
@@ -342,7 +342,7 @@ public class BizingoController extends Thread implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
-	        	if(utils.findCapturedPiece(!soc_p2p.isServer(), triangles, pieces, bizingoPiecesPane)) {
+	        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 	        		soundUtils.playCaptureSound();
 	        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
 	        		endGame(utils.findWinnerAndLoser(pieces));

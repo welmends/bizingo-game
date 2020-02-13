@@ -117,27 +117,33 @@ public class BizingoUtils {
     	return -1;
 	}
 	
-	public Boolean findCapturedPiece(Boolean peer_type, List<BizingoTriangle> triangles, List<BizingoPiece> pieces, AnchorPane bizingoPiecesPane) {
+	public Boolean findCapturedPiece(int idx_piece_last, List<BizingoTriangle> triangles, List<BizingoPiece> pieces, AnchorPane bizingoPiecesPane) {
 		List<Integer> captured = new ArrayList<>();
 		
-		Boolean piece_captured;
+		Boolean piece_captured_by_3;
+		Boolean piece_captured_by_2;
 		Boolean captain_in_capture;
 		Boolean captain_capture;
 		Boolean edge_capture;
+		Boolean last_piece_was_in_capture;
+		int last_piece_capture;
 		int idx_triangle;
 		int counter;
 		double dist, dif_x, dif_y;
 		
 		// Get piece to be evaluated
+		last_piece_capture = 0;
     	for(int i=0; i<pieces.size(); i++) {
     		// Piece exists?
 			if(pieces.get(i).exists==false) { continue; }
 			
 			// Set control variables
     		counter = 0;
-    		piece_captured = false;
+    		piece_captured_by_3 = false;
+    		piece_captured_by_2 = false;
     		captain_in_capture = false;
     		edge_capture = false;
+    		last_piece_was_in_capture = false;
     		if(pieces.get(i).captain) { captain_capture = true;  }
     		else                      { captain_capture = false; }
     		
@@ -177,25 +183,48 @@ public class BizingoUtils {
             		// Verify if is near
             		if(dist<=BizingoConstants.MIN_DISTANCE_NEIGHBOUR_TRIANGLE) {
             			
-            			// If has a capture in capture
+            			// If has a captain in capture
             			if(pieces.get(j).captain) { captain_in_capture = true; }
+            			
+            			// If last piece was in capture
+            			if(last_piece_capture == 0 && j==idx_piece_last) { last_piece_was_in_capture = true; last_piece_capture=1; }
             			
             			// Is a near piece, increment
             			counter++;
             			
             			// If has 3 pieces -> add to captured list
-            			if(counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE) { captured.add(i); piece_captured = true; break; }
+            			if(counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE) { captured.add(i); piece_captured_by_3 = true; break; }
             			
             			// If has 2 pieces and it is an edge capture -> add to captured list
-            			if(edge_capture==true && counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE-1) { captured.add(i); piece_captured = true; break; }
+            			if(edge_capture==true && counter==BizingoConstants.AMOUNT_PIECES_SURROUND_TO_CAPTURE-1) { captured.add(i); piece_captured_by_2 = true; break; }
             			
             		}
         		}
     		}
     		
     		// Remove the last capture if is undue
-    		if(piece_captured==true && (captain_capture==true || edge_capture==true) && captain_in_capture==false) {
+    		if((piece_captured_by_3==true || piece_captured_by_2==true) && (captain_capture==true || edge_capture==true) && captain_in_capture==false) {
     			captured.remove(captured.size()-1);
+    		}
+    		
+    		// Remove the last capture if piece capture in its capture
+    		else if(last_piece_was_in_capture==true && last_piece_capture==1) {
+    			if(piece_captured_by_3==true) {
+    				// flag to avoid removal
+    				last_piece_capture = 2;
+    			}else {
+    				// false alarm
+    				last_piece_capture = 0;
+    			}
+    			
+    		}
+    	}
+    	
+    	// If we need to undo capture of piece that has captured in its capture
+    	for(int i=0; i<captured.size(); i++) {
+    		if(last_piece_capture == 2 && idx_piece_last==captured.get(i)) {
+    			captured.remove(i);
+    			break;
     		}
     	}
     	

@@ -45,6 +45,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Label bizingoNameUp;
 	@FXML Label bizingoNameDown;
 	@FXML Label bizingoNameScore;
+	@FXML Label bizingoNameTurn;
 	@FXML Rectangle bizingoTurnRect;
 	
 	// Socket
@@ -69,6 +70,8 @@ public class BizingoController extends Thread implements Initializable {
 	
 	Boolean turn;
 	Boolean piece_selected;
+	
+	int turn_idx;
 	int idx_triangle, idx_triangle_last;
 	int idx_piece, idx_piece_last;
 	
@@ -96,6 +99,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Variables
 		piece_selected = false;
+		turn_idx = 0;
 		idx_triangle = -1;
 		idx_triangle_last = -1;
 		idx_piece = -1;
@@ -160,6 +164,7 @@ public class BizingoController extends Thread implements Initializable {
 					@Override
 					public void run() {
 						turn = true;
+						bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 						bizingoTurnRect.setVisible(false);
 						decodeMove(message_received);
 					}
@@ -218,6 +223,9 @@ public class BizingoController extends Thread implements Initializable {
 		
 		bizingoNameScore.setText(BizingoConstants.TEXT_LABEL_SCORE);
 		bizingoNameScore.setFont(FontConstants.sixty30p);
+		
+		bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
+		bizingoNameTurn.setFont(FontConstants.sixty25p);
 	}
 	
 	private void setCanvasMousePressedBehavior() {
@@ -251,6 +259,7 @@ public class BizingoController extends Thread implements Initializable {
 			        				public void handle(ActionEvent event) {
 			        					piece_selected = false;
 							        	turn = false;
+							        	bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 							        	bizingoTurnRect.setVisible(true);
 							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());

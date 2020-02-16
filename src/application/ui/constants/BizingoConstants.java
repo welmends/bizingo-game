@@ -49,6 +49,7 @@ public class BizingoConstants {
 	public static String TEXT_LABEL_NAME_UP = "B I Z I N G O";
 	public static String TEXT_LABEL_NAME_DOWN = "G A M E";
 	public static String TEXT_LABEL_SCORE = "S C O R E";
+	public static String TEXT_LABEL_TURN = "T U R N : ";
 	
 	// Sys Messages
 	public static String SYS_RESTART_REQUEST = "restart";

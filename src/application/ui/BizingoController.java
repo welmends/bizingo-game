@@ -371,6 +371,7 @@ public class BizingoController extends Thread implements Initializable {
 		
 		// Variables
 		piece_selected = false;
+		turn_idx = 0;
 		idx_triangle = -1;
 		idx_triangle_last = -1;
 		idx_piece = -1;
@@ -390,6 +391,9 @@ public class BizingoController extends Thread implements Initializable {
 		}
 		
 		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+		
+		// Update turn label
+		bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 	}
 	
 	private void endGame(int winner) {

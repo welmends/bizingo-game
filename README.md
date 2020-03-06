@@ -1,5 +1,5 @@
 # Bizingo Game :video_game:
-Bizingo Game using Sockets implemented with Java
+Bizingo Game using Socket implemented in Java
 
 ## Requirements
 **Tested on Windows 10**

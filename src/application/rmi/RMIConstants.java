@@ -8,4 +8,8 @@ public class RMIConstants {
 	
 	public static String BIZINGO_RMI_SERVER_NAME = BIZINGO_RMI_NAME + "-Server";
 	public static String BIZINGO_RMI_CLIENT_NAME = BIZINGO_RMI_NAME + "-Client";
+	
+	public static String SYS_RESTART_REQUEST = "restart";
+	public static String SYS_RESTART_RESPONSE_OK = "restart_ok";
+	public static String SYS_RESTART_RESPONSE_FAIL = "restart_fail";
 }

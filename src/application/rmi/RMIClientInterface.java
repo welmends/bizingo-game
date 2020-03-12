@@ -5,6 +5,6 @@ import java.rmi.RemoteException;
 
 public interface RMIClientInterface extends Remote {
 	
-	String inverter(String msg) throws RemoteException;
+	String hello(String msg) throws RemoteException;
   
 }

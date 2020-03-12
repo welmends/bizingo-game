@@ -7,32 +7,72 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIClient extends UnicastRemoteObject implements RMIClientInterface{
 	
 	private static final long serialVersionUID = 1L;
-
-	public RMIClient() throws RemoteException{
+	public static RMIServerInterface rmi_server;
+	
+	private String server_link, client_link;
+    private String ip;
+    private int port;
+    
+	public RMIClient(String ip, int port) throws RemoteException{
 		super();
-		System.out.println("> Cliente criado");
+		this.ip = ip;
+		this.port = port;
+		server_link = "rmi://"+this.ip+":"+String.valueOf(this.port)+"/"+RMIConstants.BIZINGO_RMI_SERVER_NAME;
+		client_link = "rmi://"+this.ip+":"+String.valueOf(this.port)+"/"+RMIConstants.BIZINGO_RMI_CLIENT_NAME;
+	}
+	
+	public Boolean rebind() {
+		try {
+			Naming.rebind(client_link, this);
+			
+			return true;
+		} catch(Exception e){
+			System.out.println(e);
+			
+			return false;
+		}
+	}
+	
+	public Boolean unbind() {
+		try {
+			Naming.unbind(client_link);
+			
+			return true;
+		} catch(Exception e){
+			System.out.println(e);
+			
+			return false;
+		}
+	}
+	
+	public Boolean lookup() {
+		try {
+			rmi_server = (RMIServerInterface)Naming.lookup(server_link);
+
+			return true;
+		} catch(Exception e){
+			System.out.println(e);
+			
+			return false;
+		}
+	}
+	
+	public Boolean has_connection() {
+		try {
+			if(Naming.list(client_link).length>0) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch(Exception e){
+			System.out.println(e);
+			
+			return false;
+		}
 	}
 	
 	@Override
-	public String inverter(String msg) {
-		StringBuffer strbuf = new StringBuffer(msg);
-		System.out.println("> Recebido: "+msg);
-		String retorno = (strbuf.reverse()).toString();
-		return retorno;
+	public String hello(String msg) {
+		return "im client - " + msg;
     }
-	
-	public static void main(String args[])  { 
-		try {   
-			RMIServerInterface rmi_server = (RMIServerInterface)Naming.lookup("rmi://127.0.0.1:9999/Inverter");
-			System.out.println("> Objeto Localizado");
-			
-			String feedback = rmi_server.inverter("wellington");
-			System.out.println("> Frase Invertida = " + feedback);  
-
-		} catch(Exception e){
-			System.err.println("> Error");
-		}
-		System.exit(0);
-	}
-
 }

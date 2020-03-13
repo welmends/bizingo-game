@@ -120,7 +120,7 @@ public class SocketP2P extends Thread implements P2PInterface {
     	try {
 			socket.close();
 			
-			if(isServer()) {
+			if(is_server()) {
 				serverSocket.close();
 			}
 			
@@ -153,12 +153,12 @@ public class SocketP2P extends Thread implements P2PInterface {
     
     // P2P Interface Implementation - Getters
     @Override
-    public String getPeerType() {
+    public String get_peer_type() {
     	return this.peer_type;
     }
     
     @Override
-    public Boolean isServer() {
+    public Boolean is_server() {
     	if(this.peer_type.equals("server")) {
     		return true;
     	}
@@ -166,7 +166,7 @@ public class SocketP2P extends Thread implements P2PInterface {
     }
     
     @Override
-    public Boolean isClient() {
+    public Boolean is_client() {
     	if(this.peer_type.equals("client")) {
     		return true;
     	}
@@ -174,13 +174,13 @@ public class SocketP2P extends Thread implements P2PInterface {
     }
     
     @Override
-    public Boolean isConnected() {
+    public Boolean has_connection() {
     	return is_connected;
     }
     
     // P2P Interface Implementation - Bizingo Stack Full
     @Override
-    public Boolean chatMessageStackFull() {
+    public Boolean chat_stack_full() {
     	String message_received = "";
 		try {
 			mutex.acquire();
@@ -202,7 +202,7 @@ public class SocketP2P extends Thread implements P2PInterface {
     }
     
     @Override
-    public Boolean gameMessageStackFull() {
+    public Boolean game_stack_full() {
     	String message_received = "";
 		try {
 			mutex.acquire();
@@ -224,7 +224,7 @@ public class SocketP2P extends Thread implements P2PInterface {
     }
     
     @Override
-    public Boolean sysMessageStackFull() {
+    public Boolean sys_stack_full() {
     	String message_received = "";
 		try {
 			mutex.acquire();

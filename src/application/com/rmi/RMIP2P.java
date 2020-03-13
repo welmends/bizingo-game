@@ -114,12 +114,12 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	
 	// P2P Interface Implementation - Getters
 	@Override
-    public String getPeerType() {
+    public String get_peer_type() {
     	return this.peer_type;
     }
     
 	@Override
-    public Boolean isServer() {
+    public Boolean is_server() {
     	if(this.peer_type.equals("server")) {
     		return true;
     	}
@@ -127,7 +127,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     }
     
 	@Override
-    public Boolean isClient() {
+    public Boolean is_client() {
     	if(this.peer_type.equals("client")) {
     		return true;
     	}
@@ -135,13 +135,13 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     }
     
 	@Override
-    public Boolean isConnected() {
+    public Boolean has_connection() {
     	return is_connected;
     }
     
     // P2P Interface Implementation - Bizingo Stack Full
 	@Override
-    public Boolean chatMessageStackFull() {
+    public Boolean chat_stack_full() {
     	Boolean stack_full = false;
 		try {
 			mutex.acquire();
@@ -155,7 +155,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     }
     
 	@Override
-    public Boolean gameMessageStackFull() {
+    public Boolean game_stack_full() {
     	Boolean stack_full = false;
 		try {
 			mutex.acquire();
@@ -169,7 +169,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     }
     
 	@Override
-    public Boolean sysMessageStackFull() {
+    public Boolean sys_stack_full() {
     	Boolean stack_full = false;
 		try {
 			mutex.acquire();

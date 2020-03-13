@@ -124,14 +124,14 @@ public class BizingoController extends Thread implements Initializable {
 	
 	@Override
 	public void run() {
-		if(p2p.isServer()) {
+		if(p2p.is_server()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
 		}
-		status.draw_cover(gc_status_down, gc_status_up, p2p.isServer());
+		status.draw_cover(gc_status_down, gc_status_up, p2p.is_server());
 		
 		while(true) {
 			try {
@@ -140,7 +140,7 @@ public class BizingoController extends Thread implements Initializable {
 				e.printStackTrace();
 			}
 			
-			if(!p2p.isConnected()) {
+			if(!p2p.has_connection()) {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -157,7 +157,7 @@ public class BizingoController extends Thread implements Initializable {
 				}
 			}
 			
-			if(p2p.gameMessageStackFull()) {
+			if(p2p.game_stack_full()) {
             	// Receive Messages
 				String message_received = p2p.get_game_mov();
 
@@ -172,7 +172,7 @@ public class BizingoController extends Thread implements Initializable {
 				});
 			}
 			
-			if(p2p.sysMessageStackFull()) {
+			if(p2p.sys_stack_full()) {
             	// Receive Messages
 				String message_received = p2p.get_sys_cmd();
 				
@@ -250,7 +250,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-			        	idx_piece = utils.triangleHasPiece(p2p.isServer(), triangles.get(idx_triangle), pieces);
+			        	idx_piece = utils.triangleHasPiece(p2p.is_server(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
@@ -266,7 +266,7 @@ public class BizingoController extends Thread implements Initializable {
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 							        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 							        		soundUtils.playCaptureSound();
-							        		status.update_status(gc_status_up, p2p.isServer(), pieces);
+							        		status.update_status(gc_status_up, p2p.is_server(), pieces);
 							        		endGame(utils.findWinnerAndLoser(pieces));
 							        	}
 			        				}
@@ -288,7 +288,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-		        		idx_piece = utils.triangleHasPiece(p2p.isServer(), triangles.get(idx_triangle), pieces);
+		        		idx_piece = utils.triangleHasPiece(p2p.is_server(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		piece_selected = false;
@@ -354,7 +354,7 @@ public class BizingoController extends Thread implements Initializable {
 	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 	        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 	        		soundUtils.playCaptureSound();
-	        		status.update_status(gc_status_up, p2p.isServer(), pieces);
+	        		status.update_status(gc_status_up, p2p.is_server(), pieces);
 	        		endGame(utils.findWinnerAndLoser(pieces));
 	        	}
 			}
@@ -383,7 +383,7 @@ public class BizingoController extends Thread implements Initializable {
 		boardGen.generateBoard(triangles, pieces, bizingoPiecesPane);
 		
 		// Update status
-		if(p2p.isServer()) {
+		if(p2p.is_server()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
 		}else {
@@ -391,26 +391,26 @@ public class BizingoController extends Thread implements Initializable {
 			bizingoTurnRect.setVisible(true);
 		}
 		
-		status.update_status(gc_status_up, p2p.isServer(), pieces);
+		status.update_status(gc_status_up, p2p.is_server(), pieces);
 		
 		// Update turn label
 		bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 	}
 	
 	private void endGame(int winner) {
-    	if(p2p.isServer() && winner==1) {
+    	if(p2p.is_server() && winner==1) {
     		soundUtils.playVictorySound();
     		alertUtils.alertWinner();
     	}
-    	else if(p2p.isServer() && winner==2) {
+    	else if(p2p.is_server() && winner==2) {
     		soundUtils.playDefeatSound();
     		alertUtils.alertLoser();
     	}
-    	else if(p2p.isClient() && winner==1) {
+    	else if(p2p.is_client() && winner==1) {
     		soundUtils.playDefeatSound();
     		alertUtils.alertLoser();
     	}
-    	else if(p2p.isClient() && winner==2) {
+    	else if(p2p.is_client() && winner==2) {
     		soundUtils.playVictorySound();
     		alertUtils.alertWinner();
     	}

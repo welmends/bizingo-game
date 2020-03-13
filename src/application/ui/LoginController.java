@@ -86,7 +86,7 @@ public class LoginController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(p2p.isConnected()==true) {
+			if(p2p.has_connection()==true) {
 				break;
 			}
 		}
@@ -190,7 +190,7 @@ public class LoginController extends Thread implements Initializable {
     		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		
     		if(p2p.connect()==true) {
-    			if(p2p.isClient()) {
+    			if(p2p.is_client()) {
     				// Transition to game
     				startGame();
     			}else {

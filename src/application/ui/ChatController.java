@@ -67,7 +67,7 @@ public class ChatController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(p2p.chatMessageStackFull()) {
+			if(p2p.chat_stack_full()) {
             	// Receive Messages
 				
 				// Receive Remote

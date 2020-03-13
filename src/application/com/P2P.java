@@ -35,38 +35,38 @@ public class P2P implements P2PInterface {
 	}
 
 	@Override
-	public String getPeerType() {
-		return this.technology.getPeerType();
+	public String get_peer_type() {
+		return this.technology.get_peer_type();
 	}
 
 	@Override
-	public Boolean isServer() {
-		return this.technology.isServer();
+	public Boolean is_server() {
+		return this.technology.is_server();
 	}
 
 	@Override
-	public Boolean isClient() {
-		return this.technology.isClient();
+	public Boolean is_client() {
+		return this.technology.is_client();
 	}
 
 	@Override
-	public Boolean isConnected() {
-		return this.technology.isConnected();
+	public Boolean has_connection() {
+		return this.technology.has_connection();
 	}
 
 	@Override
-	public Boolean chatMessageStackFull() {
-		return this.technology.chatMessageStackFull();
+	public Boolean chat_stack_full() {
+		return this.technology.chat_stack_full();
 	}
 
 	@Override
-	public Boolean gameMessageStackFull() {
-		return this.technology.gameMessageStackFull();
+	public Boolean game_stack_full() {
+		return this.technology.game_stack_full();
 	}
 
 	@Override
-	public Boolean sysMessageStackFull() {
-		return this.technology.sysMessageStackFull();
+	public Boolean sys_stack_full() {
+		return this.technology.sys_stack_full();
 	}
 
 	@Override

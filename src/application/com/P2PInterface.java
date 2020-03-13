@@ -15,15 +15,15 @@ public interface P2PInterface {
 	Boolean disconnect();
 	
 	// Getters
-	String getPeerType();
-	Boolean isServer();
-	Boolean isClient();
-	Boolean isConnected();
+	String get_peer_type();
+	Boolean is_server();
+	Boolean is_client();
+	Boolean has_connection();
 	
 	// Bizingo Stack Full
-	Boolean chatMessageStackFull();
-	Boolean gameMessageStackFull();
-	Boolean sysMessageStackFull();
+	Boolean chat_stack_full();
+	Boolean game_stack_full();
+	Boolean sys_stack_full();
 	
 	// Bizingo Getters
 	String get_chat_msg();

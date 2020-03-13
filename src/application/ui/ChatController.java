@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import application.com.rmi.RMIP2P;
+import application.com.P2P;
 import application.ui.constants.ChatConstants;
 import application.ui.constants.FontConstants;
 import application.ui.constants.ImageConstants;
@@ -37,12 +37,12 @@ public class ChatController extends Thread implements Initializable {
 	@FXML TextField chatTextField;
 	
 	// Socket
-	RMIP2P p2p;
+	P2P p2p;
 	
 	// Variables
 	SoundUtils soundUtils;
 	
-	public void loadFromParent(RMIP2P p2p) {
+	public void loadFromParent(P2P p2p) {
 		this.p2p = p2p;
 		soundUtils = new SoundUtils();
 	}

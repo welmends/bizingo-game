@@ -5,6 +5,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
+import application.com.P2P;
 import application.com.rmi.RMIP2P;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,7 @@ public class MainController implements Initializable {
 	@FXML AnchorPane loginAnchorPane;
 	
 	// Socket
-	RMIP2P p2p;
+	P2P p2p;
 	
 	// FXML Loaders
 	FXMLLoader loginLoader;

@@ -3,7 +3,7 @@ package application.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.com.rmi.RMIP2P;
+import application.com.P2P;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
 import application.ui.utils.AlertUtils;
@@ -36,7 +36,7 @@ public class LoginController extends Thread implements Initializable {
 	@FXML Button connectButton;
 	
 	// Socket
-	RMIP2P p2p;
+	P2P p2p;
 	
 	// Alerts
 	AlertUtils alertUtils;
@@ -49,7 +49,7 @@ public class LoginController extends Thread implements Initializable {
 	ChatController chat;
 	BizingoController bizingo;
 	
-	public void loadFromParent(RMIP2P p2p, BizingoController bizingo, ChatController chat, HBox mainHBox, AnchorPane loginAnchorPane) {
+	public void loadFromParent(P2P p2p, BizingoController bizingo, ChatController chat, HBox mainHBox, AnchorPane loginAnchorPane) {
 		this.p2p = p2p;
 		
 		this.bizingo = bizingo;

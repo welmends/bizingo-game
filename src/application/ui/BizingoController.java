@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.com.rmi.RMIConstants;
-import application.com.rmi.RMIP2P;
+import application.com.P2P;
+import application.com.P2PConstants;
 import application.ui.animation.BizingoAnimation;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
@@ -50,7 +50,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Rectangle bizingoTurnRect;
 	
 	// Socket
-	RMIP2P p2p;
+	P2P p2p;
 	
 	// Variables
 	GraphicsContext gc_background;
@@ -76,7 +76,7 @@ public class BizingoController extends Thread implements Initializable {
 	int idx_triangle, idx_triangle_last;
 	int idx_piece, idx_piece_last;
 	
-	public void loadFromParent(RMIP2P p2p) {
+	public void loadFromParent(P2P p2p) {
 		this.p2p = p2p;
 	}
 	
@@ -180,7 +180,7 @@ public class BizingoController extends Thread implements Initializable {
 					
 					@Override
 					public void run() {
-						if(message_received.equals(RMIConstants.SYS_RESTART_REQUEST)) {
+						if(message_received.equals(P2PConstants.SYS_RESTART_REQUEST)) {
 							if(ButtonType.OK == alertUtils.alertRestartGameResponse()) {
 								//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_OK);
 								p2p.sys_restart_response_ok_call();
@@ -192,12 +192,12 @@ public class BizingoController extends Thread implements Initializable {
 								bizingoRestart.setDisable(false);
 							}
 						}
-						else if(message_received.equals(RMIConstants.SYS_RESTART_RESPONSE_OK)) {
+						else if(message_received.equals(P2PConstants.SYS_RESTART_RESPONSE_OK)) {
 							alertUtils.alertRestartGameSucceeded();
 							restartGame();
 							bizingoRestart.setDisable(false);
 						}
-						else if(message_received.equals(RMIConstants.SYS_RESTART_RESPONSE_FAIL)) {
+						else if(message_received.equals(P2PConstants.SYS_RESTART_RESPONSE_FAIL)) {
 							alertUtils.alertRestartGameFailed();
 							if(turn) {
 								bizingoTurnRect.setVisible(false);

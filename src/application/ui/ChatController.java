@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import application.socket.SocketP2P;
+import application.com.socket.SocketP2P;
 import application.ui.constants.ChatConstants;
 import application.ui.constants.FontConstants;
 import application.ui.constants.ImageConstants;

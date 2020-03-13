@@ -1,4 +1,4 @@
-package application.socket;
+package application.com.socket;
 
 import java.net.*;
 import java.util.concurrent.Semaphore;

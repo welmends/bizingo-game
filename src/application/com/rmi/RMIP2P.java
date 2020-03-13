@@ -1,4 +1,4 @@
-package application.rmi;
+package application.com.rmi;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;

@@ -3,7 +3,7 @@ package application.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.socket.SocketP2P;
+import application.com.socket.SocketP2P;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
 import application.ui.utils.AlertUtils;

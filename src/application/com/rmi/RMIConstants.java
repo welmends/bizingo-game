@@ -1,4 +1,4 @@
-package application.rmi;
+package application.com.rmi;
 
 public class RMIConstants {
 	

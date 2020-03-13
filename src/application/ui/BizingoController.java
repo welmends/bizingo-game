@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.socket.SocketP2P;
+import application.com.socket.SocketP2P;
 import application.ui.animation.BizingoAnimation;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;

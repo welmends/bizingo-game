@@ -19,7 +19,7 @@ Bizingo Game using Socket or RMI/RPC implemented in Java
 ## Screens
 
 #### Login Pane :computer:
-![login_bizingo](https://user-images.githubusercontent.com/19287934/74107127-c4867d00-4b4b-11ea-8e88-04cb39ff7331.png)
+![login_bizingo](https://user-images.githubusercontent.com/19287934/76585173-7eab3480-64bc-11ea-8e4d-dd346ac5713f.png)
 
 #### Player 1 View :stuck_out_tongue_winking_eye:
 ![game_bizingo_1](https://user-images.githubusercontent.com/19287934/74614502-1f454900-50f7-11ea-99f2-09ee9d8dffbf.png)

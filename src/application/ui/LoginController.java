@@ -138,9 +138,7 @@ public class LoginController extends Thread implements Initializable {
     				alertUtils.alertLoginInformation();
 	        		
     				// Wait for connection
-    				if(p2p.get_technology_name().equals("Socket")) {
-    					p2p.thread_call();
-    				}
+    				p2p.thread_call();
     				
     				// Trigger for client connection
     				start();

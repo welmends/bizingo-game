@@ -8,7 +8,7 @@ import application.com.P2PConstants;
 
 import java.io.*;
 
-public class SocketP2P extends Thread implements P2PInterface {
+public class SocketP2P implements P2PInterface, Runnable {
 	
 	private Semaphore mutex;
 	
@@ -53,7 +53,7 @@ public class SocketP2P extends Thread implements P2PInterface {
  	// P2P Interface Implementation - Thread
  	@Override
  	public void thread_call() {
- 		this.start();
+ 		new Thread(this).start();
  	}
 
  	@Override
@@ -105,7 +105,7 @@ public class SocketP2P extends Thread implements P2PInterface {
         		
         		is_connected = true;
         		
-        		this.start();
+        		new Thread(this).start();
         		
         		return true;
         	} catch(Exception e_client) {

@@ -176,6 +176,8 @@ public class LoginController extends Thread implements Initializable {
     		connectButton.setDisable(true);
     		ipTextField.setDisable(true);
     		portTextField.setDisable(true);
+    		socketTButton.setDisable(true);
+    		rmiTButton.setDisable(true);
     		
     		if(socketTButton.isSelected()) {
     			p2p.set_technology(new SocketP2P());

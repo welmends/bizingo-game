@@ -1,5 +1,5 @@
 # Bizingo Game :video_game:
-Bizingo Game using Socket implemented in Java
+Bizingo Game using Socket or RMI/RPC implemented in Java
 
 ## Requirements
 **Tested on Windows 10**

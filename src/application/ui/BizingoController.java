@@ -159,7 +159,7 @@ public class BizingoController extends Thread implements Initializable {
 			
 			if(p2p.gameMessageStackFull()) {
             	// Receive Messages
-				String message_received = p2p.get_game_mov();//p2p.getMessage();
+				String message_received = p2p.get_game_mov();
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -174,7 +174,7 @@ public class BizingoController extends Thread implements Initializable {
 			
 			if(p2p.sysMessageStackFull()) {
             	// Receive Messages
-				String message_received = p2p.get_sys_cmd();//p2p.getMessage();
+				String message_received = p2p.get_sys_cmd();
 				
 				Platform.runLater(new Runnable() {
 					
@@ -182,12 +182,10 @@ public class BizingoController extends Thread implements Initializable {
 					public void run() {
 						if(message_received.equals(P2PConstants.SYS_RESTART_REQUEST)) {
 							if(ButtonType.OK == alertUtils.alertRestartGameResponse()) {
-								//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_OK);
 								p2p.sys_restart_response_ok_call();
 								restartGame();
 								bizingoRestart.setDisable(false);
 							}else {
-								//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_FAIL);
 								p2p.sys_restart_response_fail_call();
 								bizingoRestart.setDisable(false);
 							}
@@ -264,7 +262,6 @@ public class BizingoController extends Thread implements Initializable {
 							        	turn = false;
 							        	bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 							        	bizingoTurnRect.setVisible(true);
-							        	//p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
 							        	p2p.move_game_piece_call(encodeMove(idx_piece_last, idx_triangle));
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 							        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
@@ -332,7 +329,6 @@ public class BizingoController extends Thread implements Initializable {
 	        @Override
 	        public void handle(MouseEvent event) {
 				if(ButtonType.OK == alertUtils.alertRestartGameRequest()) {
-					//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_REQUEST);
 					p2p.sys_restart_request_call();
 					bizingoRestart.setDisable(true);
 					bizingoTurnRect.setVisible(true);

@@ -2,6 +2,12 @@ package application.com;
 
 public interface P2P {
 	
+	// Technology
+	public String get_technology_name();
+	
+	// Thread
+	public void thread_call();
+	
 	// Connection
 	void setup(String ip, int port);
 	Boolean connect();

@@ -10,9 +10,9 @@ import application.com.P2P;
 import application.com.P2PConstants;
 
 public class RMIP2P extends UnicastRemoteObject implements P2P, RMIP2PInterface {
-
+	
 	private static final long serialVersionUID = 0L;
-	public static RMIP2PInterface rmi_client;
+	private static RMIP2PInterface rmi_client;
 	
 	private Semaphore mutex;
 	
@@ -42,6 +42,18 @@ public class RMIP2P extends UnicastRemoteObject implements P2P, RMIP2PInterface 
 		this.peer_type = "";
 		this.ip = "";
 		this.port = -1;
+	}
+
+	// P2P Interface Implementation - Thread
+	@Override
+	public String get_technology_name() {
+		return "RMI";
+	}
+	
+	// P2P Interface Implementation - Thread
+	@Override
+	public void thread_call() {
+		return;
 	}
 	
 	// P2P Interface Implementation - Connection

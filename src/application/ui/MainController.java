@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import application.com.P2P;
 import application.com.rmi.RMIP2P;
+import application.com.socket.SocketP2P;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,11 +38,14 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Initialize Objects
-		try {
-			p2p = new RMIP2P();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		
+		p2p = new SocketP2P();
+		
+//		try {
+//			p2p = new RMIP2P();
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		}
 		
 		Scene loginScene = null;
 		Scene bizingoScene = null;

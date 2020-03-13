@@ -71,7 +71,7 @@ public class ChatController extends Thread implements Initializable {
             	// Receive Messages
 				
 				// Receive Remote
-				String message_received = p2p.get_chat_msg();//p2p.getMessage();
+				String message_received = p2p.get_chat_msg();
 				
 				Platform.runLater(new Runnable() {
 					@Override
@@ -165,7 +165,6 @@ public class ChatController extends Thread implements Initializable {
 	                sp.setMinHeight(sp.getHeight());
 	                
 	                // Send Remote
-	                //p2p.sendChatMessage(chatTextField.getText());
 	                p2p.send_chat_msg_call(chatTextField.getText());
 	                
 	                chatTextField.setText("");

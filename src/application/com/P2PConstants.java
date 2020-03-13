@@ -3,7 +3,9 @@ package application.com;
 public class P2PConstants {
 	
 	// Socket P2P Type
-	//...
+	public static String CHAT_CODEC = "#C$";
+	public static String GAME_CODEC = "#G$";
+	public static String SYS_CODEC = "#S$";
 	
 	// RMI P2P Type - example: 'rmi://127.0.0.1:9999/Bizingo'
 	

@@ -128,7 +128,6 @@ public class LoginController extends Thread implements Initializable {
     		ipTextField.setDisable(true);
     		portTextField.setDisable(true);
     		
-    		//p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		
     		if(p2p.connect()==true) {
@@ -139,7 +138,9 @@ public class LoginController extends Thread implements Initializable {
     				alertUtils.alertLoginInformation();
 	        		
     				// Wait for connection
-    				//p2p.start();
+    				if(p2p.get_technology_name().equals("Socket")) {
+    					p2p.thread_call();
+    				}
     				
     				// Trigger for client connection
     				start();

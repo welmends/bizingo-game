@@ -2,9 +2,16 @@ package application.com.socket;
 
 import java.net.*;
 import java.util.concurrent.Semaphore;
+
+import application.com.P2P;
+import application.com.P2PConstants;
+
 import java.io.*;
 
-public class SocketP2P extends Thread {
+public class SocketP2P extends Thread implements P2P {
+	
+	private Semaphore mutex;
+	
     private ServerSocket serverSocket = null;
     private Socket socket = null;
     
@@ -14,53 +21,37 @@ public class SocketP2P extends Thread {
     private String message_input= "";
     private String message_output= "";
     
-    private String peer_type;
     private int thread_action;
+    
     private Boolean is_connected;
-    
-    private Semaphore mutex;
-    
-    private String CHAT_CODEC;
-    private String GAME_CODEC;
-    private String SYS_CODEC;
-    
+    private String peer_type;
     private String ip;
     private int port;
     
-    public SocketP2P(){
-    	this.peer_type = "";
-    	this.thread_action = 1;
-    	this.is_connected = false;
-    	
+    public SocketP2P() {
     	mutex = new Semaphore(1);
     	
-    	CHAT_CODEC = "#C$";
-    	GAME_CODEC = "#G$";
-    	SYS_CODEC = "#S$";
-    }
-    
-    public SocketP2P(String ip, int port){
-    	this.peer_type = "";
     	this.thread_action = 1;
+    	
     	this.is_connected = false;
-    	
-    	mutex = new Semaphore(1);
-    	
-    	CHAT_CODEC = "#C$";
-    	GAME_CODEC = "#G$";
-    	SYS_CODEC = "#S$";
-    	
-        this.ip   = ip;
-        this.port = port;
-    }
-    
-    public void setup(String ip, int port) {
     	this.peer_type = "";
-        this.ip   = ip;
-        this.port = port;
+		this.ip = "";
+		this.port = -1;
     }
-    
-    @Override
+
+    // P2P Interface Implementation - Technology
+ 	@Override
+ 	public String get_technology_name() {
+ 		return "SOCKET";
+ 	}
+ 	
+ 	// P2P Interface Implementation - Thread
+ 	@Override
+ 	public void thread_call() {
+ 		this.start();
+ 	}
+
+ 	@Override
     public void run(){
     	if(thread_action==1) {
     		wait_connection();
@@ -80,6 +71,14 @@ public class SocketP2P extends Thread {
     	}
     }
     
+ 	// P2P Interface Implementation - Connection
+ 	@Override
+    public void setup(String ip, int port) {
+        this.ip   = ip;
+        this.port = port;
+    }
+    
+ 	@Override
     public Boolean connect(){
         try {
         	this.peer_type = "server";
@@ -111,6 +110,7 @@ public class SocketP2P extends Thread {
         }
     }
     
+ 	@Override
     public Boolean disconnect(){
     	try {
 			socket.close();
@@ -146,6 +146,35 @@ public class SocketP2P extends Thread {
 
     }
     
+    // P2P Interface Implementation - Getters
+    @Override
+    public String getPeerType() {
+    	return this.peer_type;
+    }
+    
+    @Override
+    public Boolean isServer() {
+    	if(this.peer_type.equals("server")) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    @Override
+    public Boolean isClient() {
+    	if(this.peer_type.equals("client")) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    @Override
+    public Boolean isConnected() {
+    	return is_connected;
+    }
+    
+    // P2P Interface Implementation - Bizingo Stack Full
+    @Override
     public Boolean chatMessageStackFull() {
     	String message_received = "";
 		try {
@@ -157,7 +186,7 @@ public class SocketP2P extends Thread {
 		}
 
     	if(message_received.length()>0) {
-    		if(CHAT_CODEC.equals(message_received.substring(0,CHAT_CODEC.length()))) {
+    		if(P2PConstants.CHAT_CODEC.equals(message_received.substring(0,P2PConstants.CHAT_CODEC.length()))) {
     			return true;
     		}else {
     			return false;
@@ -167,6 +196,7 @@ public class SocketP2P extends Thread {
     	}
     }
     
+    @Override
     public Boolean gameMessageStackFull() {
     	String message_received = "";
 		try {
@@ -178,7 +208,7 @@ public class SocketP2P extends Thread {
 		}
 
     	if(message_received.length()>0) {
-    		if(GAME_CODEC.equals(message_received.substring(0,GAME_CODEC.length()))) {
+    		if(P2PConstants.GAME_CODEC.equals(message_received.substring(0,P2PConstants.GAME_CODEC.length()))) {
     			return true;
     		}else {
     			return false;
@@ -188,6 +218,7 @@ public class SocketP2P extends Thread {
     	}
     }
     
+    @Override
     public Boolean sysMessageStackFull() {
     	String message_received = "";
 		try {
@@ -199,7 +230,7 @@ public class SocketP2P extends Thread {
 		}
 
     	if(message_received.length()>0) {
-    		if(SYS_CODEC.equals(message_received.substring(0,SYS_CODEC.length()))) {
+    		if(P2PConstants.SYS_CODEC.equals(message_received.substring(0,P2PConstants.SYS_CODEC.length()))) {
     			return true;
     		}else {
     			return false;
@@ -209,37 +240,9 @@ public class SocketP2P extends Thread {
     	}
     }
     
-    public void sendChatMessage(String msg) {
-		try {
-			message_output = CHAT_CODEC + msg;
-			output_stream.writeUTF(message_output);
-			output_stream.flush();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-    }
-    
-    public void sendGameMessage(String msg) {
-		try {
-			message_output = GAME_CODEC + msg;
-			output_stream.writeUTF(message_output);
-			output_stream.flush();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-    }
-    
-    public void sendSysMessage(String msg) {
-		try {
-			message_output = SYS_CODEC + msg;
-			output_stream.writeUTF(message_output);
-			output_stream.flush();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-    }
-    
-    public String getMessage() {
+	// P2P Interface Implementation - Bizingo Getters
+	@Override
+	public String get_chat_msg() {
     	String message_received = "";
 		try {
 			mutex.acquire();
@@ -249,29 +252,102 @@ public class SocketP2P extends Thread {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-    	return message_received.substring(CHAT_CODEC.length(),message_received.length()); 
-    }
+    	return message_received.substring(P2PConstants.CHAT_CODEC.length(),message_received.length());
+	}
+
+	@Override
+	public String get_game_mov() {
+    	String message_received = "";
+		try {
+			mutex.acquire();
+			message_received = message_input;
+			message_input = "";
+	    	mutex.release();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+    	return message_received.substring(P2PConstants.GAME_CODEC.length(),message_received.length());
+	}
+
+	@Override
+	public String get_sys_cmd() {
+    	String message_received = "";
+		try {
+			mutex.acquire();
+			message_received = message_input;
+			message_input = "";
+	    	mutex.release();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+    	return message_received.substring(P2PConstants.SYS_CODEC.length(),message_received.length());
+	}
+	
+	// P2P Interface Implementation - Calls
+	@Override
+	public void server_lookup_call() {
+		return;
+	}
+
+	@Override
+	public void server_disconnect_call() {
+		return;
+	}
+
+	@Override
+	public void send_chat_msg_call(String msg) {
+		try {
+			message_output = P2PConstants.CHAT_CODEC + msg;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
+	public void move_game_piece_call(String mov) {
+		try {
+			message_output = P2PConstants.GAME_CODEC + mov;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
+	public void sys_restart_request_call() {
+		try {
+			message_output = P2PConstants.SYS_CODEC + P2PConstants.SYS_RESTART_REQUEST;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
+	public void sys_restart_response_ok_call() {
+		try {
+			message_output = P2PConstants.SYS_CODEC + P2PConstants.SYS_RESTART_RESPONSE_OK;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
+	public void sys_restart_response_fail_call() {
+		try {
+			message_output = P2PConstants.SYS_CODEC + P2PConstants.SYS_RESTART_RESPONSE_FAIL;
+			output_stream.writeUTF(message_output);
+			output_stream.flush();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
     
-    public String getPeerType() {
-    	return this.peer_type;
-    }
-    
-    public Boolean isServer() {
-    	if(this.peer_type.equals("server")) {
-    		return true;
-    	}
-    	return false;
-    }
-    
-    public Boolean isClient() {
-    	if(this.peer_type.equals("client")) {
-    		return true;
-    	}
-    	return false;
-    }
-    
-    public Boolean isConnected() {
-    	return is_connected;
-    }
 }
 

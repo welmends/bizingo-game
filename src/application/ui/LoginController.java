@@ -1,9 +1,12 @@
 package application.ui;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import application.com.P2P;
+import application.com.rmi.RMIP2P;
+import application.com.socket.SocketP2P;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
 import application.ui.utils.AlertUtils;
@@ -16,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -34,8 +38,11 @@ public class LoginController extends Thread implements Initializable {
 	@FXML Label portLabel;
 	@FXML TextField portTextField;
 	@FXML Button connectButton;
+	@FXML Label technologyLabel;
+	@FXML ToggleButton socketTButton;
+	@FXML ToggleButton rmiTButton;
 	
-	// Socket
+	// P2P (Socket or RMI)
 	P2P p2p;
 	
 	// Alerts
@@ -67,8 +74,8 @@ public class LoginController extends Thread implements Initializable {
 		// Setup components
 		setupComponents();
 		
-		// Button Mouse Pressed Behavior
-		setButtonMousePressedBehavior();
+		// Buttons Pressed Behavior
+		setButtonsPressedBehavior();
 	}
 	
 	@Override
@@ -97,11 +104,25 @@ public class LoginController extends Thread implements Initializable {
 		portLabel.setText(LoginConstants.TEXT_LABEL_PORT);
 		portLabel.setFont(FontConstants.sixty30p);
 		
+		portLabel.setText(LoginConstants.TEXT_LABEL_PORT);
+		portLabel.setFont(FontConstants.sixty30p);
+		
 		connectButton.setText(LoginConstants.TEXT_BUTTON_CONNECTION);
 		connectButton.setFont(FontConstants.sixty30p);
+		
+		technologyLabel.setText(LoginConstants.TEXT_LABEL_TECHNOLOGY);
+		technologyLabel.setFont(FontConstants.sixty16p);
+		
+		socketTButton.setText(LoginConstants.TEXT_TBUTTON_SOCKET);
+		socketTButton.setFont(FontConstants.sixty14p);
+		socketTButton.setSelected(true);
+		
+		rmiTButton.setText(LoginConstants.TEXT_TBUTTON_RMI);
+		rmiTButton.setFont(FontConstants.sixty14p);
+		rmiTButton.setSelected(false);
 	}
 	
-	private void setButtonMousePressedBehavior() {
+	private void setButtonsPressedBehavior() {
 		connectButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 
 	        @Override
@@ -120,6 +141,34 @@ public class LoginController extends Thread implements Initializable {
 	        }
 	        
 	    });
+		
+		socketTButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	if(socketTButton.isSelected()) {
+	        		rmiTButton.setSelected(true);
+	        	}
+	        	else {
+	        		rmiTButton.setSelected(false);
+	        	}
+	        }
+	        
+		});
+		
+		rmiTButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	if(rmiTButton.isSelected()) {
+	        		socketTButton.setSelected(true);
+	        	}
+	        	else {
+	        		socketTButton.setSelected(false);
+	        	}
+	        }
+	        
+		});
 	}
 	
 	private void tryConnection() {
@@ -127,6 +176,17 @@ public class LoginController extends Thread implements Initializable {
     		connectButton.setDisable(true);
     		ipTextField.setDisable(true);
     		portTextField.setDisable(true);
+    		
+    		//IMPLEMENT STRATEGY PATTERN...
+//    		if(socketTButton.isSelected()) {
+//    			p2p = new SocketP2P();
+//    		}else {
+//    			try {
+//					p2p = new RMIP2P();
+//				} catch (RemoteException e) {
+//					e.printStackTrace();
+//				}
+//    		}
     		
     		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		

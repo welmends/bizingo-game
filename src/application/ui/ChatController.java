@@ -36,7 +36,7 @@ public class ChatController extends Thread implements Initializable {
 	@FXML VBox chatVBoxOnScroll;
 	@FXML TextField chatTextField;
 	
-	// Socket
+	// P2P (Socket or RMI)
 	P2P p2p;
 	
 	// Variables

@@ -49,7 +49,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Label bizingoNameTurn;
 	@FXML Rectangle bizingoTurnRect;
 	
-	// Socket
+	// P2P (Socket or RMI)
 	P2P p2p;
 	
 	// Variables

@@ -2,9 +2,10 @@ package application.ui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-import application.com.socket.SocketP2P;
+import application.com.rmi.RMIP2P;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ public class MainController implements Initializable {
 	@FXML AnchorPane loginAnchorPane;
 	
 	// Socket
-	SocketP2P soc_p2p;
+	RMIP2P p2p;
 	
 	// FXML Loaders
 	FXMLLoader loginLoader;
@@ -35,7 +36,11 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Initialize Objects
-		soc_p2p = new SocketP2P();
+		try {
+			p2p = new RMIP2P();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		
 		Scene loginScene = null;
 		Scene bizingoScene = null;
@@ -65,8 +70,8 @@ public class MainController implements Initializable {
 		chatController = chatLoader.getController();
 		
 		// Load common objects from parent
-		loginController.loadFromParent(soc_p2p, bizingoController, chatController, mainHBox, loginAnchorPane);
-		bizingoController.loadFromParent(soc_p2p);
-		chatController.loadFromParent(soc_p2p);
+		loginController.loadFromParent(p2p, bizingoController, chatController, mainHBox, loginAnchorPane);
+		bizingoController.loadFromParent(p2p);
+		chatController.loadFromParent(p2p);
 	}
 }

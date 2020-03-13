@@ -3,7 +3,7 @@ package application.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.com.socket.SocketP2P;
+import application.com.rmi.RMIP2P;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
 import application.ui.utils.AlertUtils;
@@ -36,7 +36,7 @@ public class LoginController extends Thread implements Initializable {
 	@FXML Button connectButton;
 	
 	// Socket
-	SocketP2P soc_p2p;
+	RMIP2P p2p;
 	
 	// Alerts
 	AlertUtils alertUtils;
@@ -49,8 +49,8 @@ public class LoginController extends Thread implements Initializable {
 	ChatController chat;
 	BizingoController bizingo;
 	
-	public void loadFromParent(SocketP2P soc_p2p, BizingoController bizingo, ChatController chat, HBox mainHBox, AnchorPane loginAnchorPane) {
-		this.soc_p2p = soc_p2p;
+	public void loadFromParent(RMIP2P p2p, BizingoController bizingo, ChatController chat, HBox mainHBox, AnchorPane loginAnchorPane) {
+		this.p2p = p2p;
 		
 		this.bizingo = bizingo;
 		this.chat = chat;
@@ -79,7 +79,7 @@ public class LoginController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(soc_p2p.isConnected()==true) {
+			if(p2p.isConnected()==true) {
 				break;
 			}
 		}
@@ -128,17 +128,18 @@ public class LoginController extends Thread implements Initializable {
     		ipTextField.setDisable(true);
     		portTextField.setDisable(true);
     		
-    		soc_p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
+    		//p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
+    		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		
-    		if(soc_p2p.connect()==true) {
-    			if(soc_p2p.isClient()) {
+    		if(p2p.connect()==true) {
+    			if(p2p.isClient()) {
     				// Transition to game
     				startGame();
     			}else {
     				alertUtils.alertLoginInformation();
 	        		
     				// Wait for connection
-    				soc_p2p.start();
+    				//p2p.start();
     				
     				// Trigger for client connection
     				start();

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import application.com.socket.SocketP2P;
+import application.com.rmi.RMIConstants;
+import application.com.rmi.RMIP2P;
 import application.ui.animation.BizingoAnimation;
 import application.ui.bizingostructure.BizingoBoardGenerator;
 import application.ui.bizingostructure.BizingoPiece;
@@ -49,7 +50,7 @@ public class BizingoController extends Thread implements Initializable {
 	@FXML Rectangle bizingoTurnRect;
 	
 	// Socket
-	SocketP2P soc_p2p;
+	RMIP2P p2p;
 	
 	// Variables
 	GraphicsContext gc_background;
@@ -75,8 +76,8 @@ public class BizingoController extends Thread implements Initializable {
 	int idx_triangle, idx_triangle_last;
 	int idx_piece, idx_piece_last;
 	
-	public void loadFromParent(SocketP2P soc_p2p) {
-		this.soc_p2p = soc_p2p;
+	public void loadFromParent(RMIP2P p2p) {
+		this.p2p = p2p;
 	}
 	
 	@Override
@@ -123,14 +124,14 @@ public class BizingoController extends Thread implements Initializable {
 	
 	@Override
 	public void run() {
-		if(soc_p2p.isServer()) {
+		if(p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
 		}else {
 			turn = false;
 			bizingoTurnRect.setVisible(true);
 		}
-		status.draw_cover(gc_status_down, gc_status_up, soc_p2p.isServer());
+		status.draw_cover(gc_status_down, gc_status_up, p2p.isServer());
 		
 		while(true) {
 			try {
@@ -139,11 +140,11 @@ public class BizingoController extends Thread implements Initializable {
 				e.printStackTrace();
 			}
 			
-			if(!soc_p2p.isConnected()) {
+			if(!p2p.isConnected()) {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						soc_p2p.disconnect();
+						p2p.disconnect();
 						alertUtils.alertDisconnected();
 				        Platform.exit();
 				        System.exit(0);
@@ -156,9 +157,9 @@ public class BizingoController extends Thread implements Initializable {
 				}
 			}
 			
-			if(soc_p2p.gameMessageStackFull()) {
+			if(p2p.gameMessageStackFull()) {
             	// Receive Messages
-				String message_received = soc_p2p.getMessage();
+				String message_received = p2p.get_game_mov();//p2p.getMessage();
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -171,30 +172,32 @@ public class BizingoController extends Thread implements Initializable {
 				});
 			}
 			
-			if(soc_p2p.sysMessageStackFull()) {
+			if(p2p.sysMessageStackFull()) {
             	// Receive Messages
-				String message_received = soc_p2p.getMessage();
+				String message_received = p2p.get_sys_cmd();//p2p.getMessage();
 				
 				Platform.runLater(new Runnable() {
 					
 					@Override
 					public void run() {
-						if(message_received.equals(BizingoConstants.SYS_RESTART_REQUEST)) {
+						if(message_received.equals(RMIConstants.SYS_RESTART_REQUEST)) {
 							if(ButtonType.OK == alertUtils.alertRestartGameResponse()) {
-								soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_OK);
+								//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_OK);
+								p2p.sys_restart_response_ok_call();
 								restartGame();
 								bizingoRestart.setDisable(false);
 							}else {
-								soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_FAIL);
+								//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_RESPONSE_FAIL);
+								p2p.sys_restart_response_fail_call();
 								bizingoRestart.setDisable(false);
 							}
 						}
-						else if(message_received.equals(BizingoConstants.SYS_RESTART_RESPONSE_OK)) {
+						else if(message_received.equals(RMIConstants.SYS_RESTART_RESPONSE_OK)) {
 							alertUtils.alertRestartGameSucceeded();
 							restartGame();
 							bizingoRestart.setDisable(false);
 						}
-						else if(message_received.equals(BizingoConstants.SYS_RESTART_RESPONSE_FAIL)) {
+						else if(message_received.equals(RMIConstants.SYS_RESTART_RESPONSE_FAIL)) {
 							alertUtils.alertRestartGameFailed();
 							if(turn) {
 								bizingoTurnRect.setVisible(false);
@@ -249,7 +252,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-			        	idx_piece = utils.triangleHasPiece(soc_p2p.isServer(), triangles.get(idx_triangle), pieces);
+			        	idx_piece = utils.triangleHasPiece(p2p.isServer(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		if(utils.triangleIsPlayable(idx_triangle)) {
@@ -261,11 +264,12 @@ public class BizingoController extends Thread implements Initializable {
 							        	turn = false;
 							        	bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 							        	bizingoTurnRect.setVisible(true);
-							        	soc_p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
+							        	//p2p.sendGameMessage(encodeMove(idx_piece_last, idx_triangle));
+							        	p2p.move_game_piece_call(encodeMove(idx_piece_last, idx_triangle));
 							        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 							        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 							        		soundUtils.playCaptureSound();
-							        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+							        		status.update_status(gc_status_up, p2p.isServer(), pieces);
 							        		endGame(utils.findWinnerAndLoser(pieces));
 							        	}
 			        				}
@@ -287,7 +291,7 @@ public class BizingoController extends Thread implements Initializable {
 	        		if(idx_triangle==-1) {
 	        			piece_selected = false;
 		        	}else {
-		        		idx_piece = utils.triangleHasPiece(soc_p2p.isServer(), triangles.get(idx_triangle), pieces);
+		        		idx_piece = utils.triangleHasPiece(p2p.isServer(), triangles.get(idx_triangle), pieces);
 			        	
 			        	if(idx_piece==-1) {
 			        		piece_selected = false;
@@ -313,7 +317,7 @@ public class BizingoController extends Thread implements Initializable {
 	        @Override
 	        public void handle(MouseEvent event) {
 				if(ButtonType.OK == alertUtils.alertLeaveGame()) {
-		    		soc_p2p.disconnect();
+		    		p2p.disconnect();
     		        Platform.exit();
     		        System.exit(0);
 				}
@@ -328,7 +332,8 @@ public class BizingoController extends Thread implements Initializable {
 	        @Override
 	        public void handle(MouseEvent event) {
 				if(ButtonType.OK == alertUtils.alertRestartGameRequest()) {
-					soc_p2p.sendSysMessage(BizingoConstants.SYS_RESTART_REQUEST);
+					//p2p.sendSysMessage(BizingoConstants.SYS_RESTART_REQUEST);
+					p2p.sys_restart_request_call();
 					bizingoRestart.setDisable(true);
 					bizingoTurnRect.setVisible(true);
 				}
@@ -353,7 +358,7 @@ public class BizingoController extends Thread implements Initializable {
 	        	pieces.get(idx_piece_last).setPosition(triangles.get(idx_triangle).getCenter());
 	        	if(utils.findCapturedPiece(idx_piece_last, triangles, pieces, bizingoPiecesPane)) {
 	        		soundUtils.playCaptureSound();
-	        		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+	        		status.update_status(gc_status_up, p2p.isServer(), pieces);
 	        		endGame(utils.findWinnerAndLoser(pieces));
 	        	}
 			}
@@ -382,7 +387,7 @@ public class BizingoController extends Thread implements Initializable {
 		boardGen.generateBoard(triangles, pieces, bizingoPiecesPane);
 		
 		// Update status
-		if(soc_p2p.isServer()) {
+		if(p2p.isServer()) {
 			turn = true;
 			bizingoTurnRect.setVisible(false);
 		}else {
@@ -390,26 +395,26 @@ public class BizingoController extends Thread implements Initializable {
 			bizingoTurnRect.setVisible(true);
 		}
 		
-		status.update_status(gc_status_up, soc_p2p.isServer(), pieces);
+		status.update_status(gc_status_up, p2p.isServer(), pieces);
 		
 		// Update turn label
 		bizingoNameTurn.setText(BizingoConstants.TEXT_LABEL_TURN+String.valueOf(++turn_idx));
 	}
 	
 	private void endGame(int winner) {
-    	if(soc_p2p.isServer() && winner==1) {
+    	if(p2p.isServer() && winner==1) {
     		soundUtils.playVictorySound();
     		alertUtils.alertWinner();
     	}
-    	else if(soc_p2p.isServer() && winner==2) {
+    	else if(p2p.isServer() && winner==2) {
     		soundUtils.playDefeatSound();
     		alertUtils.alertLoser();
     	}
-    	else if(soc_p2p.isClient() && winner==1) {
+    	else if(p2p.isClient() && winner==1) {
     		soundUtils.playDefeatSound();
     		alertUtils.alertLoser();
     	}
-    	else if(soc_p2p.isClient() && winner==2) {
+    	else if(p2p.isClient() && winner==2) {
     		soundUtils.playVictorySound();
     		alertUtils.alertWinner();
     	}

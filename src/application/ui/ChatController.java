@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import application.com.socket.SocketP2P;
+import application.com.rmi.RMIP2P;
 import application.ui.constants.ChatConstants;
 import application.ui.constants.FontConstants;
 import application.ui.constants.ImageConstants;
@@ -37,13 +37,13 @@ public class ChatController extends Thread implements Initializable {
 	@FXML TextField chatTextField;
 	
 	// Socket
-	SocketP2P soc_p2p;
+	RMIP2P p2p;
 	
 	// Variables
 	SoundUtils soundUtils;
 	
-	public void loadFromParent(SocketP2P soc_p2p) {
-		this.soc_p2p = soc_p2p;
+	public void loadFromParent(RMIP2P p2p) {
+		this.p2p = p2p;
 		soundUtils = new SoundUtils();
 	}
 	
@@ -67,12 +67,12 @@ public class ChatController extends Thread implements Initializable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(soc_p2p.chatMessageStackFull()) {
+			if(p2p.chatMessageStackFull()) {
             	// Receive Messages
 				
 				// Receive Remote
-				String message_received = soc_p2p.getMessage();
-
+				String message_received = p2p.get_chat_msg();//p2p.getMessage();
+				
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -165,7 +165,8 @@ public class ChatController extends Thread implements Initializable {
 	                sp.setMinHeight(sp.getHeight());
 	                
 	                // Send Remote
-	                soc_p2p.sendChatMessage(chatTextField.getText()); 
+	                //p2p.sendChatMessage(chatTextField.getText());
+	                p2p.send_chat_msg_call(chatTextField.getText());
 	                
 	                chatTextField.setText("");
 	            }

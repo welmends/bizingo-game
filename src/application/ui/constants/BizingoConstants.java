@@ -51,10 +51,4 @@ public class BizingoConstants {
 	public static String TEXT_LABEL_SCORE = "S C O R E";
 	public static String TEXT_LABEL_TURN = "T U R N : ";
 	
-	// Sys Messages
-	public static String SYS_RESTART_REQUEST = "restart";
-	public static String SYS_RESTART_RESPONSE_OK = "restart_ok";
-	public static String SYS_RESTART_RESPONSE_FAIL = "restart_fail";
-	
-	
 }

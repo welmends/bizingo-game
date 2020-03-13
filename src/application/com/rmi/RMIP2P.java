@@ -88,6 +88,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 			LocateRegistry.createRegistry(port);
 		} catch (Exception e) {
 			System.out.println(e);
+			return false;
 		} 
 		  
 		server_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;

@@ -6,10 +6,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.Semaphore;
 
-import application.com.P2P;
+import application.com.P2PInterface;
 import application.com.P2PConstants;
 
-public class RMIP2P extends UnicastRemoteObject implements P2P, RMIP2PInterface {
+public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PInterface {
 	
 	private static final long serialVersionUID = 0L;
 	private static RMIP2PInterface rmi_client;
@@ -44,7 +44,12 @@ public class RMIP2P extends UnicastRemoteObject implements P2P, RMIP2PInterface 
 		this.port = -1;
 	}
 
-	// P2P Interface Implementation - Thread
+	// P2P Interface Implementation - Technology
+	@Override
+	public void set_technology(P2PInterface technology) {
+		return;
+	}
+	
 	@Override
 	public String get_technology_name() {
 		return "RMI";

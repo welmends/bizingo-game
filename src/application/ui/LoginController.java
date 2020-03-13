@@ -177,16 +177,15 @@ public class LoginController extends Thread implements Initializable {
     		ipTextField.setDisable(true);
     		portTextField.setDisable(true);
     		
-    		//IMPLEMENT STRATEGY PATTERN...
-//    		if(socketTButton.isSelected()) {
-//    			p2p = new SocketP2P();
-//    		}else {
-//    			try {
-//					p2p = new RMIP2P();
-//				} catch (RemoteException e) {
-//					e.printStackTrace();
-//				}
-//    		}
+    		if(socketTButton.isSelected()) {
+    			p2p.set_technology(new SocketP2P());
+    		}else {
+    			try {
+    				p2p.set_technology(new RMIP2P());
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+    		}
     		
     		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));
     		

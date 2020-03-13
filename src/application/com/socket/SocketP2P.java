@@ -3,12 +3,12 @@ package application.com.socket;
 import java.net.*;
 import java.util.concurrent.Semaphore;
 
-import application.com.P2P;
+import application.com.P2PInterface;
 import application.com.P2PConstants;
 
 import java.io.*;
 
-public class SocketP2P extends Thread implements P2P {
+public class SocketP2P extends Thread implements P2PInterface {
 	
 	private Semaphore mutex;
 	
@@ -40,6 +40,11 @@ public class SocketP2P extends Thread implements P2P {
     }
 
     // P2P Interface Implementation - Technology
+	@Override
+	public void set_technology(P2PInterface technology) {
+		return;
+	}
+	
  	@Override
  	public String get_technology_name() {
  		return "SOCKET";

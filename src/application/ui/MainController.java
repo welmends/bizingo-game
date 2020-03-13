@@ -35,6 +35,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Initialize Objects
+		p2p = new P2P();
 		
 		Scene loginScene = null;
 		Scene bizingoScene = null;

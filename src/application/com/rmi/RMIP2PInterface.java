@@ -19,4 +19,6 @@ public interface RMIP2PInterface extends Remote {
 	// Connection
 	void call_server_lookup() throws RemoteException;
 	void call_peer_disconnect() throws RemoteException;
+	void call_peer_test_connection() throws RemoteException;
+	
 }

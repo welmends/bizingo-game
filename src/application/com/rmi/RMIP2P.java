@@ -66,7 +66,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		try {
             while(true){
             	Thread.sleep(P2PConstants.THREAD_SLEEP_TIME_MILLIS);
-            	System.out.println(get_peer_type()+": Test Connection..");
+            	RMIP2P.rmi_client.call_peer_test_connection();
             }
         } catch(Exception e) {
             System.out.println(e);
@@ -333,6 +333,9 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		this.unbind();
 	}
 	
+	public void call_peer_test_connection() {
+		return;
+	}
 	
 	// RMI Connection Methods
 	private Boolean rebind() {

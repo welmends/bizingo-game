@@ -1,9 +1,12 @@
 package application.com.rmi;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Enumeration;
 import java.util.concurrent.Semaphore;
 
 import application.com.P2PInterface;
@@ -23,7 +26,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     
     private Boolean is_connected;
     private String peer_type;
-    private String ip;
+    private String ip, local_ip;
     private int port;
     
 	public RMIP2P() throws RemoteException{
@@ -41,6 +44,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		this.is_connected = false;
 		this.peer_type = "";
 		this.ip = "";
+		this.local_ip = "";
 		this.port = -1;
 	}
 
@@ -83,18 +87,54 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	
 	@Override
 	public Boolean connect() {
+		// Get networks interfaces ip's
+		if(!ip.equals("localhost")) {
+			Boolean is_local = false;
+			try {
+				Enumeration<?> enum_1 = NetworkInterface.getNetworkInterfaces();
+				while(enum_1.hasMoreElements()){
+					NetworkInterface net_int =(NetworkInterface) enum_1.nextElement();
+					Enumeration<?> enum_2 = net_int.getInetAddresses();
+					while(enum_2.hasMoreElements()) {
+						InetAddress inet_addr = (InetAddress) enum_2.nextElement();
+						
+						if(inet_addr.isLoopbackAddress()==true || inet_addr.isSiteLocalAddress()==false) {
+							continue;
+						}else {
+							local_ip = inet_addr.getHostAddress();
+						}
+				        
+						if(ip.equals(inet_addr.getHostAddress())) {
+							local_ip = ip;
+				        	is_local = true;
+				        	break;
+				        }
+					}
+					if(is_local==true) {
+						break;
+				    }
+				}
+				if(local_ip.equals("")) {
+					return false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}else {
+			local_ip = ip;
+		}
 		
+		// Create rmi registry
 		try {
 			LocateRegistry.createRegistry(port);
 		} catch (Exception e) {
 			System.out.println(e);
-			return false;
 		} 
-		  
-		server_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
-		client_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_CLIENT_NAME;
 		
+		// Proceed to p2p connection
         try {
+        	server_link = "rmi://"+ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
         	int length = Naming.list(server_link).length;
         	if(length==0) {
     			peer_type = "server";
@@ -103,11 +143,11 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     		}
         	else if(length==1) {
         		peer_type = "client";
-    			server_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_CLIENT_NAME;
-    			client_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
+    			server_link = "rmi://"+local_ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_CLIENT_NAME;
+    			client_link = "rmi://"+ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
     			this.rebind();
     			this.lookup();
-    			RMIP2P.rmi_client.call_server_lookup();
+    			RMIP2P.rmi_client.call_server_lookup(local_ip);
     			return true;
     		}else {
     			return false;
@@ -324,7 +364,9 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	}
 	
 	@Override
-	public void call_server_lookup() {
+	public void call_server_lookup(String client_ip) {
+		local_ip = client_ip;
+		client_link = "rmi://"+local_ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_CLIENT_NAME;
 		this.lookup();
 	}
 	

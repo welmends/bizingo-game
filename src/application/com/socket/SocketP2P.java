@@ -290,16 +290,6 @@ public class SocketP2P implements P2PInterface, Runnable {
 	
 	// P2P Interface Implementation - Calls
 	@Override
-	public void server_lookup_call() {
-		return;
-	}
-
-	@Override
-	public void server_disconnect_call() {
-		return;
-	}
-
-	@Override
 	public void send_chat_msg_call(String msg) {
 		try {
 			message_output = P2PConstants.CHAT_CODEC + msg;

@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 import application.com.P2PInterface;
 import application.com.P2PConstants;
 
-public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PInterface {
+public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PInterface, Runnable {
 	
 	private static final long serialVersionUID = 0L;
 	private static RMIP2PInterface rmi_client;
@@ -61,6 +61,19 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		return;
 	}
 	
+	@Override
+    public void run(){
+		try {
+            while(true){
+            	Thread.sleep(P2PConstants.THREAD_SLEEP_TIME_MILLIS);
+            	System.out.println(get_peer_type()+": Test Connection..");
+            }
+        } catch(Exception e) {
+            System.out.println(e);
+            is_connected = false;
+        }
+    }
+	
 	// P2P Interface Implementation - Connection
 	@Override
 	public void setup(String ip, int port) {
@@ -93,7 +106,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     			client_link = "rmi://"+this.ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
     			this.rebind();
     			this.lookup();
-    			RMIP2P.rmi_client.server_lookup();
+    			RMIP2P.rmi_client.call_server_lookup();
     			return true;
     		}else {
     			return false;
@@ -106,9 +119,13 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	
 	@Override
 	public Boolean disconnect() {
-		this.is_connected = false;
-		this.unbind();
-		server_disconnect_call();
+		try {
+			this.is_connected = false;
+			this.unbind();
+			RMIP2P.rmi_client.call_peer_disconnect();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 	
@@ -200,24 +217,6 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	
 	// P2P Interface Implementation - Calls
 	@Override
-	public void server_lookup_call() {
-		try {
-			RMIP2P.rmi_client.server_lookup();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void server_disconnect_call() {
-		try {
-			RMIP2P.rmi_client.server_disconnect();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
 	public void send_chat_msg_call(String msg) {
 		try {
 			RMIP2P.rmi_client.send_chat_msg(msg);
@@ -263,17 +262,6 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	}
 	
 	// RMI Interface Implementation
-	@Override
-	public void server_lookup() {
-		this.lookup();
-	}
-	
-	@Override
-	public void server_disconnect() {
-		this.is_connected = false;
-		this.unbind();
-	}
-	
 	@Override
 	public void send_chat_msg(String msg) {
 		chat_msg = msg;
@@ -334,6 +322,18 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		}
 	}
 	
+	@Override
+	public void call_server_lookup() {
+		this.lookup();
+	}
+	
+	@Override
+	public void call_peer_disconnect() {
+		this.is_connected = false;
+		this.unbind();
+	}
+	
+	
 	// RMI Connection Methods
 	private Boolean rebind() {
 		try {
@@ -363,6 +363,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		try {
 			rmi_client = (RMIP2PInterface)Naming.lookup(client_link);
 			is_connected = true;
+			new Thread(this).start();
 			return true;
 		} catch(Exception e){
 			System.out.println(e);
@@ -370,5 +371,5 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 			return false;
 		}
 	}
-	
+
 }

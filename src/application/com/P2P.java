@@ -83,17 +83,7 @@ public class P2P implements P2PInterface {
 	public String get_sys_cmd() {
 		return this.technology.get_sys_cmd();
 	}
-
-	@Override
-	public void server_lookup_call() {
-		this.technology.server_lookup_call();
-	}
-
-	@Override
-	public void server_disconnect_call() {
-		this.technology.server_disconnect_call();
-	}
-
+	
 	@Override
 	public void send_chat_msg_call(String msg) {
 		this.technology.send_chat_msg_call(msg);

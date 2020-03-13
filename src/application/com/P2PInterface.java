@@ -31,8 +31,6 @@ public interface P2PInterface {
 	String get_sys_cmd();
 	
 	// Calls
-	void server_lookup_call();
-	void server_disconnect_call();
 	void send_chat_msg_call(String msg);
 	void move_game_piece_call(String mov);
 	void sys_restart_request_call();

@@ -5,10 +5,6 @@ import java.rmi.RemoteException;
 
 public interface RMIP2PInterface extends Remote {
 	
-	// Connection
-	void server_lookup() throws RemoteException;
-	void server_disconnect() throws RemoteException;
-	
 	// Chat
 	void send_chat_msg(String msg) throws RemoteException;
 	
@@ -20,4 +16,7 @@ public interface RMIP2PInterface extends Remote {
 	void sys_restart_response_ok() throws RemoteException;
 	void sys_restart_response_fail() throws RemoteException;
   
+	// Connection
+	void call_server_lookup() throws RemoteException;
+	void call_peer_disconnect() throws RemoteException;
 }

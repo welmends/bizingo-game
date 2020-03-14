@@ -2,6 +2,10 @@ package application.com;
 
 public class P2PConstants {
 	
+	// Technology
+	public static final String SOCKET = "SOCKET";
+	public static final String RMI = "RMI";
+	
 	// Socket P2P Type
 	public static String CHAT_CODEC = "#C$";
 	public static String GAME_CODEC = "#G$";

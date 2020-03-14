@@ -47,7 +47,7 @@ public class SocketP2P implements P2PInterface, Runnable {
 	
  	@Override
  	public String get_technology_name() {
- 		return "SOCKET";
+ 		return P2PConstants.SOCKET;
  	}
  	
  	// P2P Interface Implementation - Thread
@@ -82,7 +82,12 @@ public class SocketP2P implements P2PInterface, Runnable {
         this.ip   = ip;
         this.port = port;
     }
-    
+ 	
+ 	@Override
+ 	public String findLocalIpAddressFromNetworkInterfaces() {
+ 		return "";
+ 	}
+ 	
  	@Override
     public Boolean connect(){
         try {
@@ -155,6 +160,16 @@ public class SocketP2P implements P2PInterface, Runnable {
     @Override
     public String get_peer_type() {
     	return this.peer_type;
+    }
+    
+    @Override
+    public String get_ip_address() {
+    	return this.ip;
+    }
+    
+    @Override
+    public Integer get_port_number() {
+    	return this.port;
     }
     
     @Override

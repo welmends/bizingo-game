@@ -1,5 +1,9 @@
 package application.com;
 
+import java.rmi.registry.LocateRegistry;
+
+import application.com.P2PConstants;
+
 public class P2P implements P2PInterface {
 	
 	private P2PInterface technology;
@@ -25,8 +29,32 @@ public class P2P implements P2PInterface {
 	}
 
 	@Override
+	public String findLocalIpAddressFromNetworkInterfaces() {
+		return this.technology.findLocalIpAddressFromNetworkInterfaces();
+	}
+	
+	@Override
 	public Boolean connect() {
-		return this.technology.connect();
+		switch (this.get_technology_name()) {
+		case P2PConstants.SOCKET:
+			return this.technology.connect();
+		case P2PConstants.RMI:
+			// Create RMI Registry
+			String ip_address = this.findLocalIpAddressFromNetworkInterfaces();
+			if(ip_address.equals("")) { return false; }
+			try {
+				System.out.println(this.get_peer_type());
+				System.out.println(ip_address+":"+this.get_port_number());
+				System.setProperty("java.rmi.server.hostname",ip_address);
+				LocateRegistry.createRegistry(this.get_port_number());
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			// Call connect
+			return this.technology.connect();
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -37,6 +65,16 @@ public class P2P implements P2PInterface {
 	@Override
 	public String get_peer_type() {
 		return this.technology.get_peer_type();
+	}
+	
+	@Override
+	public String get_ip_address() {
+		return this.technology.get_ip_address();
+	}
+	
+	@Override
+	public Integer get_port_number() {
+		return this.technology.get_port_number();
 	}
 
 	@Override

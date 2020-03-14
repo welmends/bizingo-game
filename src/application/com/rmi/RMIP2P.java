@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.concurrent.Semaphore;
@@ -56,7 +55,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	
 	@Override
 	public String get_technology_name() {
-		return "RMI";
+		return P2PConstants.RMI;
 	}
 	
 	// P2P Interface Implementation - Thread
@@ -86,8 +85,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	}
 	
 	@Override
-	public Boolean connect() {
-		// Get networks interfaces ip's
+	public String findLocalIpAddressFromNetworkInterfaces() {
 		if(!ip.equals("localhost")) {
 			Boolean is_local = false;
 			try {
@@ -115,25 +113,21 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 				    }
 				}
 				if(local_ip.equals("")) {
-					return false;
+					return "";
 				}
 			} catch (Exception e) {
 				System.out.println(e);
-				return false;
+				return "";
 			}
 		}else {
 			local_ip = ip;
 		}
-		
-		// Create rmi registry
-		try {
-			System.setProperty("java.rmi.server.hostname",local_ip);
-			LocateRegistry.createRegistry(port);
-		} catch (Exception e) {
-			System.out.println(e);
-		} 
-		
-		// Proceed to p2p connection
+		return local_ip;
+	}
+	
+	
+	@Override
+	public Boolean connect() {
         try {
         	server_link = "rmi://"+ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
         	int length = Naming.list(server_link).length;
@@ -158,7 +152,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
         	return false;
         }
 	}
-	
+
 	@Override
 	public Boolean disconnect() {
 		try {
@@ -177,6 +171,16 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
     	return peer_type;
     }
     
+	@Override
+	public String get_ip_address() {
+		return local_ip;
+	}
+	
+	@Override
+	public Integer get_port_number() {
+		return port;
+	}
+	
 	@Override
     public Boolean is_server() {
     	if(peer_type.equals("server")) {

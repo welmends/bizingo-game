@@ -10,30 +10,33 @@ public interface P2PInterface {
 	public void thread_call();
 	
 	// Connection
-	void setup(String ip, int port);
-	Boolean connect();
-	Boolean disconnect();
+	public void setup(String ip, int port);
+	public String findLocalIpAddressFromNetworkInterfaces();
+	public Boolean connect();
+	public Boolean disconnect();
 	
 	// Getters
-	String get_peer_type();
-	Boolean is_server();
-	Boolean is_client();
-	Boolean has_connection();
+	public String get_peer_type();
+	public String get_ip_address();
+	public Integer get_port_number();
+	public Boolean is_server();
+	public Boolean is_client();
+	public Boolean has_connection();
 	
 	// Bizingo Stack Full
-	Boolean chat_stack_full();
-	Boolean game_stack_full();
-	Boolean sys_stack_full();
+	public Boolean chat_stack_full();
+	public Boolean game_stack_full();
+	public Boolean sys_stack_full();
 	
 	// Bizingo Getters
-	String get_chat_msg();
-	String get_game_mov();
-	String get_sys_cmd();
+	public String get_chat_msg();
+	public String get_game_mov();
+	public String get_sys_cmd();
 	
 	// Calls
-	void send_chat_msg_call(String msg);
-	void move_game_piece_call(String mov);
-	void sys_restart_request_call();
-	void sys_restart_response_ok_call();
-	void sys_restart_response_fail_call();
+	public void send_chat_msg_call(String msg);
+	public void move_game_piece_call(String mov);
+	public void sys_restart_request_call();
+	public void sys_restart_response_ok_call();
+	public void sys_restart_response_fail_call();
 }

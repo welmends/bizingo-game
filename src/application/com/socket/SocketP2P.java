@@ -41,7 +41,7 @@ public class SocketP2P implements P2PInterface, Runnable {
 
     // P2P Interface Implementation - Technology
 	@Override
-	public void set_technology(P2PInterface technology) {
+	public void set_technology(final String technology_name) {
 		return;
 	}
 	
@@ -83,10 +83,11 @@ public class SocketP2P implements P2PInterface, Runnable {
         this.port = port;
     }
  	
- 	@Override
- 	public String findLocalIpAddressFromNetworkInterfaces() {
- 		return "";
- 	}
+	@Override
+	public void setup(String ip, String local_ip, int port) {
+		this.ip = ip;
+		this.port = port;
+	}
  	
  	@Override
     public Boolean connect(){

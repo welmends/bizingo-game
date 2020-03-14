@@ -1,11 +1,8 @@
 package application.com.rmi;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Enumeration;
 import java.util.concurrent.Semaphore;
 
 import application.com.P2PInterface;
@@ -49,7 +46,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 
 	// P2P Interface Implementation - Technology
 	@Override
-	public void set_technology(P2PInterface technology) {
+	public void set_technology(final String technology_name) {
 		return;
 	}
 	
@@ -85,46 +82,11 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	}
 	
 	@Override
-	public String findLocalIpAddressFromNetworkInterfaces() {
-		if(!ip.equals("localhost")) {
-			Boolean is_local = false;
-			try {
-				Enumeration<?> enum_1 = NetworkInterface.getNetworkInterfaces();
-				while(enum_1.hasMoreElements()){
-					NetworkInterface net_int =(NetworkInterface) enum_1.nextElement();
-					Enumeration<?> enum_2 = net_int.getInetAddresses();
-					while(enum_2.hasMoreElements()) {
-						InetAddress inet_addr = (InetAddress) enum_2.nextElement();
-						
-						if(inet_addr.isLoopbackAddress()==true || inet_addr.isSiteLocalAddress()==false) {
-							continue;
-						}else {
-							local_ip = inet_addr.getHostAddress();
-						}
-				        
-						if(ip.equals(inet_addr.getHostAddress())) {
-							local_ip = ip;
-				        	is_local = true;
-				        	break;
-				        }
-					}
-					if(is_local==true) {
-						break;
-				    }
-				}
-				if(local_ip.equals("")) {
-					return "";
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-				return "";
-			}
-		}else {
-			local_ip = ip;
-		}
-		return local_ip;
+	public void setup(String ip, String local_ip, int port) {
+		this.ip = ip;
+		this.local_ip = local_ip;
+		this.port = port;
 	}
-	
 	
 	@Override
 	public Boolean connect() {

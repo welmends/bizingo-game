@@ -3,7 +3,7 @@ package application.com;
 public interface P2PInterface {
 	
 	// Technology
-	public void set_technology(P2PInterface technology);
+	public void set_technology(final String technology_name);
 	public String get_technology_name();
 	
 	// Thread
@@ -11,7 +11,7 @@ public interface P2PInterface {
 	
 	// Connection
 	public void setup(String ip, int port);
-	public String findLocalIpAddressFromNetworkInterfaces();
+	public void setup(String ip, String local_ip, int port);
 	public Boolean connect();
 	public Boolean disconnect();
 	

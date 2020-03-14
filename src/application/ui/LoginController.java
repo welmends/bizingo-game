@@ -1,12 +1,10 @@
 package application.ui;
 
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import application.com.P2P;
-import application.com.rmi.RMIP2P;
-import application.com.socket.SocketP2P;
+import application.com.P2PConstants;
 import application.ui.constants.FontConstants;
 import application.ui.constants.LoginConstants;
 import application.ui.utils.AlertUtils;
@@ -180,13 +178,9 @@ public class LoginController extends Thread implements Initializable {
     		rmiTButton.setDisable(true);
     		
     		if(socketTButton.isSelected()) {
-    			p2p.set_technology(new SocketP2P());
+    			p2p.set_technology(P2PConstants.SOCKET);
     		}else {
-    			try {
-    				p2p.set_technology(new RMIP2P());
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
+    			p2p.set_technology(P2PConstants.RMI);
     		}
     		
     		p2p.setup(ipTextField.getText(), Integer.valueOf(portTextField.getText()));

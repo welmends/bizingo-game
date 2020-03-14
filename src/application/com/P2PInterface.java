@@ -6,14 +6,14 @@ public interface P2PInterface {
 	public void set_technology(final String technology_name);
 	public String get_technology_name();
 	
-	// Thread
-	public void thread_call();
-	
 	// Connection
 	public void setup(String ip, int port);
 	public void setup(String ip, String local_ip, int port);
 	public Boolean connect();
 	public Boolean disconnect();
+	
+	// Thread
+	public void thread_call();
 	
 	// Getters
 	public String get_peer_type();

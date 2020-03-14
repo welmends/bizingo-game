@@ -49,32 +49,6 @@ public class SocketP2P implements P2PInterface, Runnable {
  	public String get_technology_name() {
  		return P2PConstants.SOCKET;
  	}
- 	
- 	// P2P Interface Implementation - Thread
- 	@Override
- 	public void thread_call() {
- 		new Thread(this).start();
- 	}
-
- 	@Override
-    public void run(){
-    	if(thread_action==1) {
-    		wait_connection();
-    	}
-    	if(thread_action==2) {
-    		try {
-                while(true){
-                    String message_received = input_stream.readUTF();
-                    mutex.acquire();
-                    message_input = message_received;
-                    mutex.release();
-                }
-            } catch(Exception e) {
-                System.out.println(e);
-                is_connected = false;
-            }
-    	}
-    }
     
  	// P2P Interface Implementation - Connection
  	@Override
@@ -136,7 +110,7 @@ public class SocketP2P implements P2PInterface, Runnable {
 			return false;
 		}
     }
-    
+ 	
     public Boolean wait_connection() {
     	try {
             socket = serverSocket.accept();
@@ -155,6 +129,32 @@ public class SocketP2P implements P2PInterface, Runnable {
     		return false;
     	}
 
+    }
+    
+ 	// P2P Interface Implementation - Thread
+ 	@Override
+ 	public void thread_call() {
+ 		new Thread(this).start();
+ 	}
+
+ 	@Override
+    public void run(){
+    	if(thread_action==1) {
+    		wait_connection();
+    	}
+    	if(thread_action==2) {
+    		try {
+                while(true){
+                    String message_received = input_stream.readUTF();
+                    mutex.acquire();
+                    message_input = message_received;
+                    mutex.release();
+                }
+            } catch(Exception e) {
+                System.out.println(e);
+                is_connected = false;
+            }
+    	}
     }
     
     // P2P Interface Implementation - Getters

@@ -55,25 +55,6 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		return P2PConstants.RMI;
 	}
 	
-	// P2P Interface Implementation - Thread
-	@Override
-	public void thread_call() {
-		return;
-	}
-	
-	@Override
-    public void run(){
-		try {
-            while(true){
-            	Thread.sleep(P2PConstants.THREAD_SLEEP_TIME_MILLIS);
-            	RMIP2P.rmi_client.call_peer_test_connection();
-            }
-        } catch(Exception e) {
-            System.out.println(e);
-            is_connected = false;
-        }
-    }
-	
 	// P2P Interface Implementation - Connection
 	@Override
 	public void setup(String ip, int port) {
@@ -127,6 +108,25 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		return false;
 	}
 	
+	// P2P Interface Implementation - Thread
+	@Override
+	public void thread_call() {
+		return;
+	}
+	
+	@Override
+    public void run(){
+		try {
+            while(true){
+            	Thread.sleep(P2PConstants.THREAD_SLEEP_TIME_MILLIS);
+            	RMIP2P.rmi_client.call_peer_test_connection();
+            }
+        } catch(Exception e) {
+            System.out.println(e);
+            is_connected = false;
+        }
+    }
+		
 	// P2P Interface Implementation - Getters
 	@Override
     public String get_peer_type() {

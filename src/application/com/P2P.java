@@ -25,6 +25,7 @@ public class P2P implements P2PInterface {
 		this.port = -1;
 	}
 	
+    // P2P Interface Implementation - Technology
 	@Override
 	public void set_technology(final String technology_name) {
 		this.technology_name = technology_name;
@@ -32,36 +33,33 @@ public class P2P implements P2PInterface {
 	
 	@Override
 	public String get_technology_name() {
-		if(technology==null) {
-			return this.technology_name;
-		}else {
+		if(technology!=null) {
 			return this.technology.get_technology_name();
+			
+		}else {
+			return this.technology_name;
 		}
 	}
 
-	@Override
-	public void thread_call() {
-		this.technology.thread_call();
-	}
-
+ 	// P2P Interface Implementation - Connection
 	@Override
 	public void setup(String ip, int port) {
-		if(technology==null) {
+		if(technology!=null) {
+			this.technology.setup(ip, port);
+		}else {
 			this.ip = ip;
 			this.port = port;
-		}else {
-			this.technology.setup(ip, port);
 		}
 	}
 	
 	@Override
 	public void setup(String ip, String local_ip, int port) {
-		if(technology==null) {
+		if(technology!=null) {
+			this.technology.setup(ip, local_ip, port);
+		}else {
 			this.ip = ip;
 			this.local_ip = local_ip;
 			this.port = port;
-		}else {
-			this.technology.setup(ip, local_ip, port);
 		}
 	}
 	
@@ -95,96 +93,6 @@ public class P2P implements P2PInterface {
 		}
 	}
 
-	@Override
-	public Boolean disconnect() {
-		return this.technology.disconnect();
-	}
-
-	@Override
-	public String get_peer_type() {
-		return this.technology.get_peer_type();
-	}
-	
-	@Override
-	public String get_ip_address() {
-		return this.technology.get_ip_address();
-	}
-	
-	@Override
-	public Integer get_port_number() {
-		return this.technology.get_port_number();
-	}
-
-	@Override
-	public Boolean is_server() {
-		return this.technology.is_server();
-	}
-
-	@Override
-	public Boolean is_client() {
-		return this.technology.is_client();
-	}
-
-	@Override
-	public Boolean has_connection() {
-		return this.technology.has_connection();
-	}
-
-	@Override
-	public Boolean chat_stack_full() {
-		return this.technology.chat_stack_full();
-	}
-
-	@Override
-	public Boolean game_stack_full() {
-		return this.technology.game_stack_full();
-	}
-
-	@Override
-	public Boolean sys_stack_full() {
-		return this.technology.sys_stack_full();
-	}
-
-	@Override
-	public String get_chat_msg() {
-		return this.technology.get_chat_msg();
-	}
-
-	@Override
-	public String get_game_mov() {
-		return this.technology.get_game_mov();
-	}
-
-	@Override
-	public String get_sys_cmd() {
-		return this.technology.get_sys_cmd();
-	}
-	
-	@Override
-	public void send_chat_msg_call(String msg) {
-		this.technology.send_chat_msg_call(msg);
-	}
-
-	@Override
-	public void move_game_piece_call(String mov) {
-		this.technology.move_game_piece_call(mov);
-	}
-
-	@Override
-	public void sys_restart_request_call() {
-		this.technology.sys_restart_request_call();
-	}
-
-	@Override
-	public void sys_restart_response_ok_call() {
-		this.technology.sys_restart_response_ok_call();
-	}
-
-	@Override
-	public void sys_restart_response_fail_call() {
-		this.technology.sys_restart_response_fail_call();
-	}
-	
 	public String findLocalIpAddressFromNetworkInterfaces() {
 		if(ip.equals("") || port==-1) {
 			return "";
@@ -226,6 +134,170 @@ public class P2P implements P2PInterface {
 			local_ip = ip;
 		}
 		return local_ip;
+	}
+	
+	@Override
+	public Boolean disconnect() {
+		if(technology!=null) {
+			return this.technology.disconnect();
+		}else {
+			return false;
+		}
+	}
+	
+ 	// P2P Interface Implementation - Thread
+	@Override
+	public void thread_call() {
+		if(technology!=null) {
+			this.technology.thread_call();
+		}
+	}
+
+ 	// P2P Interface Implementation - Getters
+	@Override
+	public String get_peer_type() {
+		if(technology!=null) {
+			return this.technology.get_peer_type();
+		}else {
+			return "";
+		}
+	}
+	
+	@Override
+	public String get_ip_address() {
+		if(technology!=null) {
+			return this.technology.get_ip_address();
+		}else {
+			return "";
+		}
+	}
+	
+	@Override
+	public Integer get_port_number() {
+		if(technology!=null) {
+			return this.technology.get_port_number();
+		}else {
+			return -1;
+		}
+	}
+
+	@Override
+	public Boolean is_server() {
+		if(technology!=null) {
+			return this.technology.is_server();
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean is_client() {
+		if(technology!=null) {
+			return this.technology.is_client();
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean has_connection() {
+		if(technology!=null) {
+			return this.technology.has_connection();
+		}else {
+			return false;
+		}
+	}
+
+    // P2P Interface Implementation - Bizingo Stack Full
+	@Override
+	public Boolean chat_stack_full() {
+		if(technology!=null) {
+			return this.technology.chat_stack_full();
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean game_stack_full() {
+		if(technology!=null) {
+			return this.technology.game_stack_full();
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean sys_stack_full() {
+		if(technology!=null) {
+			return this.technology.sys_stack_full();
+		}else {
+			return false;
+		}
+	}
+
+	// P2P Interface Implementation - Bizingo Getters
+	@Override
+	public String get_chat_msg() {
+		if(technology!=null) {
+			return this.technology.get_chat_msg();
+		}else {
+			return "";
+		}
+	}
+
+	@Override
+	public String get_game_mov() {
+		if(technology!=null) {
+			return this.technology.get_game_mov();
+		}else {
+			return "";
+		}
+	}
+
+	@Override
+	public String get_sys_cmd() {
+		if(technology!=null) {
+			return this.technology.get_sys_cmd();
+		}else {
+			return "";
+		}
+	}
+	
+	// P2P Interface Implementation - Calls
+	@Override
+	public void send_chat_msg_call(String msg) {
+		if(technology!=null) {
+			this.technology.send_chat_msg_call(msg);
+		}
+	}
+
+	@Override
+	public void move_game_piece_call(String mov) {
+		if(technology!=null) {
+			this.technology.move_game_piece_call(mov);
+		}
+	}
+
+	@Override
+	public void sys_restart_request_call() {
+		if(technology!=null) {
+			this.technology.sys_restart_request_call();
+		}
+	}
+
+	@Override
+	public void sys_restart_response_ok_call() {
+		if(technology!=null) {
+			this.technology.sys_restart_response_ok_call();
+		}
+	}
+
+	@Override
+	public void sys_restart_response_fail_call() {
+		if(technology!=null) {
+			this.technology.sys_restart_response_fail_call();
+		}
 	}
 	
 }

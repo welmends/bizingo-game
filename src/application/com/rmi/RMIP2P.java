@@ -127,6 +127,7 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 		
 		// Create rmi registry
 		try {
+			System.setProperty("java.rmi.server.hostname",local_ip);
 			LocateRegistry.createRegistry(port);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -138,14 +139,14 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
         	int length = Naming.list(server_link).length;
         	if(length==0) {
     			peer_type = "server";
-    			this.rebind();
+    			this.bind();
     			return true;
     		}
         	else if(length==1) {
         		peer_type = "client";
     			server_link = "rmi://"+local_ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_CLIENT_NAME;
     			client_link = "rmi://"+ip+":"+String.valueOf(port)+"/"+P2PConstants.BIZINGO_RMI_SERVER_NAME;
-    			this.rebind();
+    			this.bind();
     			this.lookup();
     			RMIP2P.rmi_client.call_server_lookup(local_ip);
     			return true;
@@ -381,14 +382,12 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	}
 	
 	// RMI Connection Methods
-	private Boolean rebind() {
+	private Boolean bind() {
 		try {
-			Naming.rebind(server_link, this);
-			
+			Naming.bind(server_link, this);
 			return true;
 		} catch(Exception e){
 			System.out.println(e);
-			
 			return false;
 		}
 	}
@@ -396,11 +395,9 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 	private Boolean unbind() {
 		try {
 			Naming.unbind(server_link);
-			
 			return true;
 		} catch(Exception e){
 			System.out.println(e);
-			
 			return false;
 		}
 	}
@@ -413,7 +410,6 @@ public class RMIP2P extends UnicastRemoteObject implements P2PInterface, RMIP2PI
 			return true;
 		} catch(Exception e){
 			System.out.println(e);
-			
 			return false;
 		}
 	}

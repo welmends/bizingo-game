@@ -2,8 +2,11 @@
 Bizingo Game using Socket or RMI/RPC implemented in Java
 
 ## Requirements
+**Tested on MacOS Catalina 10.14.4**
+- [jre-8u251-macosx-x64](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
+
 **Tested on Windows 10**
-- [jre-8u241-windows-x64](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
+- [jre-8u251-windows-x64](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
 
 **Tested on Ubuntu 16.04 and 18.04**
 - [openssh-server](https://help.ubuntu.com/lts/serverguide/openssh-server.html)
@@ -26,5 +29,3 @@ Bizingo Game using Socket or RMI/RPC implemented in Java
 
 #### Player 2 View :relieved:
 ![game_bizingo_2](https://user-images.githubusercontent.com/19287934/74614484-00df4d80-50f7-11ea-9820-5ef55b57b058.png)
-
-
